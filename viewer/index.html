@@ -10,7 +10,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
   
   <!-- Lucide Vector Icons (Clean Minimalist Vector Line Art) -->
-  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
 
   <style>
     :root {
@@ -642,6 +642,28 @@
       padding: 12px 16px;
       font-size: 13px; color: var(--text-sub); line-height: 1.6;
     }
+    .summary-grid { display: grid; grid-template-columns: 1.3fr 1fr; gap: 16px; align-items: start; }
+    @media (max-width: 1000px) { .summary-grid { grid-template-columns: 1fr; } }
+    /* Tata letak layar kecil */
+    @media (max-width: 1100px) {
+      .kpi-row { grid-template-columns: repeat(2, 1fr) !important; }
+      .kpi-row .kpi-total { grid-column: 1 / -1; }
+    }
+    @media (max-width: 760px) {
+      html, body { overflow-x: hidden; }
+      .navbar { height: auto; padding: 10px 16px; flex-wrap: wrap; gap: 8px; }
+      .nav-actions { width: 100%; }
+      .nav-actions .btn-action { flex: 1; justify-content: center; }
+      .main-container { padding: 16px 16px 48px; gap: 14px; }
+      .outlier-banner { flex-direction: column; align-items: flex-start; }
+      .main-tab-bar { width: 100%; flex-direction: column; }
+      .main-tab-btn { width: 100%; }
+      .kpi-row { grid-template-columns: 1fr !important; }
+      .opd-card-header { flex-direction: column; align-items: flex-start; gap: 10px; }
+      .opd-card-right { width: 100%; justify-content: space-between; gap: 12px; }
+      .search-wrapper { width: 100% !important; }
+      .panel { padding: 16px; }
+    }
   </style>
 </head>
 <body>
@@ -672,18 +694,18 @@
   <!-- Main Container -->
   <main class="main-container">
 
-    <!-- Anomaly / Outlier Toggle Alert -->
+    <!-- Catatan nilai bertanda besar dan sakelar skenario -->
     <div class="outlier-banner">
       <div class="outlier-left">
         <i data-lucide="alert-triangle" style="width: 18px; height: 18px; color: #e11d48; flex-shrink: 0;"></i>
-        <div>
-          <b>Catatan nilai tercatat:</b> Baris perahu karet Disdamkar tercatat sebesar <b>Rp 15.000.000.000</b> (Rp 15 miliar). Dashboard ini hanya menampilkan data dan skenario hitung, bukan pemeriksaan atau penilaian kewajaran harga.
+        <div id="outlierBannerText">
+          <b>Catatan nilai tercatat:</b> memuat data...
         </div>
       </div>
       <div style="display: flex; align-items: center; gap: 10px;">
-            <span style="font-size: 12px; color: #881337; font-weight: 600;">Skenario tanpa entri ini</span>
+        <span style="font-size: 12px; color: #881337; font-weight: 600;">Skenario tanpa nilai bertanda besar</span>
         <label class="switch">
-          <input type="checkbox" id="outlierToggle" checked onchange="handleOutlierChange()">
+          <input type="checkbox" id="outlierToggle" onchange="handleOutlierChange()" aria-label="Skenario tanpa nilai bertanda besar">
           <span class="slider"></span>
         </label>
       </div>
@@ -691,17 +713,17 @@
 
     <!-- Navigation Tabs -->
     <div class="main-tab-bar">
-      <button class="main-tab-btn active" onclick="switchView('view-opd')">
+      <button class="main-tab-btn active" onclick="switchView('view-opd', this)">
         <i data-lucide="list-checks" style="width: 16px; height: 16px;"></i>
         <span>1. Rincian Program per OPD</span>
       </button>
-      <button class="main-tab-btn" onclick="switchView('view-ledger')">
+      <button class="main-tab-btn" onclick="switchView('view-ledger', this)">
         <i data-lucide="table-2" style="width: 16px; height: 16px;"></i>
-        <span>2. Master Ledger (<span id="sourceRecordCount">806</span> Baris Data)</span>
+        <span>2. Master Ledger (<span id="sourceRecordCount">…</span> Catatan)</span>
       </button>
-      <button class="main-tab-btn" onclick="switchView('view-reconciliation')">
+      <button class="main-tab-btn" onclick="switchView('view-reconciliation', this)">
         <i data-lucide="scale" style="width: 16px; height: 16px;"></i>
-        <span>3. Rekonsiliasi & Catatan Kualitas Data</span>
+        <span>3. Rekonsiliasi & Ringkasan</span>
       </button>
     </div>
 
@@ -712,7 +734,7 @@
       <div class="kpi-row">
         <div class="kpi-card kpi-total">
           <div class="kpi-header">
-            <span class="kpi-card-label" style="color: #0f172a; font-weight: 800;">TOTAL NOMINAL TERCATAT</span>
+            <span class="kpi-card-label" style="color: #0f172a; font-weight: 800;">TOTAL NOMINAL DALAM REKAP</span>
             <span class="kpi-card-badge" style="background: #e2e8f0; color: #0f172a;">
               <i data-lucide="building-2" style="width: 14px; height: 14px;"></i>
             </span>
@@ -825,8 +847,8 @@
             <!-- Filter Bentuk: Uang vs Barang -->
             <select id="opdBentukSelect" class="select-dropdown" onchange="renderOPDList()" title="Saring Berdasarkan Bentuk Bantuan (Uang atau Barang)">
               <option value="all">Semua Bentuk Bantuan (Uang & Barang)</option>
-              <option value="Barang">Diklasifikasikan Barang (720 Baris)</option>
-              <option value="Uang">Diklasifikasikan Uang (86 Baris)</option>
+              <option value="Barang/Jasa">Label otomatis: Barang/Jasa</option>
+              <option value="Uang">Label otomatis: Uang</option>
             </select>
 
             <!-- Filter Nama Pemberi CSR -->
@@ -858,7 +880,7 @@
 
       <!-- Result Counter -->
       <div style="font-size: 13px; color: var(--text-muted); display: flex; justify-content: space-between; align-items: center;">
-        <div>Hasil: <b id="displayedOpdCount" style="color: var(--text-main);">52</b> OPD dengan total <b id="displayedProgramCount" style="color: var(--text-main);">805</b> Program Kegiatan</div>
+        <div>Hasil: <b id="displayedOpdCount" style="color: var(--text-main);">…</b> OPD dengan total <b id="displayedProgramCount" style="color: var(--text-main);">…</b> catatan</div>
         <div style="font-size: 12px; color: var(--text-light);">Klik baris OPD untuk membuka rincian, atau klik tombol <b>Detail</b> untuk melihat arsip lengkap</div>
       </div>
 
@@ -879,7 +901,11 @@
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 12px;">
           <div>
             <div style="font-size: 18px; font-weight: 700; color: var(--text-main);">Master Ledger Seluruh Kegiatan CSR</div>
-            <div style="font-size: 12.5px; color: var(--text-muted);">Daftar baris pada data sumber; entri Rp 15 miliar tidak disertakan secara default dalam tampilan (klik baris untuk melihat detail)</div>
+            <div style="font-size: 12.5px; color: var(--text-muted);">Seluruh catatan hasil olahan beserta lokasi baris di Excel sumber. Klik baris untuk melihat detail.</div>
+            <label style="font-size: 12.5px; color: var(--text-sub); display: inline-flex; gap: 6px; align-items: center; margin-top: 6px; cursor: pointer;">
+              <input type="checkbox" id="ledgerShowOutside" onchange="ledgerPage = 1; renderMasterLedger()">
+              Tampilkan juga <span id="outsideCountLabel">…</span> baris di luar rekap lembar (salinan di lembar 2023)
+            </label>
           </div>
           <div class="search-wrapper" style="width: 320px;">
             <i data-lucide="search"></i>
@@ -892,7 +918,7 @@
             <thead>
               <tr>
                 <th>ID</th>
-                <th>Tahun</th>
+                <th>Lembar / Baris</th>
                 <th>Tingkat</th>
                 <th>Perangkat Daerah</th>
                 <th>Uraian Program / Bantuan</th>
@@ -910,7 +936,7 @@
         </div>
 
         <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 14px; font-size: 12.5px; color: var(--text-muted);">
-          <span id="ledgerPageInfo">Menampilkan 1–25 dari 805 rekaman</span>
+          <span id="ledgerPageInfo">Memuat data...</span>
           <div style="display: flex; gap: 8px;">
             <button class="btn-action" id="btnLedgerPrev" onclick="changeLedgerPage(-1)">Sebelumnya</button>
             <button class="btn-action" id="btnLedgerNext" onclick="changeLedgerPage(1)">Selanjutnya</button>
@@ -919,244 +945,79 @@
       </div>
     </section>
 
-    <!-- VIEW 3: REKONSILIASI & ANALISIS SELISIH NOMINAL -->
+    <!-- VIEW 3: REKONSILIASI & KUALITAS DATA (seluruh angka dihitung dari /api/rekap dan /api/data) -->
     <section id="view-reconciliation" class="view-pane">
-      
-      <!-- Top Overview Banner -->
+
       <div class="panel" style="border-left: 4px solid #2563eb; background: #eff6ff;">
-        <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; flex-wrap: wrap;">
-          <div>
-            <div style="font-size: 16px; font-weight: 800; color: #1e40af; margin-bottom: 4px;">
-              Penjelasan Selisih Nilai CSR: Kenapa di Dokumen Rp 29 M, Tapi di Dashboard Rp 14,67 M?
-            </div>
-            <div style="font-size: 13px; color: #1d4ed8; line-height: 1.6;">
-              Bagian ini membandingkan <b>rekap lama (Rp 29,33 Miliar)</b> dengan <b>hasil penjumlahan seluruh baris (Rp 29,67 Miliar)</b> serta skenario hitung tanpa entri Rp 15 miliar (Rp 14,67 Miliar).
-            </div>
-          </div>
-          <span class="pill pill-cyan" style="font-size: 12px; padding: 6px 12px; font-weight: 700;">
-            <i data-lucide="info" style="width: 14px; height: 14px;"></i> Panduan Transparansi Angka
-          </span>
-        </div>
+        <div style="font-size: 16px; font-weight: 800; color: #1e40af; margin-bottom: 4px;">Rekonsiliasi hasil olahan terhadap Excel sumber</div>
+        <div style="font-size: 13px; color: #1d4ed8; line-height: 1.6;" id="reconSummaryText">Memuat data...</div>
       </div>
 
-      <!-- Ringkasan selisih nilai -->
-      <div class="panel" style="background: #ffffff; border: 1px solid #cbd5e1; box-shadow: 0 1px 3px rgba(0,0,0,0.03);">
-        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 14px;">
-          <span style="background: #fef3c7; color: #b45309; padding: 4px 9px; border-radius: 6px; font-size: 11.5px; font-weight: 700; display: inline-flex; align-items: center; gap: 5px;">
-            <i data-lucide="help-circle" style="width: 14px; height: 14px;"></i> RINGKASAN SELISIH NILAI
-          </span>
-          <span style="font-size: 13.5px; font-weight: 700; color: #0f172a;">3 Hal yang Perlu Diketahui Mengapa Angkanya Berbeda:</span>
-        </div>
-
-        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px;">
-          <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 16px;">
-            <div style="font-size: 11px; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.04em;">1. Di Dokumen Laporan Tertulis</div>
-            <div style="font-size: 20px; font-weight: 800; color: #334155; margin: 4px 0;">Rp 29,33 Miliar</div>
-            <div style="font-size: 12.5px; color: #475569; line-height: 1.5;">
-              Angka ini adalah total penjumlahan rekap Excel lama (Sheet Total) yang dibuat untuk lomba <i>Entrepreneur Government</i>, tanpa sempat dicek bon per bonnya.
-            </div>
-          </div>
-
-          <div style="background: #fff1f2; border: 1px solid #fecdd3; border-radius: 8px; padding: 16px;">
-            <div style="font-size: 11px; font-weight: 700; color: #be123c; text-transform: uppercase; letter-spacing: 0.04em;">2. Perbedaan Nilai pada Data</div>
-            <div style="font-size: 20px; font-weight: 800; color: #e11d48; margin: 4px 0;">- Rp 15,00 Miliar</div>
-            <div style="font-size: 12.5px; color: #9f1239; line-height: 1.5;">
-              Pada data tahun 2023, <b>satu perahu karet Disdamkar</b> tercatat senilai <b>Rp 15 miliar</b>. Sebagai pembanding, ada catatan perahu karet lain sebesar Rp 50 juta. Perbandingan ini menunjukkan selisih angka pada data, bukan penilaian kewajaran harga.
-            </div>
-          </div>
-
-          <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; padding: 16px;">
-            <div style="font-size: 11px; font-weight: 700; color: #15803d; text-transform: uppercase; letter-spacing: 0.04em;">3. Skenario setelah nilai dikecualikan</div>
-            <div style="font-size: 20px; font-weight: 800; color: #16a34a; margin: 4px 0;">Rp 14,67 Miliar</div>
-            <div style="font-size: 12.5px; color: #166534; line-height: 1.5;">
-              Jika entri tersebut dikeluarkan sementara, total nominal dari <span id="adjustedRecordCount">805</span> baris lainnya adalah Rp 14,67 Miliar. Ini hanya skenario hitung; bukan koreksi data sumber atau penetapan nilai yang benar.
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- 4 Comparison KPI Cards -->
       <div class="kpi-row" style="grid-template-columns: repeat(4, 1fr);">
         <div class="kpi-card" style="border-top-color: #64748b;">
-          <div class="kpi-header">
-            <span class="kpi-card-label">1. Rekap Catatan Awal</span>
-            <span class="kpi-card-badge" style="background: #f1f5f9; color: #475569;"><i data-lucide="file-text" style="width: 14px; height: 14px;"></i></span>
-          </div>
-          <div class="kpi-card-value" style="color: #334155;">Rp 29.33 M</div>
-          <div class="kpi-card-sub">Angka di Kertas Laporan Awal</div>
+          <div class="kpi-header"><span class="kpi-card-label">1. Sheet Total Excel</span></div>
+          <div class="kpi-card-value" id="reconSheetTotal" style="color: #334155;">…</div>
+          <div class="kpi-card-sub">Angka yang tertulis di sheet Total</div>
         </div>
-
         <div class="kpi-card" style="border-top-color: #0284c7;">
-          <div class="kpi-header">
-            <span class="kpi-card-label">2. Hitungan Seluruh Baris</span>
-            <span class="kpi-card-badge" style="background: #f0f9ff; color: #0284c7;"><i data-lucide="database" style="width: 14px; height: 14px;"></i></span>
-          </div>
-          <div class="kpi-card-value" id="reconGrossTotal" style="color: #0369a1;">Rp 29.67 M</div>
-          <div class="kpi-card-sub">Total <span id="reconSourceRecordCount">806</span> baris sebelum pengecualian</div>
+          <div class="kpi-header"><span class="kpi-card-label">2. Hasil Olahan Dalam Rekap</span></div>
+          <div class="kpi-card-value" id="reconInRekap" style="color: #0369a1;">…</div>
+          <div class="kpi-card-sub" id="reconInRekapSub">…</div>
         </div>
-
         <div class="kpi-card" style="border-top-color: #e11d48; background: #fff1f2;">
-          <div class="kpi-header">
-            <span class="kpi-card-label" style="color: #9f1239;">3. Entri Rp 15 Miliar</span>
-            <span class="kpi-card-badge" style="background: #ffe4e6; color: #e11d48;"><i data-lucide="alert-octagon" style="width: 14px; height: 14px;"></i></span>
-          </div>
-          <div class="kpi-card-value" id="reconOutlierTotal" style="color: #be123c;">- Rp 15.00 M</div>
-          <div class="kpi-card-sub" style="color: #9f1239;">Nilai yang tercatat pada baris Disdamkar 2023</div>
+          <div class="kpi-header"><span class="kpi-card-label" style="color: #9f1239;">3. Nilai Bertanda Besar</span></div>
+          <div class="kpi-card-value" id="reconFlagged" style="color: #be123c;">…</div>
+          <div class="kpi-card-sub" style="color: #9f1239;" id="reconFlaggedSub">…</div>
         </div>
-
         <div class="kpi-card" style="border-top-color: #059669; background: #f0fdf4;">
-          <div class="kpi-header">
-            <span class="kpi-card-label" style="color: #166534;">4. Skenario Tanpa Entri Ini</span>
-            <span class="kpi-card-badge" style="background: #dcfce7; color: #15803d;"><i data-lucide="check-circle-2" style="width: 14px; height: 14px;"></i></span>
-          </div>
-          <div class="kpi-card-value" id="reconAdjustedTotal" style="color: #15803d;">Rp 14.67 M</div>
-          <div class="kpi-card-sub" style="color: #166534;">Hasil penjumlahan setelah entri dikecualikan</div>
+          <div class="kpi-header"><span class="kpi-card-label" style="color: #166534;">4. Skenario Tanpa Nilai Bertanda</span></div>
+          <div class="kpi-card-value" id="reconScenario" style="color: #15803d;">…</div>
+          <div class="kpi-card-sub" style="color: #166534;">Hanya skenario hitung, bukan koreksi data sumber</div>
         </div>
       </div>
 
-      <!-- Tabel Matriks Komparasi per Tahun -->
       <div class="panel">
-        <div style="font-size: 15px; font-weight: 700; color: var(--text-main); margin-bottom: 4px;">
-          Tabel Matriks Komparasi Antar-Lembar (Tahun Pelaporan)
-        </div>
-        <div style="font-size: 12.5px; color: var(--text-muted); margin-bottom: 16px;">
-          Perbandingan nilai nominal antara rekap dokumen <i>Sheet Total</i> dengan hasil penjumlahan baris per baris lembar tahunan.
-        </div>
-
+        <div style="font-size: 15px; font-weight: 700; color: var(--text-main); margin-bottom: 4px;">Perbandingan per lembar</div>
+        <div style="font-size: 12.5px; color: var(--text-muted); margin-bottom: 16px;">Subtotal di bawah tiap lembar Excel dibandingkan dengan penjumlahan baris hasil olahan.</div>
         <div style="overflow-x: auto; border: 1px solid var(--border-color); border-radius: var(--radius-sm);">
           <table class="program-table">
             <thead>
               <tr>
-                <th>Tahun CSR</th>
-                <th>Nilai di Sheet Total (Buku Asli)</th>
-                <th>Nilai Ekstraksi Baris (Database)</th>
-                <th>Dampak jika entri Rp 15 miliar dikecualikan</th>
-                <th>Hasil skenario tanpa entri tersebut</th>
-                <th>Catatan Selisih dan Tindak Lanjut</th>
+                <th>Lembar</th>
+                <th>Subtotal di Lembar</th>
+                <th>Sheet Total</th>
+                <th>Hasil Olahan Dalam Rekap</th>
+                <th>Baris di Luar Rekap</th>
+                <th>Status</th>
               </tr>
             </thead>
-            <tbody>
-              <tr>
-                <td><span class="pill pill-indigo">2022</span></td>
-                <td style="font-family: 'JetBrains Mono', monospace;">Rp 500.000.000,00</td>
-                <td id="extract-2022" style="font-family: 'JetBrains Mono', monospace; font-weight: 600;">Rp 500.000.000,00</td>
-                <td style="color: var(--text-muted);">-</td>
-                <td style="font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #047857;">Rp 500.000.000,00</td>
-                <td><span class="pill pill-emerald">Cocok Sempurna (100%)</span> <span style="font-size: 12px; color: var(--text-muted);">1 unit Mini Excavator DPUPR dari PT IPC</span></td>
-              </tr>
-              <tr>
-                <td><span class="pill pill-indigo">2023</span></td>
-                <td style="font-family: 'JetBrains Mono', monospace;">Rp 15.218.761.000,00</td>
-                <td id="extract-2023" style="font-family: 'JetBrains Mono', monospace; font-weight: 600;">Rp 17.056.693.182,00</td>
-                <td style="font-family: 'JetBrains Mono', monospace; color: #be123c; font-weight: 700;">- Rp 15.000.000.000,00</td>
-                <td id="net-2023" style="font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #047857;">Rp 2.056.693.182,00</td>
-                <td>
-                  <span class="pill pill-rose">Entri Rp 15 miliar Disdamkar</span><br>
-                  <span style="font-size: 11.5px; color: var(--text-muted);">
-                    Nilai tercatat setara 87,9% dari total penjumlahan 2023 (Rp 17,06 Miliar). Selisih dengan rekap lama ditampilkan sebagai catatan perbandingan data.
-                  </span>
-                </td>
-              </tr>
-              <tr>
-                <td><span class="pill pill-indigo">2024</span></td>
-                <td style="font-family: 'JetBrains Mono', monospace;">Rp 2.502.315.936,00</td>
-                <td id="extract-2024" style="font-family: 'JetBrains Mono', monospace; font-weight: 600;">Rp 1.936.360.500,00</td>
-                <td style="color: var(--text-muted);">-</td>
-                <td style="font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #047857;">Rp 1.936.360.500,00</td>
-                <td><span class="pill pill-cyan"><span id="sheet-count-2024">141</span> baris pada data</span> <span style="font-size: 12px; color: var(--text-muted);">Rekap sumber berbeda Rp 565.955.436; perlu rekonsiliasi item per item.</span></td>
-              </tr>
-              <tr>
-                <td><span class="pill pill-indigo">2025</span></td>
-                <td style="font-family: 'JetBrains Mono', monospace;">Rp 6.794.993.332,00</td>
-                <td id="extract-2025" style="font-family: 'JetBrains Mono', monospace; font-weight: 600;">Rp 5.916.991.032,00</td>
-                <td style="color: var(--text-muted);">-</td>
-                <td style="font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #047857;">Rp 5.916.991.032,00</td>
-                <td><span class="pill pill-cyan"><span id="sheet-count-2025">440</span> baris pada data</span> <span style="font-size: 12px; color: var(--text-muted);">Rekap sumber berbeda Rp 878.002.300; jumlah baris bukan ukuran dampak.</span></td>
-              </tr>
-              <tr>
-                <td><span class="pill pill-indigo">2026</span></td>
-                <td style="font-family: 'JetBrains Mono', monospace;">Rp 3.977.095.000,00</td>
-                <td id="extract-2026" style="font-family: 'JetBrains Mono', monospace; font-weight: 600;">Rp 3.922.795.000,00</td>
-                <td style="color: var(--text-muted);">-</td>
-                <td style="font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #047857;">Rp 3.922.795.000,00</td>
-                <td><span class="pill pill-cyan"><span id="sheet-count-2026">95</span> baris pada data</span> <span style="font-size: 12px; color: var(--text-muted);">Rekap sumber berbeda Rp 54.300.000; pastikan periode 2026 telah lengkap.</span></td>
-              </tr>
-              <tr>
-                <td><span class="pill pill-indigo">2024-2029</span></td>
-                <td style="font-family: 'JetBrains Mono', monospace;">Rp 340.200.000,00</td>
-                <td id="extract-2024-2029" style="font-family: 'JetBrains Mono', monospace; font-weight: 600;">Rp 340.200.000,00</td>
-                <td style="color: var(--text-muted);">-</td>
-                <td style="font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #047857;">Rp 340.200.000,00</td>
-                <td><span class="pill pill-emerald">Cocok Sempurna (100%)</span> <span style="font-size: 12px; color: var(--text-muted);">Komitmen multi-tahun hewan kurban & taman</span></td>
-              </tr>
-              <tr style="background: #f8fafc; font-weight: 800;">
-                <td style="color: #0f172a;">TOTAL KOTA</td>
-                <td style="font-family: 'JetBrains Mono', monospace; color: #0f172a; font-size: 13.5px;">Rp 29.333.365.268,00</td>
-                <td id="extract-grand" style="font-family: 'JetBrains Mono', monospace; color: #0369a1; font-size: 13.5px;">Rp 29.673.039.714,00</td>
-                <td style="font-family: 'JetBrains Mono', monospace; color: #be123c; font-size: 13.5px;">- Rp 15.000.000.000,00</td>
-                <td id="net-grand" style="font-family: 'JetBrains Mono', monospace; color: #15803d; font-size: 14px;">Rp 14.673.039.714,00</td>
-                <td><span class="pill pill-amber" style="font-size: 11.5px; padding: 4px 8px;">Hasil penjumlahan data; bukan penilaian kewajaran</span></td>
-              </tr>
-            </tbody>
+            <tbody id="reconTableBody"></tbody>
           </table>
         </div>
       </div>
 
-      <!-- 4 Titik Sumber Ketidaksesuaian Nominal -->
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
-        <div class="panel" style="border-left: 4px solid #e11d48;">
-          <div style="font-size: 14.5px; font-weight: 700; color: #be123c; margin-bottom: 6px;">
-            1. Catatan Entri Perahu Karet Disdamkar (Rp 15.000.000.000,00)
-          </div>
-          <p style="font-size: 12.5px; color: var(--text-sub); line-height: 1.6; margin-bottom: 8px;">
-            <b>Lokasi:</b> Sheet <code>2023</code> Baris 7.<br>
-            <b>Catatan data:</b> Pada lembar 2023, Disdamkar mencatat bantuan <i>PERAHU KARET (RUBBER)</i> dari Bank Kaltimtara senilai <b>Rp 15 miliar</b>. Catatan perahu karet lain sebesar Rp 50 juta ditampilkan sebagai pembanding angka, bukan acuan harga. Nilai Rp 15 miliar mencakup sekitar 50,6% dari total nominal hasil penjumlahan seluruh baris.
-          </p>
-          <div style="background: #fff1f2; border: 1px solid #fecdd3; border-radius: 6px; padding: 8px 12px; font-size: 11.5px; color: #9f1239;">
-            <b>Fitur analisis:</b> Sakelar membandingkan total dengan dan tanpa entri ini sebagai skenario perhitungan.
+      <div class="summary-grid">
+        <div class="panel">
+          <div style="font-size: 15px; font-weight: 700; color: var(--text-main); margin-bottom: 4px;">Sepuluh pemberi dengan nominal terbesar</div>
+          <div style="font-size: 12.5px; color: var(--text-muted); margin-bottom: 12px;" id="topPemberiNote">Nama pemberi sesuai penulisan di sumber.</div>
+          <div style="overflow-x: auto; border: 1px solid var(--border-color); border-radius: var(--radius-sm);">
+            <table class="program-table">
+              <thead><tr><th>No</th><th>Nama Pemberi</th><th style="text-align: right;">Nominal</th><th style="text-align: right;">Catatan</th><th>Perangkat Daerah</th></tr></thead>
+              <tbody id="topPemberiBody"></tbody>
+            </table>
           </div>
         </div>
-
-        <div class="panel" style="border-left: 4px solid #0284c7;">
-          <div style="font-size: 14.5px; font-weight: 700; color: #0369a1; margin-bottom: 6px;">
-            2. Selisih Penjabaran PPM PT IPC Kelurahan Bantuas (+Rp 339,6 Juta)
-          </div>
-          <p style="font-size: 12.5px; color: var(--text-sub); line-height: 1.6; margin-bottom: 8px;">
-            <b>Lokasi:</b> Sheet <code>2023</code> Baris 154 s.d. 166.<br>
-            <b>Fakta:</b> Pada lembar 2023 dilampirkan tabel rencana PPM PT IPC untuk tahun 2024 dan 2025 (pendidikan, beasiswa, perikanan, jembatan tani). Rekap Sheet Total hanya menjumlahkan baris berlabel tahun 2023 (Rp 15,21 M), sedangkan sistem ekstraksi database menangkap seluruh 13 baris kegiatan fisik riil tersebut (+Rp 339,6 Juta).
-          </p>
-          <div style="background: #f0f9ff; border: 1px solid #bae6fd; border-radius: 6px; padding: 8px 12px; font-size: 11.5px; color: #0369a1;">
-            <b>Catatan analisis data:</b> Baris-baris PPM tahun 2024 dan 2025 tercantum pada lembar 2023 dan memengaruhi perbedaan antara rekap dan penjumlahan baris.
-          </div>
-        </div>
-
-        <div class="panel" style="border-left: 4px solid #d97706;">
-          <div style="font-size: 14.5px; font-weight: 700; color: #b45309; margin-bottom: 6px;">
-            3. Sebanyak <span id="zeroNominalCount">28</span> Baris Tanpa Nilai Nominal
-          </div>
-          <p style="font-size: 12.5px; color: var(--text-sub); line-height: 1.6; margin-bottom: 8px;">
-            <b>Lokasi:</b> Tersebar di kelurahan dan dinas teknis.<br>
-            <b>Fakta:</b> Data hasil olahan memiliki <span id="zeroNominalCountText">28</span> baris bernilai nol/tanpa nominal. Nilai nol pada kolom nominal tidak dengan sendirinya menunjukkan bahwa bantuan tidak memiliki manfaat atau nilai barang.
-          </p>
-          <div style="background: #fffbeb; border: 1px solid #fde68a; border-radius: 6px; padding: 8px 12px; font-size: 11.5px; color: #92400e;">
-            <b>Catatan analisis data:</b> Nilai nominal tidak tersedia pada baris-baris tersebut sehingga tidak ikut menambah total penjumlahan nominal.
-          </div>
-        </div>
-
-        <div class="panel" style="border-left: 4px solid #7c3aed;">
-          <div style="font-size: 14.5px; font-weight: 700; color: #6b21a8; margin-bottom: 6px;">
-            4. Kategori Pemberi Bantuan Perlu Ditelaah
-          </div>
-          <p style="font-size: 12.5px; color: var(--text-sub); line-height: 1.6; margin-bottom: 8px;">
-            <b>Fakta:</b> Klasifikasi otomatis menandai 50 baris sebagai pemberi lokal/perorangan dan 22 baris sebagai filantropi/zakat. Penandaan ini perlu diperiksa terhadap identitas pemberi sebelum seluruh data disebut CSR perusahaan.
-          </p>
-          <div style="background: #faf5ff; border: 1px solid #e9d5ff; border-radius: 6px; padding: 8px 12px; font-size: 11.5px; color: #6b21a8;">
-            <b>Catatan analisis data:</b> Label kategori merupakan hasil klasifikasi awal dari informasi pemberi pada data sumber.
+        <div class="panel">
+          <div style="font-size: 15px; font-weight: 700; color: var(--text-main); margin-bottom: 4px;">Nominal per sektor</div>
+          <div style="font-size: 12.5px; color: var(--text-muted); margin-bottom: 12px;" id="sectorTableNote">Sektor adalah label otomatis dari uraian kegiatan.</div>
+          <div style="overflow-x: auto; border: 1px solid var(--border-color); border-radius: var(--radius-sm);">
+            <table class="program-table">
+              <thead><tr><th>Sektor</th><th style="text-align: right;">Nominal</th><th style="text-align: right;">Pangsa</th><th style="text-align: right;">Catatan</th></tr></thead>
+              <tbody id="sectorTableBody"></tbody>
+            </table>
           </div>
         </div>
       </div>
-
-
 
     </section>
 
@@ -1185,7 +1046,7 @@
           <span class="dossier-val" id="mOPD">-</span>
         </div>
         <div class="dossier-item">
-          <span class="dossier-label">Wilayah Kecamatan</span>
+          <span class="dossier-label">Lokasi / Wilayah</span>
           <span class="dossier-val" id="mWilayah">-</span>
         </div>
         <div class="dossier-item">
@@ -1226,7 +1087,20 @@
   <script>
     let rawDataset = [];
     let currentTier = 'all';
-    let excludeOutlier = true;
+    let excludeOutlier = false;
+    let rekapInfo = null;
+
+    // Escape teks sebelum dimasukkan ke HTML agar isian data tidak dieksekusi sebagai markup.
+    function esc(v) {
+      return String(v ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+    }
+    // Baris yang masuk rekap lembar Excel; dasar seluruh total dan grafik.
+    function rekapRows() {
+      return rawDataset.filter(d => d.Masuk_Rekap_Lembar !== false);
+    }
+    function scenarioRows() {
+      return rekapRows().filter(d => !(excludeOutlier && d.Is_Outlier));
+    }
     let allExpanded = false;
     let ledgerPage = 1;
     const ledgerPageSize = 25;
@@ -1234,8 +1108,10 @@
     // Load Data
     async function loadData() {
       try {
-        const res = await fetch('/api/data');
-        rawDataset = await res.json();
+        const [resData, resRekap] = await Promise.all([fetch('/api/data'), fetch('/api/rekap')]);
+        if (!resData.ok || !resRekap.ok) throw new Error('API tidak tersedia');
+        rawDataset = await resData.json();
+        rekapInfo = await resRekap.json();
         updateTierCounts();
         populatePemberiOptions();
         renderAnalysisCharts();
@@ -1244,7 +1120,9 @@
         renderMasterLedger();
         lucide.createIcons();
       } catch (e) {
-        console.error('Failed to load data:', e);
+        console.error('Gagal memuat data:', e);
+        document.querySelector('.main-container').insertAdjacentHTML('afterbegin',
+          '<div class="panel" style="border-left:4px solid #e11d48;">Data gagal dimuat. Jalankan dashboard melalui <code>./run_dashboard.sh</code>.</div>');
       }
     }
 
@@ -1252,7 +1130,7 @@
       const select = document.getElementById('opdPemberiSelect');
       if (!select) return;
       const counts = {};
-      rawDataset.forEach(d => {
+      rekapRows().forEach(d => {
         const p = d.Nama_Pemberi || 'Tidak Disebutkan';
         counts[p] = (counts[p] || 0) + 1;
       });
@@ -1270,10 +1148,11 @@
     }
 
     function formatIDR(val) {
+      const dec = v => v.toLocaleString('id-ID', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
       if (val >= 1_000_000_000) {
-        return 'Rp ' + (val / 1_000_000_000).toFixed(2) + ' M';
+        return 'Rp ' + dec(val / 1_000_000_000) + ' M';
       } else if (val >= 1_000_000) {
-        return 'Rp ' + (val / 1_000_000).toFixed(2) + ' Jt';
+        return 'Rp ' + dec(val / 1_000_000) + ' Jt';
       } else {
         return 'Rp ' + Math.round(val).toLocaleString('id-ID');
       }
@@ -1284,7 +1163,7 @@
     }
 
     function renderAnalysisCharts() {
-      const rows = rawDataset.filter(d => !(excludeOutlier && d.Is_Outlier));
+      const rows = scenarioRows();
       const yearCounts = {};
       const sectorValues = {};
       rows.forEach(d => {
@@ -1318,62 +1197,126 @@
         </div>`).join('');
 
       const toggleNote = excludeOutlier
-        ? 'Entri Rp 15 Miliar tidak disertakan dalam skenario ini. '
-        : 'Entri Rp 15 Miliar disertakan dalam skenario ini. ';
+        ? 'Skenario: nilai bertanda besar tidak disertakan. '
+        : 'Seluruh catatan dalam rekap disertakan. ';
       document.getElementById('yearChartNote').textContent = toggleNote + 'Label multi-tahun ditampilkan terpisah; jumlah baris bukan ukuran dampak.';
       document.getElementById('sectorChartNote').textContent = toggleNote + 'Kategori sektor adalah klasifikasi awal; status CSR tiap pemberi tidak ditetapkan dari klasifikasi ini.';
     }
 
     function updateReconciliationMetrics() {
-      const gross = rawDataset.reduce((sum, d) => sum + Number(d.Jumlah_Dana || 0), 0);
-      const outliers = rawDataset.filter(d => d.Is_Outlier);
-      const outlierValue = outliers.reduce((sum, d) => sum + Number(d.Jumlah_Dana || 0), 0);
-      const adjusted = gross - outlierValue;
-      const adjustedCount = rawDataset.length - outliers.length;
-      const zeroCount = rawDataset.filter(d => Number(d.Jumlah_Dana || 0) === 0).length;
-      document.getElementById('sourceRecordCount').textContent = rawDataset.length.toLocaleString('id-ID');
-      document.getElementById('reconSourceRecordCount').textContent = rawDataset.length.toLocaleString('id-ID');
-      document.getElementById('adjustedRecordCount').textContent = adjustedCount.toLocaleString('id-ID');
-      document.getElementById('zeroNominalCount').textContent = zeroCount.toLocaleString('id-ID');
-      document.getElementById('zeroNominalCountText').textContent = zeroCount.toLocaleString('id-ID');
-      document.getElementById('reconGrossTotal').textContent = formatIDR(gross);
-      document.getElementById('reconOutlierTotal').textContent = '- ' + formatIDR(outlierValue);
-      document.getElementById('reconAdjustedTotal').textContent = formatIDR(adjusted);
+      const rows = rekapRows();
+      const gross = rows.reduce((sum, d) => sum + Number(d.Jumlah_Dana || 0), 0);
+      const flagged = rows.filter(d => d.Is_Outlier);
+      const flaggedValue = flagged.reduce((sum, d) => sum + Number(d.Jumlah_Dana || 0), 0);
+      const outside = rawDataset.filter(d => d.Masuk_Rekap_Lembar === false);
+      const sheetTotal = rekapInfo && rekapInfo.total_sheet_excel !== undefined ? rekapInfo.total_sheet_excel : null;
+      const match = sheetTotal !== null && Math.abs(sheetTotal - gross) <= 1;
 
-      const sheetTotals = {};
-      rawDataset.forEach(d => {
-        const sheet = String(d.Lembar_Sheet || '');
-        sheetTotals[sheet] = (sheetTotals[sheet] || 0) + Number(d.Jumlah_Dana || 0);
+      document.getElementById('sourceRecordCount').textContent = rows.length.toLocaleString('id-ID');
+      document.getElementById('outsideCountLabel').textContent = outside.length.toLocaleString('id-ID');
+      document.getElementById('reconSheetTotal').textContent = sheetTotal === null ? '-' : formatIDR(sheetTotal);
+      document.getElementById('reconInRekap').textContent = formatIDR(gross);
+      document.getElementById('reconInRekapSub').textContent = `${rows.length.toLocaleString('id-ID')} catatan · ${match ? 'sama dengan sheet Total' : 'BELUM sama dengan sheet Total'}`;
+      document.getElementById('reconFlagged').textContent = formatIDR(flaggedValue);
+      document.getElementById('reconFlaggedSub').textContent = flagged.length
+        ? flagged.map(d => `${d.Perangkat_Daerah}: ${d.Uraian_Bantuan}`).join('; ')
+        : 'Tidak ada catatan bernilai >= Rp 10 miliar';
+      document.getElementById('reconScenario').textContent = formatIDR(gross - flaggedValue);
+
+      const banner = document.getElementById('outlierBannerText');
+      if (flagged.length) {
+        const share = gross ? (flaggedValue / gross * 100).toFixed(1).replace('.', ',') : '0';
+        banner.innerHTML = `<b>Catatan nilai tercatat:</b> ${flagged.map(d => `${esc(d.Uraian_Bantuan)} (${esc(d.Perangkat_Daerah)}, lembar ${esc(d.Lembar_Sheet)} baris ${esc(d.Baris_Sumber)})`).join('; ')} tercatat ${esc(formatFullIDR(flaggedValue))}, setara ${share}% dari total rekap. Nilai perlu dikonfirmasi OPD sumber. Dashboard tidak menilai kewajaran harga.`;
+      } else {
+        banner.innerHTML = '<b>Catatan:</b> tidak ada catatan bernilai sangat besar.';
+      }
+
+      if (rekapInfo) {
+        const withOutside = (rekapInfo.lembar || []).filter(l => l.jumlah_baris_luar_rekap > 0);
+        document.getElementById('reconSummaryText').innerHTML =
+          `Penjumlahan ${rows.length.toLocaleString('id-ID')} catatan hasil olahan adalah <b>${esc(formatFullIDR(gross))}</b>. ` +
+          (match ? 'Angka ini sama dengan sheet Total di Excel. ' : '<b>Angka ini belum sama dengan sheet Total.</b> ') +
+          withOutside.map(l => `Lembar ${esc(l.lembar)} memuat ${l.jumlah_baris_luar_rekap} baris bertahun lain senilai ${esc(formatFullIDR(l.nilai_luar_rekap))}. ` +
+            'Baris tersebut tidak termasuk subtotal lembar dan memiliki pasangan di lembar tahunnya, sehingga tidak dihitung dua kali.').join(' ');
+        document.getElementById('reconTableBody').innerHTML = (rekapInfo.lembar || []).map(l => `
+          <tr>
+            <td><span class="pill pill-indigo">${esc(l.lembar)}</span></td>
+            <td style="font-family: 'JetBrains Mono', monospace;">${esc(formatFullIDR(l.subtotal_excel))}</td>
+            <td style="font-family: 'JetBrains Mono', monospace;">${l.total_sheet === null ? '-' : esc(formatFullIDR(l.total_sheet))}</td>
+            <td style="font-family: 'JetBrains Mono', monospace; font-weight: 700;">${esc(formatFullIDR(l.nilai_dalam_rekap))}<div style="font-size: 11px; color: var(--text-muted); font-weight: 500;">${l.jumlah_baris_dalam_rekap} catatan · ${esc(l.aturan_rekap)}</div></td>
+            <td>${l.jumlah_baris_luar_rekap ? `${l.jumlah_baris_luar_rekap} baris · ${esc(formatFullIDR(l.nilai_luar_rekap))}` : '-'}</td>
+            <td>${l.cocok ? '<span class="pill pill-emerald">Cocok</span>' : '<span class="pill pill-rose">Perlu ditelusuri</span>'}</td>
+          </tr>`).join('') + `
+          <tr style="background: #f8fafc; font-weight: 800;">
+            <td>TOTAL</td><td></td>
+            <td style="font-family: 'JetBrains Mono', monospace;">${sheetTotal === null ? '-' : esc(formatFullIDR(sheetTotal))}</td>
+            <td style="font-family: 'JetBrains Mono', monospace;">${esc(formatFullIDR(gross))}</td>
+            <td>${outside.length ? `${outside.length} baris` : '-'}</td>
+            <td>${match ? '<span class="pill pill-emerald">Cocok</span>' : '<span class="pill pill-rose">Perlu ditelusuri</span>'}</td>
+          </tr>`;
+      }
+
+      renderSummaryTables();
+    }
+
+    // Ringkasan pemberi dan sektor; mengikuti sakelar skenario.
+    function renderSummaryTables() {
+      const rows = scenarioRows();
+      const total = rows.reduce((sum, d) => sum + Number(d.Jumlah_Dana || 0), 0);
+      const scenarioNote = excludeOutlier ? ' Skenario: nilai bertanda besar tidak disertakan.' : '';
+
+      const pemberi = {};
+      rows.forEach(d => {
+        const k = d.Nama_Pemberi || 'Tidak Disebutkan';
+        if (!pemberi[k]) pemberi[k] = { v: 0, n: 0, opd: new Set() };
+        pemberi[k].v += Number(d.Jumlah_Dana || 0);
+        pemberi[k].n += 1;
+        pemberi[k].opd.add(d.Perangkat_Daerah);
       });
-      ['2022', '2023', '2024', '2025', '2026', '2024-2029'].forEach(year => {
-        const amount = sheetTotals[year] || 0;
-        const countCell = document.getElementById(`sheet-count-${year}`);
-        if (countCell) countCell.textContent = rawDataset.filter(d => String(d.Lembar_Sheet) === year).length.toLocaleString('id-ID');
-        const extractedCell = document.getElementById(`extract-${year}`);
-        if (extractedCell) extractedCell.textContent = formatFullIDR(amount);
-        const netCell = document.getElementById(`net-${year}`);
-        if (netCell) {
-          const yearOutlier = outliers.filter(d => String(d.Lembar_Sheet) === year)
-            .reduce((sum, d) => sum + Number(d.Jumlah_Dana || 0), 0);
-          netCell.textContent = formatFullIDR(amount - yearOutlier);
-        }
+      const top = Object.entries(pemberi).sort((a, b) => b[1].v - a[1].v || b[1].n - a[1].n).slice(0, 10);
+      document.getElementById('topPemberiBody').innerHTML = top.map(([name, x], i) => {
+        const opd = Array.from(x.opd).sort();
+        const opdText = opd.slice(0, 2).join(', ') + (opd.length > 2 ? ` +${opd.length - 2} lainnya` : '');
+        return `<tr>
+          <td style="color: var(--text-light);">${i + 1}</td>
+          <td style="font-weight: 600; color: var(--text-main);">${esc(name)}</td>
+          <td style="text-align: right; font-family: 'JetBrains Mono', monospace; font-weight: 700; white-space: nowrap;">${esc(formatFullIDR(x.v))}</td>
+          <td style="text-align: right;">${x.n.toLocaleString('id-ID')}</td>
+          <td style="font-size: 12px; color: var(--text-sub);">${esc(opdText)}</td>
+        </tr>`;
+      }).join('');
+      document.getElementById('topPemberiNote').textContent = 'Nama pemberi sesuai penulisan di sumber.' + scenarioNote;
+
+      const sektor = {};
+      rows.forEach(d => {
+        const k = d.Kategori_Sektor || 'Belum dikategorikan';
+        if (!sektor[k]) sektor[k] = { v: 0, n: 0 };
+        sektor[k].v += Number(d.Jumlah_Dana || 0);
+        sektor[k].n += 1;
       });
-      document.getElementById('extract-grand').textContent = formatFullIDR(gross);
-      document.getElementById('net-grand').textContent = formatFullIDR(adjusted);
+      const sorted = Object.entries(sektor).sort((a, b) => b[1].v - a[1].v);
+      document.getElementById('sectorTableBody').innerHTML = sorted.map(([name, x]) => `<tr>
+          <td style="font-weight: 600; color: var(--text-main);">${esc(name)}</td>
+          <td style="text-align: right; font-family: 'JetBrains Mono', monospace; font-weight: 700; white-space: nowrap;">${esc(formatIDR(x.v))}</td>
+          <td style="text-align: right;">${total ? (x.v / total * 100).toFixed(1).replace('.', ',') + '%' : '-'}</td>
+          <td style="text-align: right;">${x.n.toLocaleString('id-ID')}</td>
+        </tr>`).join('');
+      document.getElementById('sectorTableNote').textContent = 'Sektor adalah label otomatis dari uraian kegiatan.' + scenarioNote;
     }
 
     function handleOutlierChange() {
       excludeOutlier = document.getElementById('outlierToggle').checked;
       renderAnalysisCharts();
+      renderSummaryTables();
       renderOPDList();
       renderMasterLedger();
     }
 
-    function switchView(viewId) {
+    function switchView(viewId, btn) {
       document.querySelectorAll('.main-tab-btn').forEach(b => b.classList.remove('active'));
       document.querySelectorAll('.view-pane').forEach(p => p.classList.remove('active'));
 
-      event.currentTarget.classList.add('active');
+      btn.classList.add('active');
       document.getElementById(viewId).classList.add('active');
       window.dispatchEvent(new Event('resize'));
     }
@@ -1400,13 +1343,14 @@
     }
 
     function updateTierCounts() {
-      const opds = Array.from(new Set(rawDataset.map(d => d.Perangkat_Daerah)));
+      const base = rekapRows();
+      const opds = Array.from(new Set(base.map(d => d.Perangkat_Daerah)));
       document.getElementById('cntAll').textContent = opds.length;
       
-      const dinasOPDs = new Set(rawDataset.filter(d => d.Tipe_Perangkat_Daerah === 'Dinas').map(d => d.Perangkat_Daerah));
-      const badanOPDs = new Set(rawDataset.filter(d => d.Tipe_Perangkat_Daerah === 'Badan').map(d => d.Perangkat_Daerah));
-      const kecOPDs = new Set(rawDataset.filter(d => d.Tipe_Perangkat_Daerah === 'Kecamatan').map(d => d.Perangkat_Daerah));
-      const kelOPDs = new Set(rawDataset.filter(d => d.Tipe_Perangkat_Daerah === 'Kelurahan').map(d => d.Perangkat_Daerah));
+      const dinasOPDs = new Set(base.filter(d => d.Tipe_Perangkat_Daerah === 'Dinas').map(d => d.Perangkat_Daerah));
+      const badanOPDs = new Set(base.filter(d => d.Tipe_Perangkat_Daerah === 'Badan').map(d => d.Perangkat_Daerah));
+      const kecOPDs = new Set(base.filter(d => d.Tipe_Perangkat_Daerah === 'Kecamatan').map(d => d.Perangkat_Daerah));
+      const kelOPDs = new Set(base.filter(d => d.Tipe_Perangkat_Daerah === 'Kelurahan').map(d => d.Perangkat_Daerah));
 
       document.getElementById('cntDinas').textContent = dinasOPDs.size;
       document.getElementById('cntBadan').textContent = badanOPDs.size;
@@ -1420,9 +1364,9 @@
       if (!item) return;
 
       document.getElementById('mUraian').textContent = item.Uraian_Bantuan;
-      document.getElementById('mBadgeTahun').textContent = item.Tahun_Pelaporan;
+      document.getElementById('mBadgeTahun').textContent = `Lembar ${item.Lembar_Sheet} · baris ${item.Baris_Sumber} · tahun ${item.Tahun_Kegiatan}`;
       document.getElementById('mBadgeTingkat').textContent = item.Tipe_Perangkat_Daerah;
-      document.getElementById('mBadgeBentuk').textContent = item.Bentuk_Bantuan === 'Uang' ? 'Bantuan Uang' : 'Bantuan Barang';
+      document.getElementById('mBadgeBentuk').textContent = item.Bentuk_Bantuan === 'Uang' ? 'Uang (label otomatis)' : 'Barang/Jasa (label otomatis)';
       document.getElementById('mBadgeSektor').textContent = item.Kategori_Sektor;
 
       const asetBadge = document.getElementById('mBadgeAset');
@@ -1430,14 +1374,15 @@
       else { asetBadge.style.display = 'none'; }
 
       document.getElementById('mOPD').textContent = item.Perangkat_Daerah;
-      document.getElementById('mWilayah').textContent = item.Wilayah_Kecamatan;
-      document.getElementById('mDana').textContent = item.Jumlah_Dana > 0 ? 'Rp ' + item.Jumlah_Dana.toLocaleString('id-ID') : 'Non-Nominal / Bantuan Barang';
+      document.getElementById('mWilayah').textContent = item.Lokasi_Penerima
+        ? `${item.Lokasi_Penerima} · ${item.Wilayah_Kecamatan}` : item.Wilayah_Kecamatan;
+      document.getElementById('mDana').textContent = item.Jumlah_Dana > 0 ? 'Rp ' + item.Jumlah_Dana.toLocaleString('id-ID') : item.Status_Nilai;
       document.getElementById('mPemberi').textContent = item.Nama_Pemberi;
       document.getElementById('mTipeMitra').textContent = item.Tipe_Pemberi;
       document.getElementById('mStatusNilai').textContent = item.Status_Nilai;
       document.getElementById('mKoordinasi').textContent = item.Bentuk_Koordinasi || '-';
       document.getElementById('mSasaran').textContent = item.Sasaran_Hasil || '-';
-      document.getElementById('mRisiko').textContent = item.Catatan_Risiko || 'Sesuai Prosedur Standar';
+      document.getElementById('mRisiko').textContent = (item.Catatan_Risiko && item.Catatan_Risiko !== '-') ? item.Catatan_Risiko : 'Tidak ada catatan';
 
       document.getElementById('detailModal').classList.add('active');
       lucide.createIcons();
@@ -1467,8 +1412,7 @@
 
       const opdMap = {};
 
-      rawDataset.forEach(d => {
-        if (excludeOutlier && d.Is_Outlier) return;
+      scenarioRows().forEach(d => {
         if (yearFilter !== 'all' && d.Tahun_Pelaporan !== yearFilter) return;
         if (bentukFilter !== 'all' && d.Bentuk_Bantuan !== bentukFilter) return;
         if (pemberiFilter !== 'all' && d.Nama_Pemberi !== pemberiFilter) return;
@@ -1477,6 +1421,7 @@
           const matchOpd = d.Perangkat_Daerah.toLowerCase().includes(query) || 
                            d.Wilayah_Kecamatan.toLowerCase().includes(query);
           const matchProg = d.Uraian_Bantuan.toLowerCase().includes(query) ||
+                            (d.Lokasi_Penerima || '').toLowerCase().includes(query) ||
                             d.Nama_Pemberi.toLowerCase().includes(query) ||
                             d.Kategori_Sektor.toLowerCase().includes(query) ||
                             (d.Bentuk_Bantuan && d.Bentuk_Bantuan.toLowerCase().includes(query));
@@ -1534,16 +1479,16 @@
       const kpiTotalDanaEl = document.getElementById('kpiTotalDana');
       if (kpiTotalDanaEl) kpiTotalDanaEl.textContent = formatIDR(grandTotalDana);
       const kpiTotalSubEl = document.getElementById('kpiTotalSub');
-      if (kpiTotalSubEl) kpiTotalSubEl.textContent = `${grandTotalCount} baris pada hasil · ${totalOpdCount} OPD${excludeOutlier ? ' · skenario tanpa entri Rp 15 miliar' : ''}`;
+      if (kpiTotalSubEl) kpiTotalSubEl.textContent = `${grandTotalCount} catatan · ${totalOpdCount} OPD${excludeOutlier ? ' · SKENARIO tanpa nilai bertanda besar' : ''}`;
 
       document.getElementById('kpiDinasDana').textContent = formatIDR(dinasDana);
-      document.getElementById('kpiDinasSub').textContent = `${dinasCount} baris · ${dinasOpdCount} OPD`;
+      document.getElementById('kpiDinasSub').textContent = `${dinasCount} catatan · ${dinasOpdCount} OPD`;
       document.getElementById('kpiBadanDana').textContent = formatIDR(badanDana);
-      document.getElementById('kpiBadanSub').textContent = `${badanCount} baris · ${badanOpdCount} OPD`;
+      document.getElementById('kpiBadanSub').textContent = `${badanCount} catatan · ${badanOpdCount} OPD`;
       document.getElementById('kpiKecamatanDana').textContent = formatIDR(kecDana);
-      document.getElementById('kpiKecamatanSub').textContent = `${kecCount} baris · ${kecOpdCount} OPD`;
+      document.getElementById('kpiKecamatanSub').textContent = `${kecCount} catatan · ${kecOpdCount} OPD`;
       document.getElementById('kpiKelurahanDana').textContent = formatIDR(kelDana);
-      document.getElementById('kpiKelurahanSub').textContent = `${kelCount} baris · ${kelOpdCount} OPD`;
+      document.getElementById('kpiKelurahanSub').textContent = `${kelCount} catatan · ${kelOpdCount} OPD`;
 
       const totalProgCount = opdList.reduce((acc, o) => acc + o.programs.length, 0);
       document.getElementById('displayedOpdCount').textContent = opdList.length;
@@ -1585,20 +1530,21 @@
 
         let tableRowsHtml = '';
         opd.programs.forEach((p, pIdx) => {
-          let danaDisplay = p.Jumlah_Dana > 0 ? 'Rp ' + p.Jumlah_Dana.toLocaleString('id-ID') : '<span style="color: var(--text-light);">- (Non-Nominal)</span>';
-          let assetBadge = p.Potensi_Aset_KIB ? '<span class="pill pill-cyan">Aset KIB</span>' : '';
-          let outlierBadge = p.Is_Outlier ? '<span class="pill pill-rose">Outlier 15M</span>' : '';
+          let danaDisplay = p.Jumlah_Dana > 0 ? 'Rp ' + p.Jumlah_Dana.toLocaleString('id-ID') : `<span style="color: var(--text-light);">- (${esc(p.Status_Nilai)})</span>`;
+          let assetBadge = p.Potensi_Aset_KIB ? '<span class="pill pill-cyan">Barang fisik</span>' : '';
+          let outlierBadge = p.Is_Outlier ? '<span class="pill pill-rose">Nilai bertanda besar</span>' : '';
 
           let bentukBadge = p.Bentuk_Bantuan === 'Uang'
-            ? '<span class="pill pill-emerald" style="font-size: 10px;">Bantuan Uang</span>'
-            : '<span class="pill pill-amber" style="font-size: 10px;">Bantuan Barang</span>';
+            ? '<span class="pill pill-emerald" style="font-size: 10px;">Uang</span>'
+            : '<span class="pill pill-amber" style="font-size: 10px;">Barang/Jasa</span>';
 
           tableRowsHtml += `
             <tr>
               <td style="font-family: 'JetBrains Mono', monospace; font-size: 11.5px; color: var(--text-light);">${pIdx + 1}</td>
-              <td><span class="pill pill-indigo">${p.Tahun_Pelaporan}</span></td>
+              <td><span class="pill pill-indigo">${esc(p.Tahun_Kegiatan)}</span></td>
               <td style="font-weight: 600; color: var(--text-main); max-width: 280px;">
-                ${p.Uraian_Bantuan}
+                ${esc(p.Uraian_Bantuan)}
+                ${p.Lokasi_Penerima ? `<div style="font-size: 11.5px; font-weight: 500; color: var(--text-muted); margin-top: 2px;">Lokasi: ${esc(p.Lokasi_Penerima)}</div>` : ''}
                 <div style="margin-top: 4px; display: flex; gap: 4px; flex-wrap: wrap;">
                   ${bentukBadge} ${assetBadge} ${outlierBadge}
                 </div>
@@ -1606,12 +1552,12 @@
               <td style="font-family: 'JetBrains Mono', monospace; font-weight: 700; color: ${p.Jumlah_Dana > 0 ? '#047857' : 'var(--text-light)'}; white-space: nowrap;">
                 ${danaDisplay}
               </td>
-              <td style="color: var(--text-sub); max-width: 180px;">${p.Nama_Pemberi}</td>
+              <td style="color: var(--text-sub); max-width: 180px;">${esc(p.Nama_Pemberi)}</td>
               <td style="font-size: 12px; color: var(--text-muted); max-width: 200px;">
-                ${p.Bentuk_Koordinasi || '-'}
+                ${esc(p.Bentuk_Koordinasi || '-')}
               </td>
               <td style="font-size: 12px; color: var(--text-muted); max-width: 220px;">
-                ${p.Sasaran_Hasil || '-'}
+                ${esc(p.Sasaran_Hasil || '-')}
               </td>
               <td style="text-align: right; white-space: nowrap;">
                 <button class="btn-detail" onclick="openModalById(${p.ID})">
@@ -1625,15 +1571,15 @@
         card.innerHTML = `
           <div class="opd-card-header" onclick="toggleOpdCard(this)">
             <div class="opd-card-left">
-              <span class="opd-badge ${badgeClass}">${opd.tipe}</span>
+              <span class="opd-badge ${badgeClass}">${esc(opd.tipe)}</span>
               <div>
-                <span class="opd-name">${opd.name}</span>
-                <span class="opd-wilayah">· ${opd.wilayah}</span>
+                <span class="opd-name">${esc(opd.name)}</span>
+                <span class="opd-wilayah">· ${esc(opd.wilayah)}</span>
               </div>
             </div>
             <div class="opd-card-right">
               <div class="opd-metric-box">
-                <span class="opd-metric-label">Total Dana CSR</span>
+                <span class="opd-metric-label">Total Nominal</span>
                 <span class="opd-metric-val" style="color: ${opd.totalDana > 0 ? '#047857' : 'var(--text-light)'};">
                   ${opd.totalDana > 0 ? 'Rp ' + opd.totalDana.toLocaleString('id-ID') : 'Rp 0'}
                 </span>
@@ -1641,7 +1587,7 @@
               <div class="opd-metric-box">
                 <span class="opd-metric-label">Jumlah Kegiatan</span>
                 <span class="opd-metric-val" style="color: var(--text-main);">
-                  ${opd.programs.length} <span style="font-size: 12px; font-weight: 500; color: var(--text-muted);">Program</span>
+                  ${opd.programs.length} <span style="font-size: 12px; font-weight: 500; color: var(--text-muted);">catatan</span>
                 </span>
               </div>
               <i data-lucide="chevron-down" class="opd-toggle-icon"></i>
@@ -1678,14 +1624,16 @@
     function renderMasterLedger() {
       const query = (document.getElementById('ledgerSearchInput').value || '').toLowerCase().trim();
 
-      let dataset = rawDataset.filter(d => !(excludeOutlier && d.Is_Outlier));
+      const showOutside = document.getElementById('ledgerShowOutside').checked;
+      let dataset = (showOutside ? rawDataset : rekapRows()).filter(d => !(excludeOutlier && d.Is_Outlier));
       if (query) {
         dataset = dataset.filter(d => {
-          return `${d.Perangkat_Daerah} ${d.Uraian_Bantuan} ${d.Nama_Pemberi} ${d.Kategori_Sektor} ${d.Bentuk_Bantuan} ${d.Bentuk_Koordinasi} ${d.Sasaran_Hasil}`.toLowerCase().includes(query);
+          return `${d.ID} ${d.Lembar_Sheet} ${d.Perangkat_Daerah} ${d.Uraian_Bantuan} ${d.Lokasi_Penerima || ''} ${d.Nama_Pemberi} ${d.Kategori_Sektor} ${d.Bentuk_Bantuan} ${d.Bentuk_Koordinasi} ${d.Sasaran_Hasil}`.toLowerCase().includes(query);
         });
       }
 
       const total = dataset.length;
+      ledgerPage = Math.min(Math.max(1, ledgerPage), Math.max(1, Math.ceil(total / ledgerPageSize)));
       const start = (ledgerPage - 1) * ledgerPageSize;
       const end = start + ledgerPageSize;
       const pageData = dataset.slice(start, end);
@@ -1709,22 +1657,22 @@
 
         let bentukPill = p.Bentuk_Bantuan === 'Uang'
           ? '<span class="pill pill-emerald" style="font-size: 10px;">Uang</span>'
-          : '<span class="pill pill-amber" style="font-size: 10px;">Barang</span>';
+          : '<span class="pill pill-amber" style="font-size: 10px;">Barang/Jasa</span>';
 
         let danaDisplay = p.Jumlah_Dana > 0 ? 'Rp ' + p.Jumlah_Dana.toLocaleString('id-ID') : '<span style="color: var(--text-light);">-</span>';
 
         tr.innerHTML = `
           <td style="font-family: 'JetBrains Mono', monospace; font-size: 11.5px; color: var(--text-light);">${p.ID}</td>
-          <td><span class="pill pill-indigo">${p.Tahun_Pelaporan}</span></td>
+          <td><span class="pill pill-indigo">${esc(p.Lembar_Sheet)}</span> <span style="font-size: 11px; color: var(--text-muted);">#${esc(p.Baris_Sumber)}</span>${p.Masuk_Rekap_Lembar === false ? '<div><span class="pill pill-rose" style="font-size: 10px;">Di luar rekap</span></div>' : ''}</td>
           <td>${tierPill}</td>
-          <td style="font-weight: 600; color: var(--text-main);">${p.Perangkat_Daerah}</td>
-          <td style="max-width: 280px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--text-main);">${p.Uraian_Bantuan}</td>
+          <td style="font-weight: 600; color: var(--text-main);">${esc(p.Perangkat_Daerah)}</td>
+          <td style="max-width: 280px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--text-main);" title="${esc(p.Uraian_Bantuan)}${p.Lokasi_Penerima ? ' · Lokasi: ' + esc(p.Lokasi_Penerima) : ''}">${esc(p.Uraian_Bantuan)}${p.Lokasi_Penerima ? `<div style="font-size: 11px; color: var(--text-muted);">Lokasi: ${esc(p.Lokasi_Penerima)}</div>` : ''}</td>
           <td>${bentukPill}</td>
-          <td><span class="pill pill-cyan">${p.Kategori_Sektor}</span></td>
+          <td><span class="pill pill-cyan">${esc(p.Kategori_Sektor)}</span></td>
           <td style="font-family: 'JetBrains Mono', monospace; font-weight: 700; color: ${p.Jumlah_Dana > 0 ? '#047857' : 'var(--text-light)'}; white-space: nowrap;">
             ${danaDisplay}
           </td>
-          <td style="color: var(--text-sub);">${p.Nama_Pemberi}</td>
+          <td style="color: var(--text-sub);">${esc(p.Nama_Pemberi)}</td>
           <td style="text-align: right;">
             <button class="btn-detail" onclick="openModalById(${p.ID})">
               <i data-lucide="eye" style="width: 13px; height: 13px;"></i> Detail
@@ -1734,7 +1682,7 @@
         tbody.appendChild(tr);
       });
 
-      document.getElementById('ledgerPageInfo').textContent = `Menampilkan ${start + 1}–${Math.min(end, total)} dari ${total.toLocaleString('id-ID')} rekaman kegiatan`;
+      document.getElementById('ledgerPageInfo').textContent = (total ? `Menampilkan ${start + 1}–${Math.min(end, total)} dari ${total.toLocaleString('id-ID')} catatan` : 'Tidak ada catatan yang cocok');
       document.getElementById('btnLedgerPrev').disabled = (ledgerPage === 1);
       document.getElementById('btnLedgerNext').disabled = (end >= total);
 
@@ -1748,30 +1696,24 @@
 
     // Export CSV
     function exportCSV() {
-      const headers = ['ID', 'Tahun', 'Tingkat_OPD', 'Perangkat_Daerah', 'Wilayah', 'Uraian_Program', 'Sektor', 'Jumlah_Dana', 'Nama_Pemberi', 'Tipe_Pemberi', 'Bentuk_Koordinasi', 'Sasaran_Hasil', 'Risiko'];
-      const rows = rawDataset.filter(d => !(excludeOutlier && d.Is_Outlier)).map((d) => [
-        d.ID,
-        `"${d.Tahun_Pelaporan}"`,
-        `"${d.Tipe_Perangkat_Daerah}"`,
-        `"${d.Perangkat_Daerah}"`,
-        `"${d.Wilayah_Kecamatan}"`,
-        `"${d.Uraian_Bantuan.replace(/"/g, '""')}"`,
-        `"${d.Kategori_Sektor}"`,
-        d.Jumlah_Dana,
-        `"${d.Nama_Pemberi.replace(/"/g, '""')}"`,
-        `"${d.Tipe_Pemberi}"`,
-        `"${(d.Bentuk_Koordinasi || '').replace(/"/g, '""')}"`,
-        `"${(d.Sasaran_Hasil || '').replace(/"/g, '""')}"`,
-        `"${(d.Catatan_Risiko || '').replace(/"/g, '""')}"`
-      ]);
-
-      const csvContent = [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
-      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-      const url = URL.createObjectURL(blob);
+      const cols = [
+        ['ID', 'ID'], ['Lembar_Excel', 'Lembar_Sheet'], ['Baris_Excel', 'Baris_Sumber'], ['Tahun_Kegiatan', 'Tahun_Kegiatan'],
+        ['Masuk_Rekap', 'Masuk_Rekap_Lembar'], ['Tingkat_OPD', 'Tipe_Perangkat_Daerah'], ['Perangkat_Daerah', 'Perangkat_Daerah'],
+        ['Wilayah', 'Wilayah_Kecamatan'], ['Uraian', 'Uraian_Bantuan'], ['Lokasi_Penerima', 'Lokasi_Penerima'], ['Bentuk_Label', 'Bentuk_Bantuan'],
+        ['Sektor_Label', 'Kategori_Sektor'], ['Nilai_Rp', 'Jumlah_Dana'], ['Status_Nilai', 'Status_Nilai'],
+        ['Nama_Pemberi', 'Nama_Pemberi'], ['Jenis_Pemberi_Label', 'Tipe_Pemberi'], ['Bentuk_Koordinasi', 'Bentuk_Koordinasi'],
+        ['Sasaran_Hasil', 'Sasaran_Hasil'], ['Catatan_Data', 'Catatan_Risiko']
+      ];
+      const cell = v => `"${String(v ?? '').replace(/"/g, '""')}"`;
+      const rows = scenarioRows().map(d => cols.map(([, k]) => cell(d[k])).join(','));
+      const note = cell(excludeOutlier ? 'SKENARIO: tanpa nilai bertanda besar' : 'Seluruh catatan dalam rekap lembar');
+      const csv = '﻿' + [note, cols.map(([h]) => h).join(','), ...rows].join('\r\n');
+      const url = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8;' }));
       const a = document.createElement('a');
       a.href = url;
-      a.download = `DETAIL_LENGKAP_PROGRAM_CSR_SAMARINDA_${new Date().toISOString().slice(0,10)}.csv`;
+      a.download = `DATA_CSR_SAMARINDA_${excludeOutlier ? 'SKENARIO_' : ''}${new Date().toISOString().slice(0, 10)}.csv`;
       a.click();
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
     }
 
     window.addEventListener('DOMContentLoaded', () => {

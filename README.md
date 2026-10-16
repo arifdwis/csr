@@ -1,54 +1,87 @@
-# Direktori & Analisis Data CSR Pemerintah Kota Samarinda
+# Prototipe Aplikasi Pendataan TSP/CSR Pemerintah Kota Samarinda
 
-Struktur repositori telah dikelompokkan secara rapi ke dalam 4 folder utama: **`bahan/`**, **`code/`**, **`viewer/`**, dan **`output/`**.
+Prototipe ini disusun Diskominfo Kota Samarinda sebagai pengembang aplikasi. Isinya pengolahan data CSR 2022–2026, dashboard internal, paparan, dan rancangan awal sistem.
 
-## Dokumen kebutuhan sistem
+Aplikasi hanya menyajikan dan merapikan data. Aplikasi tidak melakukan audit, tidak memberi pendapat hukum, dan tidak menilai kewajaran nilai bantuan.
 
-Draf [PDF gabungan SRS, use case, dan rancangan basis data](dokumen/SRS_Sistem_Pendataan_TSP_CSR_Samarinda.pdf) tersedia di folder `dokumen/`. Versi sumber SRS ada di [Markdown](dokumen/SRS_Sistem_Pendataan_TSP_CSR_Samarinda.md); diagramnya tersedia sebagai [use case](dokumen/use_case_tsp_csr.svg) dan [ERD basis data](dokumen/database_erd.svg). Dokumen masih memerlukan tinjauan dan konfirmasi ruang lingkup dari unit pemilik sistem.
+## Angka acuan
 
----
+Hasil olahan cocok dengan subtotal setiap lembar dan sheet Total di Excel sumber.
 
-## 🗂️ Struktur Folder Proyek
+| Ukuran | Nilai |
+|---|---|
+| Total nominal dalam rekap | Rp 29.333.365.268 |
+| Catatan kegiatan dalam rekap | 776 |
+| Perangkat daerah | 52 |
+| Baris salinan di lembar 2023, di luar rekap | 148 |
+
+Rincian per lembar ada di `output/rekap_sumber.json` dan lembar `REKONSILIASI` pada workbook hasil olahan.
+
+## Struktur folder
 
 ```
 CSR/
-├── 📁 bahan/               <-- SEMUA BAHAN DATA MENTAH & DOKUMEN INPUT
-│   ├── DATA CSR PEMKOT SAMARINDA.xlsx    (File Excel sumber mentah dari Pemkot)
-│   └── IMG_4891.HEIC                     (Materi slide arahan audit Inspektorat Kota)
-│
-├── 📁 code/                <-- SEMUA SKRIP PEMROSESAN / DATA ENGINEERING (CODER)
-│   ├── data_loader.py                    (ETL normalisasi, klasifikasi 4 OPD, tagging sektor & risiko)
-│   └── export_clean_excel.py             (Generator otomatis workbook Excel pasca-normalisasi)
-│
-├── 📁 viewer/              <-- SEMUA KOMPONEN TAMPILAN DASHBOARD (VIEWER)
-│   ├── index.html                        (Antarmuka web dashboard eksekutif)
-│   └── dashboard_server.py               (Server lokal Python untuk viewer & REST API)
-│
-├── 📁 output/              <-- SEMUA HASIL BERSIH PASCA-NORMALISASI
-│   ├── DATA_CSR_SAMARINDA_BERSIH_TERNORMALISASI.xlsx  (Workbook Excel bersih 5 Sheet)
-│   └── data_cleaned.json                 (806 baris hasil olahan; 1 nilai anomali ditandai untuk verifikasi)
-│
-├── run_dashboard.sh        <-- Skrip satu-klik peluncur dashboard di browser
-├── requirements.txt        <-- Kebutuhan pustaka Python (pandas, openpyxl)
-└── README.md               <-- Dokumentasi proyek
+├── bahan/                  Data mentah dan materi rapat
+│   ├── DATA CSR PEMKOT SAMARINDA.xlsx
+│   └── IMG_4891.HEIC       Slide Inspektorat: enam langkah perbaikan tata kelola TSP
+├── code/
+│   ├── data_loader.py      Normalisasi Excel, rekonsiliasi per lembar, penanda kualitas data
+│   ├── export_clean_excel.py  Workbook Excel hasil olahan
+│   └── build_paparan.py    Paparan eksekutif HTML dan PDF dari data
+├── viewer/
+│   ├── index.html          Dashboard internal
+│   └── dashboard_server.py Server lokal: /api/data dan /api/rekap
+├── output/                 Hasil olahan (dibuat ulang oleh skrip)
+├── dokumen/                SRS v0.2, diagram use case, ERD, dan skrip pembangun PDF
+└── run_dashboard.sh
 ```
 
----
+## Cara menjalankan
 
-## 🚀 Cara Menjalankan Viewer Dashboard
+Pasang kebutuhan sekali saja:
 
-Cukup jalankan skrip peluncur dari folder utama:
+```bash
+python3 -m venv .venv && source .venv/bin/activate && pip install -r requirements.txt
+```
+
+Jalankan dashboard, lalu buka `http://localhost:8501`. Server hanya bisa diakses dari komputer ini.
+
 ```bash
 ./run_dashboard.sh
 ```
-Lalu buka peramban di: **`http://localhost:8501`**
 
----
+Buat ulang seluruh hasil olahan setelah Excel sumber berubah:
 
-## 📊 Isi File Excel Bersih (`output/DATA_CSR_SAMARINDA_BERSIH_TERNORMALISASI.xlsx`)
+```bash
+cd code
+python3 data_loader.py          # data_cleaned.json dan rekap_sumber.json
+python3 export_clean_excel.py   # workbook Excel
+python3 build_paparan.py        # paparan HTML dan PDF (butuh Google Chrome)
+cd ..
+python3 dokumen/build_srs_pdf.py  # SRS HTML dan PDF
+```
 
-1. **`DATA_LENGKAP_TERNORMALISASI`**: 806 baris hasil olahan dengan 18 kolom atribut standar. Jika satu nilai anomali dikecualikan sementara, tersisa 805 baris; nilai koreksi tetap perlu diverifikasi.
-2. **`REKAP_PER_OPD`**: Rekapitulasi per 52 Perangkat Daerah (10 Dinas, 1 Badan, 3 Kecamatan, 38 Kelurahan) membandingkan dana riil vs tercatat.
-3. **`REKAP_TINGKAT_ENTITAS`**: Ringkasan alokasi per 4 tingkatan pemerintahan (Dinas, Badan, Kecamatan, Kelurahan).
-4. **`REKAP_SEKTOR_CSR`**: Rekapitulasi penyaluran CSR per bidang pembangunan.
-5. **`AUDIT_MUTU_INSPEKTORAT`**: Matriks 4 temuan tata kelola data Inspektorat beserta rekomendasi perbaikannya.
+Diagram di folder `dokumen/` dibuat dari berkas `.puml` dengan PlantUML.
+
+## Aturan pengolahan data
+
+1. Kolom teks yang memakai sel gabungan diisi dari sel induknya. Kolom nilai tidak diisi ulang agar tidak terhitung ganda.
+2. Baris lanjutan tanpa uraian, nilai, dan pemberi sendiri digabung ke catatan induknya.
+3. Baris subtotal di bawah setiap lembar dibaca sebagai pembanding, bukan sebagai kegiatan.
+4. Bila jumlah semua baris berbeda dari subtotal lembar, skrip mencoba aturan "hanya baris bertahun sama dengan lembar". Aturan ini membuat lembar 2023 cocok.
+5. Duplikasi hanya ditandai bila OPD, uraian, pemberi, nilai, dan tahun kegiatan sama.
+6. Catatan bernilai Rp 10 miliar atau lebih diberi tanda untuk dikonfirmasi OPD sumber. Skenario tanpa catatan itu tersedia di dashboard, tetapi bukan koreksi data.
+7. Sektor, bentuk bantuan, jenis pemberi, dan barang fisik adalah label otomatis dari teks. Label ini perlu ditetapkan resmi oleh pengelola data.
+
+## Isi workbook hasil olahan
+
+| Lembar | Isi |
+|---|---|
+| KETERANGAN | Sumber, waktu olah, total, dan catatan penggunaan |
+| DATA_LENGKAP | Semua catatan beserta lembar dan baris asal |
+| REKONSILIASI | Subtotal Excel dibanding hasil olahan per lembar |
+| REKAP_PER_OPD | Rekap per perangkat daerah |
+| REKAP_TINGKAT | Rekap per tingkat: Dinas, Badan, Kecamatan, Kelurahan |
+| REKAP_SEKTOR | Rekap per sektor |
+| REKAP_PEMBERI | Rekap per nama pemberi |
+| CATATAN_KUALITAS_DATA | Hal yang perlu dilengkapi atau dikonfirmasi |

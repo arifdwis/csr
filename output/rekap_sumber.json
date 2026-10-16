@@ -1,0 +1,101 @@
+{
+  "sumber": "DATA CSR PEMKOT SAMARINDA.xlsx",
+  "lembar": [
+    {
+      "lembar": "2022",
+      "baris_subtotal_excel": 9,
+      "subtotal_excel": 500000000.0,
+      "total_sheet": 500000000.0,
+      "jumlah_baris": 1,
+      "jumlah_baris_dalam_rekap": 1,
+      "nilai_dalam_rekap": 500000000.0,
+      "jumlah_baris_luar_rekap": 0,
+      "nilai_luar_rekap": 0.0,
+      "aturan_rekap": "Semua baris",
+      "cocok": true
+    },
+    {
+      "lembar": "2023",
+      "baris_subtotal_excel": 184,
+      "subtotal_excel": 15218761000.0,
+      "total_sheet": 15218761000.0,
+      "jumlah_baris": 153,
+      "jumlah_baris_dalam_rekap": 5,
+      "nilai_dalam_rekap": 15218761000.0,
+      "jumlah_baris_luar_rekap": 148,
+      "nilai_luar_rekap": 3275589918.0,
+      "aturan_rekap": "Hanya baris bertahun 2023",
+      "cocok": true
+    },
+    {
+      "lembar": "2024",
+      "baris_subtotal_excel": 166,
+      "subtotal_excel": 2502315936.0,
+      "total_sheet": 2502315936.0,
+      "jumlah_baris": 150,
+      "jumlah_baris_dalam_rekap": 150,
+      "nilai_dalam_rekap": 2502315936.0,
+      "jumlah_baris_luar_rekap": 0,
+      "nilai_luar_rekap": 0.0,
+      "aturan_rekap": "Semua baris",
+      "cocok": true
+    },
+    {
+      "lembar": "2025",
+      "baris_subtotal_excel": 487,
+      "subtotal_excel": 6794993332.0,
+      "total_sheet": 6794993332.0,
+      "jumlah_baris": 479,
+      "jumlah_baris_dalam_rekap": 479,
+      "nilai_dalam_rekap": 6794993332.0,
+      "jumlah_baris_luar_rekap": 0,
+      "nilai_luar_rekap": 0.0,
+      "aturan_rekap": "Semua baris",
+      "cocok": true
+    },
+    {
+      "lembar": "2026",
+      "baris_subtotal_excel": 133,
+      "subtotal_excel": 3977095000.0,
+      "total_sheet": 3977095000.0,
+      "jumlah_baris": 115,
+      "jumlah_baris_dalam_rekap": 115,
+      "nilai_dalam_rekap": 3977095000.0,
+      "jumlah_baris_luar_rekap": 0,
+      "nilai_luar_rekap": 0.0,
+      "aturan_rekap": "Semua baris",
+      "cocok": true
+    },
+    {
+      "lembar": "2024-2029",
+      "baris_subtotal_excel": 34,
+      "subtotal_excel": 340200000.0,
+      "total_sheet": 340200000.0,
+      "jumlah_baris": 26,
+      "jumlah_baris_dalam_rekap": 26,
+      "nilai_dalam_rekap": 340200000.0,
+      "jumlah_baris_luar_rekap": 0,
+      "nilai_luar_rekap": 0.0,
+      "aturan_rekap": "Semua baris",
+      "cocok": true
+    }
+  ],
+  "total_sheet": {
+    "2022": 500000000.0,
+    "2023": 15218761000.0,
+    "2024": 2502315936.0,
+    "2025": 6794993332.0,
+    "2026": 3977095000.0,
+    "2024-2029": 340200000.0,
+    "TOTAL": 29333365268.0
+  },
+  "total_sheet_excel": 29333365268.0,
+  "total_dalam_rekap": 29333365268.0,
+  "total_semua_baris": 32608955186.0,
+  "jumlah_baris": 924,
+  "jumlah_baris_dalam_rekap": 776,
+  "nilai_bertanda_besar_dalam_rekap": 15000000000.0,
+  "jumlah_kemungkinan_duplikat": 0,
+  "nilai_kemungkinan_duplikat": 0,
+  "dibuat": "2026-10-16T20:34:27"
+}
