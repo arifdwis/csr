@@ -1,0 +1,1800 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Direktori & Detail Lengkap Program CSR - Pemkot Samarinda</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Lucide Vector Icons (Clean Minimalist Vector Line Art) -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    :root {
+      --bg-page: #f8fafc;
+      --bg-card: #ffffff;
+      --border-color: #e2e8f0;
+      --border-dark: #cbd5e1;
+      
+      --text-main: #0f172a;
+      --text-sub: #334155;
+      --text-muted: #64748b;
+      --text-light: #94a3b8;
+      
+      --brand-blue: #1e40af;
+      --brand-accent: #2563eb;
+      
+      --badge-dinas-bg: #eff6ff;
+      --badge-dinas-text: #1d4ed8;
+      --badge-dinas-border: #bfdbfe;
+      
+      --badge-badan-bg: #faf5ff;
+      --badge-badan-text: #7e22ce;
+      --badge-badan-border: #e9d5ff;
+      
+      --badge-kec-bg: #fffbeb;
+      --badge-kec-text: #b45309;
+      --badge-kec-border: #fde68a;
+      
+      --badge-kel-bg: #f0fdf4;
+      --badge-kel-text: #15803d;
+      --badge-kel-border: #bbf7d0;
+
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 14px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--bg-page);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      line-height: 1.5;
+    }
+
+    ::-webkit-scrollbar { width: 7px; height: 7px; }
+    ::-webkit-scrollbar-track { background: #f1f5f9; }
+    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+    /* Top Navigation */
+    .navbar {
+      height: 68px;
+      border-bottom: 1px solid var(--border-color);
+      background: #ffffff;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 32px;
+      box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.04);
+    }
+
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .brand-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: var(--radius-md);
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--brand-accent);
+    }
+
+    .brand-title { font-size: 15px; font-weight: 700; color: var(--text-main); }
+    .brand-sub { font-size: 11.5px; font-weight: 600; color: var(--brand-accent); text-transform: uppercase; letter-spacing: 0.04em; }
+
+    .nav-actions { display: flex; align-items: center; gap: 10px; }
+
+    .btn-action {
+      background: #ffffff;
+      border: 1px solid var(--border-dark);
+      border-radius: var(--radius-sm);
+      color: var(--text-sub);
+      padding: 8px 14px;
+      font-size: 12.5px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      transition: all 0.15s ease;
+    }
+
+    .btn-action:hover {
+      background: #f8fafc;
+      color: var(--text-main);
+      border-color: #94a3b8;
+    }
+
+    .main-container {
+      max-width: 1440px;
+      margin: 0 auto;
+      padding: 24px 28px 60px 28px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    /* Outlier Toggle Alert (Calm Light Banner) */
+    .outlier-banner {
+      background: #fff1f2;
+      border: 1px solid #fecdd3;
+      border-radius: var(--radius-md);
+      padding: 12px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      font-size: 13px;
+    }
+
+    .outlier-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #9f1239;
+    }
+
+    /* Navigation Tabs */
+    .main-tab-bar {
+      display: flex;
+      gap: 6px;
+      background: #f1f5f9;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 5px;
+      width: fit-content;
+    }
+
+    .main-tab-btn {
+      background: transparent;
+      border: 1px solid transparent;
+      color: var(--text-muted);
+      font-size: 13px;
+      font-weight: 600;
+      padding: 9px 18px;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.15s ease;
+    }
+
+    .main-tab-btn:hover { color: var(--text-main); }
+    .main-tab-btn.active {
+      background: #ffffff;
+      color: var(--text-main);
+      border-color: var(--border-dark);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    }
+
+    /* KPI Row */
+    .kpi-row {
+      display: grid;
+      grid-template-columns: 1.25fr 1fr 1fr 1fr 1fr;
+      gap: 12px;
+    }
+
+    .kpi-card {
+      background: #ffffff;
+      border: 1px solid var(--border-color);
+      border-top: 3px solid #cbd5e1;
+      border-radius: var(--radius-md);
+      padding: 16px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+      position: relative;
+    }
+
+    .kpi-card.kpi-total { border-top-color: #0f172a; background: #f8fafc; border-color: #cbd5e1; }
+    .kpi-card.kpi-dinas { border-top-color: #2563eb; }
+    .kpi-card.kpi-badan { border-top-color: #7c3aed; }
+    .kpi-card.kpi-kecamatan { border-top-color: #d97706; }
+    .kpi-card.kpi-kelurahan { border-top-color: #059669; }
+
+    .kpi-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .kpi-card-label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #64748b;
+    }
+
+    .kpi-card-badge {
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .kpi-card-value {
+      font-size: 24px;
+      font-weight: 800;
+      color: #0f172a;
+      font-family: 'JetBrains Mono', monospace;
+      letter-spacing: -0.02em;
+    }
+
+    .kpi-card-sub {
+      font-size: 12px;
+      color: #64748b;
+      font-weight: 500;
+    }
+
+    /* Filter Bar */
+    .opd-control-bar {
+      background: #ffffff;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 16px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+    }
+
+    .control-bar-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #f1f5f9;
+    }
+
+    .control-label {
+      font-size: 11.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #64748b;
+    }
+
+    .filter-tier-chips {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .tier-chip {
+      background: #f8fafc;
+      border: 1px solid #cbd5e1;
+      border-radius: 20px;
+      padding: 6px 13px;
+      font-size: 12px;
+      font-weight: 600;
+      color: #334155;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.15s ease;
+    }
+
+    .tier-chip .chip-count {
+      background: #e2e8f0;
+      color: #475569;
+      font-size: 10.5px;
+      padding: 1px 6px;
+      border-radius: 10px;
+      font-weight: 700;
+    }
+
+    .tier-chip:hover { background: #f1f5f9; color: #0f172a; border-color: #94a3b8; }
+    
+    .tier-chip.active { background: #0f172a; border-color: #0f172a; color: #ffffff; }
+    .tier-chip.active .chip-count { background: rgba(255, 255, 255, 0.25); color: #ffffff; }
+    
+    .tier-chip.chip-dinas.active { background: #1d4ed8; border-color: #1d4ed8; color: #ffffff; }
+    .tier-chip.chip-badan.active { background: #7e22ce; border-color: #7e22ce; color: #ffffff; }
+    .tier-chip.chip-kecamatan.active { background: #b45309; border-color: #b45309; color: #ffffff; }
+    .tier-chip.chip-kelurahan.active { background: #15803d; border-color: #15803d; color: #ffffff; }
+
+    /* Search and Sort Toolbar */
+    .search-and-sort {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      width: 100%;
+    }
+
+    .filter-controls-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.4fr) minmax(0, 1fr) minmax(0, 1fr);
+      gap: 10px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    @media (max-width: 1024px) {
+      .filter-controls-row {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      }
+    }
+
+    @media (max-width: 640px) {
+      .filter-controls-row {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .search-wrapper {
+      position: relative;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      box-sizing: border-box;
+    }
+
+    .search-wrapper svg,
+    .search-wrapper i {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #94a3b8;
+      width: 17px;
+      height: 17px;
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    .search-input {
+      width: 100%;
+      box-sizing: border-box;
+      height: 42px;
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      color: #0f172a;
+      padding: 0 14px 0 42px !important;
+      font-size: 13px;
+      outline: none;
+      font-family: inherit;
+      transition: all 0.15s ease;
+    }
+    .search-input:focus {
+      border-color: #2563eb;
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+    }
+
+    .select-dropdown {
+      width: 100%;
+      min-width: 0;
+      max-width: 100%;
+      box-sizing: border-box;
+      height: 42px;
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      color: #1e293b;
+      padding: 0 32px 0 12px;
+      font-size: 12.5px;
+      font-weight: 500;
+      outline: none;
+      cursor: pointer;
+      font-family: inherit;
+      appearance: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      transition: all 0.15s ease;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+    .select-dropdown:focus {
+      border-color: #2563eb;
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+    }
+
+    /* OPD List */
+    .opd-list { display: flex; flex-direction: column; gap: 14px; }
+
+    /* OPD Card */
+    .opd-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+      transition: box-shadow 0.15s ease;
+    }
+    .opd-card:hover { box-shadow: 0 3px 8px rgba(0, 0, 0, 0.06); }
+
+    .opd-card-header {
+      padding: 16px 22px;
+      background: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      user-select: none;
+      border-bottom: 1px solid transparent;
+    }
+    .opd-card.open .opd-card-header { border-bottom-color: var(--border-color); }
+    .opd-card-header:hover { background: #f8fafc; }
+
+    .opd-card-left { display: flex; align-items: center; gap: 14px; }
+
+    .opd-badge {
+      padding: 4px 10px; border-radius: 12px; font-size: 11px;
+      font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em;
+    }
+    .badge-dinas { background: var(--badge-dinas-bg); color: var(--badge-dinas-text); border: 1px solid var(--badge-dinas-border); }
+    .badge-badan { background: var(--badge-badan-bg); color: var(--badge-badan-text); border: 1px solid var(--badge-badan-border); }
+    .badge-kecamatan { background: var(--badge-kec-bg); color: var(--badge-kec-text); border: 1px solid var(--badge-kec-border); }
+    .badge-kelurahan { background: var(--badge-kel-bg); color: var(--badge-kel-text); border: 1px solid var(--badge-kel-border); }
+
+    .opd-name { font-size: 15.5px; font-weight: 700; color: var(--text-main); }
+    .opd-wilayah { font-size: 12.5px; color: var(--text-muted); margin-left: 6px; }
+
+    .opd-card-right { display: flex; align-items: center; gap: 24px; }
+    .opd-metric-box { display: flex; flex-direction: column; align-items: flex-end; }
+    .opd-metric-label { font-size: 10.5px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; color: var(--text-muted); }
+    .opd-metric-val { font-size: 17px; font-weight: 800; font-family: 'JetBrains Mono', monospace; }
+    .opd-toggle-icon { color: var(--text-light); transition: transform 0.2s ease; }
+    .opd-card.open .opd-toggle-icon { transform: rotate(180deg); color: var(--brand-accent); }
+
+    /* Program Table Inside OPD Card */
+    .opd-program-body {
+      display: none;
+      background: #ffffff;
+      padding: 0;
+      overflow-x: auto;
+    }
+    .opd-card.open .opd-program-body { display: block; }
+
+    table.program-table {
+      width: 100%; border-collapse: collapse; font-size: 12.5px; text-align: left;
+    }
+    table.program-table th {
+      background: #f8fafc;
+      color: var(--text-sub);
+      font-weight: 700; font-size: 11px; text-transform: uppercase; letter-spacing: 0.04em;
+      padding: 11px 16px; border-bottom: 2px solid var(--border-color); white-space: nowrap;
+    }
+    table.program-table td {
+      padding: 12px 16px; border-bottom: 1px solid #f1f5f9;
+      color: var(--text-sub); vertical-align: top;
+    }
+    table.program-table tr:hover { background: #f8fafc; }
+
+    /* Button View Detail */
+    .btn-detail {
+      background: #ffffff;
+      border: 1px solid var(--border-dark);
+      border-radius: var(--radius-sm);
+      color: var(--brand-accent);
+      font-size: 11.5px;
+      font-weight: 600;
+      padding: 5px 11px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      white-space: nowrap;
+      transition: all 0.15s;
+    }
+    .btn-detail:hover {
+      background: #eff6ff;
+      border-color: #93c5fd;
+      color: #1d4ed8;
+    }
+
+    /* Pill Badges */
+    .pill {
+      display: inline-flex; align-items: center; gap: 4px; padding: 2px 7px;
+      border-radius: 10px; font-size: 11px; font-weight: 600; white-space: nowrap;
+    }
+    .pill-cyan { background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; }
+    .pill-emerald { background: #f0fdf4; color: #15803d; border: 1px solid #bbf7d0; }
+    .pill-indigo { background: #eef2ff; color: #4338ca; border: 1px solid #c7d2fe; }
+    .pill-amber { background: #fffbeb; color: #b45309; border: 1px solid #fde68a; }
+    .pill-rose { background: #fff1f2; color: #be123c; border: 1px solid #fecdd3; }
+    .pill-purple { background: #faf5ff; color: #7e22ce; border: 1px solid #e9d5ff; }
+
+    /* Switch */
+    .switch { position: relative; display: inline-block; width: 34px; height: 18px; }
+    .switch input { opacity: 0; width: 0; height: 0; }
+    .slider {
+      position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
+      background-color: #cbd5e1; transition: .2s; border-radius: 20px;
+    }
+    .slider:before {
+      position: absolute; content: ""; height: 12px; width: 12px; left: 3px; bottom: 3px;
+      background-color: white; transition: .2s; border-radius: 50%;
+    }
+    input:checked + .slider { background-color: #e11d48; }
+    input:checked + .slider:before { transform: translateX(16px); }
+
+    /* View Panes */
+    .view-pane { display: none; flex-direction: column; gap: 18px; }
+    .view-pane.active { display: flex; }
+
+    .panel {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 22px 26px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+    }
+
+    .analysis-chart-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+    .analysis-summary { border: 1px solid var(--border-color); border-radius: var(--radius-md); background: var(--bg-card); overflow: hidden; }
+    .analysis-summary > summary { padding: 14px 18px; color: var(--text-main); font-size: 13px; font-weight: 700; cursor: pointer; }
+    .analysis-summary > summary::marker { color: var(--text-muted); }
+    .analysis-summary[open] > .analysis-chart-grid { padding: 0 14px 14px; }
+    .chart-title { font-size: 15px; font-weight: 700; color: var(--text-main); margin-bottom: 4px; }
+    .chart-note { font-size: 12px; color: var(--text-muted); margin-bottom: 16px; }
+    .chart-rows { display: flex; flex-direction: column; gap: 10px; }
+    .chart-row { display: grid; grid-template-columns: minmax(112px, 1.1fr) minmax(80px, 2fr) auto; align-items: center; gap: 10px; }
+    .chart-label { font-size: 11.5px; color: var(--text-sub); overflow-wrap: anywhere; }
+    .chart-track { height: 12px; background: #f1f5f9; border-radius: 8px; overflow: hidden; }
+    .chart-bar { height: 100%; min-width: 2px; border-radius: inherit; background: #2563eb; }
+    .chart-value { font-size: 11px; color: var(--text-muted); text-align: right; white-space: nowrap; font-family: 'JetBrains Mono', monospace; }
+    .opd-pager { display: flex; justify-content: center; align-items: center; gap: 12px; padding: 8px 0 4px; color: var(--text-muted); font-size: 12px; }
+    .opd-pager button { border: 1px solid var(--border-color); background: var(--bg-card); color: var(--text-main); border-radius: 8px; padding: 8px 12px; font: inherit; cursor: pointer; }
+    .opd-pager button:disabled { opacity: .45; cursor: not-allowed; }
+    .opd-pager button:not(:disabled):hover { border-color: #94a3b8; }
+    @media (max-width: 760px) { .analysis-chart-grid { grid-template-columns: 1fr; } }
+
+    /* Modal Dossier */
+    .modal-overlay {
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(15, 23, 42, 0.45);
+      backdrop-filter: blur(4px);
+      z-index: 999;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .modal-overlay.active { display: flex; }
+
+    .modal-box {
+      width: 100%; max-width: 760px;
+      background: #ffffff;
+      border: 1px solid var(--border-dark);
+      border-radius: var(--radius-lg);
+      padding: 28px 30px;
+      box-shadow: 0 20px 45px -10px rgba(0, 0, 0, 0.18);
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      position: relative;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    .modal-close {
+      position: absolute; top: 20px; right: 20px;
+      background: #f1f5f9;
+      border: 1px solid var(--border-color);
+      color: var(--text-muted);
+      width: 32px; height: 32px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center; cursor: pointer;
+      transition: all 0.15s;
+    }
+    .modal-close:hover { color: var(--text-main); background: #e2e8f0; }
+
+    .modal-header-tag {
+      display: flex; gap: 8px; align-items: center; margin-bottom: 4px;
+    }
+
+    .modal-title {
+      font-size: 19px; font-weight: 800; color: var(--text-main); line-height: 1.4;
+    }
+
+    .dossier-grid {
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px;
+      background: #f8fafc;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 16px 18px;
+    }
+
+    .dossier-item { display: flex; flex-direction: column; gap: 4px; }
+    .dossier-label { font-size: 11px; text-transform: uppercase; font-weight: 700; color: var(--text-muted); letter-spacing: 0.05em; }
+    .dossier-val { font-size: 13.5px; font-weight: 600; color: var(--text-main); }
+
+    .dossier-section {
+      display: flex; flex-direction: column; gap: 6px;
+    }
+    .dossier-sec-label { font-size: 11.5px; font-weight: 700; color: var(--brand-accent); text-transform: uppercase; letter-spacing: 0.04em; }
+    .dossier-sec-val {
+      background: #f8fafc;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      padding: 12px 16px;
+      font-size: 13px; color: var(--text-sub); line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Navigation -->
+  <header class="navbar">
+    <div class="nav-brand">
+      <div class="brand-icon">
+        <i data-lucide="building-2"></i>
+      </div>
+      <div>
+        <div class="brand-title">Pemerintah Kota Samarinda</div>
+        <div class="brand-sub">Direktori & Detail Lengkap Program CSR</div>
+      </div>
+    </div>
+    <div class="nav-actions">
+      <button class="btn-action" onclick="toggleExpandAll()">
+        <i data-lucide="chevrons-up-down" style="width: 15px; height: 15px;"></i>
+        <span id="expandAllText">Buka Semua Rincian</span>
+      </button>
+      <button class="btn-action" onclick="exportCSV()">
+        <i data-lucide="download" style="width: 15px; height: 15px;"></i>
+        <span>Ekspor CSV</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="main-container">
+
+    <!-- Anomaly / Outlier Toggle Alert -->
+    <div class="outlier-banner">
+      <div class="outlier-left">
+        <i data-lucide="alert-triangle" style="width: 18px; height: 18px; color: #e11d48; flex-shrink: 0;"></i>
+        <div>
+          <b>Catatan nilai tercatat:</b> Baris perahu karet Disdamkar tercatat sebesar <b>Rp 15.000.000.000</b> (Rp 15 miliar). Dashboard ini hanya menampilkan data dan skenario hitung, bukan pemeriksaan atau penilaian kewajaran harga.
+        </div>
+      </div>
+      <div style="display: flex; align-items: center; gap: 10px;">
+            <span style="font-size: 12px; color: #881337; font-weight: 600;">Skenario tanpa entri ini</span>
+        <label class="switch">
+          <input type="checkbox" id="outlierToggle" checked onchange="handleOutlierChange()">
+          <span class="slider"></span>
+        </label>
+      </div>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <div class="main-tab-bar">
+      <button class="main-tab-btn active" onclick="switchView('view-opd')">
+        <i data-lucide="list-checks" style="width: 16px; height: 16px;"></i>
+        <span>1. Rincian Program per OPD</span>
+      </button>
+      <button class="main-tab-btn" onclick="switchView('view-ledger')">
+        <i data-lucide="table-2" style="width: 16px; height: 16px;"></i>
+        <span>2. Master Ledger (<span id="sourceRecordCount">806</span> Baris Data)</span>
+      </button>
+      <button class="main-tab-btn" onclick="switchView('view-reconciliation')">
+        <i data-lucide="scale" style="width: 16px; height: 16px;"></i>
+        <span>3. Rekonsiliasi & Catatan Kualitas Data</span>
+      </button>
+    </div>
+
+    <!-- VIEW 1: RINCIAN PROGRAM PER OPD -->
+    <section id="view-opd" class="view-pane active">
+
+      <!-- 5 KPI Cards: Grand Total + 4 Tiers -->
+      <div class="kpi-row">
+        <div class="kpi-card kpi-total">
+          <div class="kpi-header">
+            <span class="kpi-card-label" style="color: #0f172a; font-weight: 800;">TOTAL NOMINAL TERCATAT</span>
+            <span class="kpi-card-badge" style="background: #e2e8f0; color: #0f172a;">
+              <i data-lucide="building-2" style="width: 14px; height: 14px;"></i>
+            </span>
+          </div>
+          <div class="kpi-card-value" id="kpiTotalDana" style="color: #0f172a;">Rp 0</div>
+          <div class="kpi-card-sub" id="kpiTotalSub">Skenario hitung sesuai pilihan entri</div>
+        </div>
+
+        <div class="kpi-card kpi-dinas">
+          <div class="kpi-header">
+            <span class="kpi-card-label">1. Dinas</span>
+            <span class="kpi-card-badge" style="background: #eff6ff; color: #1d4ed8;">
+              <i data-lucide="landmark" style="width: 14px; height: 14px;"></i>
+            </span>
+          </div>
+          <div class="kpi-card-value" id="kpiDinasDana" style="color: #1e40af;">Rp 0</div>
+          <div class="kpi-card-sub" id="kpiDinasSub">10 Dinas Terdata</div>
+        </div>
+
+        <div class="kpi-card kpi-badan">
+          <div class="kpi-header">
+            <span class="kpi-card-label">2. Badan </span>
+            <span class="kpi-card-badge" style="background: #faf5ff; color: #7e22ce;">
+              <i data-lucide="shield" style="width: 14px; height: 14px;"></i>
+            </span>
+          </div>
+          <div class="kpi-card-value" id="kpiBadanDana" style="color: #6b21a8;">Rp 0</div>
+          <div class="kpi-card-sub" id="kpiBadanSub">1 Badan (BPBD)</div>
+        </div>
+
+        <div class="kpi-card kpi-kecamatan">
+          <div class="kpi-header">
+            <span class="kpi-card-label">3. Kecamatan</span>
+            <span class="kpi-card-badge" style="background: #fffbeb; color: #b45309;">
+              <i data-lucide="map" style="width: 14px; height: 14px;"></i>
+            </span>
+          </div>
+          <div class="kpi-card-value" id="kpiKecamatanDana" style="color: #92400e;">Rp 0</div>
+          <div class="kpi-card-sub" id="kpiKecamatanSub">3 Kantor Kecamatan</div>
+        </div>
+
+        <div class="kpi-card kpi-kelurahan">
+          <div class="kpi-header">
+            <span class="kpi-card-label">4. Kelurahan</span>
+            <span class="kpi-card-badge" style="background: #f0fdf4; color: #15803d;">
+              <i data-lucide="home" style="width: 14px; height: 14px;"></i>
+            </span>
+          </div>
+          <div class="kpi-card-value" id="kpiKelurahanDana" style="color: #166534;">Rp 0</div>
+          <div class="kpi-card-sub" id="kpiKelurahanSub">38 Kelurahan Terdata</div>
+        </div>
+      </div>
+
+      <details class="analysis-summary">
+        <summary>Ringkasan grafik · 2 visualisasi</summary>
+        <div class="analysis-chart-grid">
+        <div class="panel">
+          <div class="chart-title">Jumlah kegiatan menurut label tahun</div>
+          <div class="chart-note" id="yearChartNote">Label multi-tahun ditampilkan terpisah; jumlah mengikuti skenario hitung.</div>
+          <div id="yearChart" class="chart-rows" aria-live="polite"></div>
+        </div>
+        <div class="panel">
+          <div class="chart-title">Nilai nominal tercatat menurut sektor</div>
+          <div class="chart-note" id="sectorChartNote">Nilai mengikuti skenario hitung. Kategori sektor merupakan klasifikasi awal dari uraian kegiatan.</div>
+          <div id="sectorChart" class="chart-rows" aria-live="polite"></div>
+        </div>
+        </div>
+      </details>
+
+      <!-- Filter Controls (Balanced & Perfectly Aligned) -->
+      <div class="opd-control-bar">
+        <div class="control-bar-header">
+          <div class="control-label">Saring Tingkat Entitas:</div>
+          <div class="filter-tier-chips">
+            <div class="tier-chip active" data-tier="all" onclick="setTierFilter('all', this)">
+              <i data-lucide="grid" style="width: 13px; height: 13px;"></i>
+              <span>Semua OPD</span>
+              <span class="chip-count" id="cntAll">52</span>
+            </div>
+            <div class="tier-chip chip-dinas" data-tier="Dinas" onclick="setTierFilter('Dinas', this)">
+              <i data-lucide="landmark" style="width: 13px; height: 13px;"></i>
+              <span>Dinas</span>
+              <span class="chip-count" id="cntDinas">10</span>
+            </div>
+            <div class="tier-chip chip-badan" data-tier="Badan" onclick="setTierFilter('Badan', this)">
+              <i data-lucide="shield" style="width: 13px; height: 13px;"></i>
+              <span>Badan</span>
+              <span class="chip-count" id="cntBadan">1</span>
+            </div>
+            <div class="tier-chip chip-kecamatan" data-tier="Kecamatan" onclick="setTierFilter('Kecamatan', this)">
+              <i data-lucide="map" style="width: 13px; height: 13px;"></i>
+              <span>Kecamatan</span>
+              <span class="chip-count" id="cntKecamatan">3</span>
+            </div>
+            <div class="tier-chip chip-kelurahan" data-tier="Kelurahan" onclick="setTierFilter('Kelurahan', this)">
+              <i data-lucide="home" style="width: 13px; height: 13px;"></i>
+              <span>Kelurahan</span>
+              <span class="chip-count" id="cntKelurahan">38</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="search-and-sort">
+          <div class="search-wrapper">
+            <i data-lucide="search"></i>
+            <input type="text" id="opdSearchInput" class="search-input" placeholder="Cari nama OPD atau kata kunci program (contoh: DPUPR, Tanah Merah, Sembako, Indomaret, MTQ)..." oninput="renderOPDList()">
+          </div>
+
+          <div class="filter-controls-row">
+            <!-- Filter Bentuk: Uang vs Barang -->
+            <select id="opdBentukSelect" class="select-dropdown" onchange="renderOPDList()" title="Saring Berdasarkan Bentuk Bantuan (Uang atau Barang)">
+              <option value="all">Semua Bentuk Bantuan (Uang & Barang)</option>
+              <option value="Barang">Diklasifikasikan Barang (720 Baris)</option>
+              <option value="Uang">Diklasifikasikan Uang (86 Baris)</option>
+            </select>
+
+            <!-- Filter Nama Pemberi CSR -->
+            <select id="opdPemberiSelect" class="select-dropdown" onchange="renderOPDList()" title="Saring Berdasarkan Nama Perusahaan Pemberi CSR">
+              <option value="all">Semua Nama Pemberi Bantuan</option>
+            </select>
+
+            <!-- Filter Tahun Pelaporan -->
+            <select id="opdYearSelect" class="select-dropdown" onchange="renderOPDList()">
+              <option value="all">Semua Tahun Pelaporan</option>
+              <option value="2022">Tahun 2022</option>
+              <option value="2023">Tahun 2023</option>
+              <option value="2024">Tahun 2024</option>
+              <option value="2025">Tahun 2025</option>
+              <option value="2026">Tahun 2026</option>
+              <option value="2024-2029">Tahun 2024-2029 (Multi-tahun)</option>
+            </select>
+
+            <!-- Urutkan -->
+            <select id="opdSortSelect" class="select-dropdown" onchange="renderOPDList()">
+              <option value="dana_desc">Urutkan: Dana Terbesar</option>
+              <option value="dana_asc">Urutkan: Dana Terkecil</option>
+              <option value="count_desc">Urutkan: Program Terbanyak</option>
+              <option value="name_asc">Urutkan: Nama OPD (A - Z)</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Result Counter -->
+      <div style="font-size: 13px; color: var(--text-muted); display: flex; justify-content: space-between; align-items: center;">
+        <div>Hasil: <b id="displayedOpdCount" style="color: var(--text-main);">52</b> OPD dengan total <b id="displayedProgramCount" style="color: var(--text-main);">805</b> Program Kegiatan</div>
+        <div style="font-size: 12px; color: var(--text-light);">Klik baris OPD untuk membuka rincian, atau klik tombol <b>Detail</b> untuk melihat arsip lengkap</div>
+      </div>
+
+      <!-- OPD Cards List -->
+      <div id="opdContainer" class="opd-list">
+        <!-- Rendered by JS -->
+      </div>
+      <div class="opd-pager" id="opdPager" aria-label="Navigasi halaman daftar OPD">
+        <button type="button" id="opdPrevPage" onclick="changeOpdPage(-1)">Sebelumnya</button>
+        <span id="opdPageInfo" aria-live="polite"></span>
+        <button type="button" id="opdNextPage" onclick="changeOpdPage(1)">Berikutnya</button>
+      </div>
+    </section>
+
+    <!-- VIEW 2: MASTER LEDGER (ALL SOURCE ROWS WITH INSTANT SEARCH) -->
+    <section id="view-ledger" class="view-pane">
+      <div class="panel">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 12px;">
+          <div>
+            <div style="font-size: 18px; font-weight: 700; color: var(--text-main);">Master Ledger Seluruh Kegiatan CSR</div>
+            <div style="font-size: 12.5px; color: var(--text-muted);">Daftar baris pada data sumber; entri Rp 15 miliar tidak disertakan secara default dalam tampilan (klik baris untuk melihat detail)</div>
+          </div>
+          <div class="search-wrapper" style="width: 320px;">
+            <i data-lucide="search"></i>
+            <input type="text" id="ledgerSearchInput" class="search-input" placeholder="Cari di seluruh kolom..." oninput="renderMasterLedger()">
+          </div>
+        </div>
+
+        <div style="overflow-x: auto; border: 1px solid var(--border-color); border-radius: var(--radius-sm);">
+          <table class="program-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Tahun</th>
+                <th>Tingkat</th>
+                <th>Perangkat Daerah</th>
+                <th>Uraian Program / Bantuan</th>
+                <th>Bentuk</th>
+                <th>Sektor</th>
+                <th>Jumlah Dana</th>
+                <th>Nama Pemberi</th>
+                <th>Aksi</th>
+              </tr>
+            </thead>
+            <tbody id="ledgerTableBody">
+              <!-- Rendered by JS -->
+            </tbody>
+          </table>
+        </div>
+
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 14px; font-size: 12.5px; color: var(--text-muted);">
+          <span id="ledgerPageInfo">Menampilkan 1–25 dari 805 rekaman</span>
+          <div style="display: flex; gap: 8px;">
+            <button class="btn-action" id="btnLedgerPrev" onclick="changeLedgerPage(-1)">Sebelumnya</button>
+            <button class="btn-action" id="btnLedgerNext" onclick="changeLedgerPage(1)">Selanjutnya</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VIEW 3: REKONSILIASI & ANALISIS SELISIH NOMINAL -->
+    <section id="view-reconciliation" class="view-pane">
+      
+      <!-- Top Overview Banner -->
+      <div class="panel" style="border-left: 4px solid #2563eb; background: #eff6ff;">
+        <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; flex-wrap: wrap;">
+          <div>
+            <div style="font-size: 16px; font-weight: 800; color: #1e40af; margin-bottom: 4px;">
+              Penjelasan Selisih Nilai CSR: Kenapa di Dokumen Rp 29 M, Tapi di Dashboard Rp 14,67 M?
+            </div>
+            <div style="font-size: 13px; color: #1d4ed8; line-height: 1.6;">
+              Bagian ini membandingkan <b>rekap lama (Rp 29,33 Miliar)</b> dengan <b>hasil penjumlahan seluruh baris (Rp 29,67 Miliar)</b> serta skenario hitung tanpa entri Rp 15 miliar (Rp 14,67 Miliar).
+            </div>
+          </div>
+          <span class="pill pill-cyan" style="font-size: 12px; padding: 6px 12px; font-weight: 700;">
+            <i data-lucide="info" style="width: 14px; height: 14px;"></i> Panduan Transparansi Angka
+          </span>
+        </div>
+      </div>
+
+      <!-- Ringkasan selisih nilai -->
+      <div class="panel" style="background: #ffffff; border: 1px solid #cbd5e1; box-shadow: 0 1px 3px rgba(0,0,0,0.03);">
+        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 14px;">
+          <span style="background: #fef3c7; color: #b45309; padding: 4px 9px; border-radius: 6px; font-size: 11.5px; font-weight: 700; display: inline-flex; align-items: center; gap: 5px;">
+            <i data-lucide="help-circle" style="width: 14px; height: 14px;"></i> RINGKASAN SELISIH NILAI
+          </span>
+          <span style="font-size: 13.5px; font-weight: 700; color: #0f172a;">3 Hal yang Perlu Diketahui Mengapa Angkanya Berbeda:</span>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px;">
+          <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 16px;">
+            <div style="font-size: 11px; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.04em;">1. Di Dokumen Laporan Tertulis</div>
+            <div style="font-size: 20px; font-weight: 800; color: #334155; margin: 4px 0;">Rp 29,33 Miliar</div>
+            <div style="font-size: 12.5px; color: #475569; line-height: 1.5;">
+              Angka ini adalah total penjumlahan rekap Excel lama (Sheet Total) yang dibuat untuk lomba <i>Entrepreneur Government</i>, tanpa sempat dicek bon per bonnya.
+            </div>
+          </div>
+
+          <div style="background: #fff1f2; border: 1px solid #fecdd3; border-radius: 8px; padding: 16px;">
+            <div style="font-size: 11px; font-weight: 700; color: #be123c; text-transform: uppercase; letter-spacing: 0.04em;">2. Perbedaan Nilai pada Data</div>
+            <div style="font-size: 20px; font-weight: 800; color: #e11d48; margin: 4px 0;">- Rp 15,00 Miliar</div>
+            <div style="font-size: 12.5px; color: #9f1239; line-height: 1.5;">
+              Pada data tahun 2023, <b>satu perahu karet Disdamkar</b> tercatat senilai <b>Rp 15 miliar</b>. Sebagai pembanding, ada catatan perahu karet lain sebesar Rp 50 juta. Perbandingan ini menunjukkan selisih angka pada data, bukan penilaian kewajaran harga.
+            </div>
+          </div>
+
+          <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; padding: 16px;">
+            <div style="font-size: 11px; font-weight: 700; color: #15803d; text-transform: uppercase; letter-spacing: 0.04em;">3. Skenario setelah nilai dikecualikan</div>
+            <div style="font-size: 20px; font-weight: 800; color: #16a34a; margin: 4px 0;">Rp 14,67 Miliar</div>
+            <div style="font-size: 12.5px; color: #166534; line-height: 1.5;">
+              Jika entri tersebut dikeluarkan sementara, total nominal dari <span id="adjustedRecordCount">805</span> baris lainnya adalah Rp 14,67 Miliar. Ini hanya skenario hitung; bukan koreksi data sumber atau penetapan nilai yang benar.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4 Comparison KPI Cards -->
+      <div class="kpi-row" style="grid-template-columns: repeat(4, 1fr);">
+        <div class="kpi-card" style="border-top-color: #64748b;">
+          <div class="kpi-header">
+            <span class="kpi-card-label">1. Rekap Catatan Awal</span>
+            <span class="kpi-card-badge" style="background: #f1f5f9; color: #475569;"><i data-lucide="file-text" style="width: 14px; height: 14px;"></i></span>
+          </div>
+          <div class="kpi-card-value" style="color: #334155;">Rp 29.33 M</div>
+          <div class="kpi-card-sub">Angka di Kertas Laporan Awal</div>
+        </div>
+
+        <div class="kpi-card" style="border-top-color: #0284c7;">
+          <div class="kpi-header">
+            <span class="kpi-card-label">2. Hitungan Seluruh Baris</span>
+            <span class="kpi-card-badge" style="background: #f0f9ff; color: #0284c7;"><i data-lucide="database" style="width: 14px; height: 14px;"></i></span>
+          </div>
+          <div class="kpi-card-value" id="reconGrossTotal" style="color: #0369a1;">Rp 29.67 M</div>
+          <div class="kpi-card-sub">Total <span id="reconSourceRecordCount">806</span> baris sebelum pengecualian</div>
+        </div>
+
+        <div class="kpi-card" style="border-top-color: #e11d48; background: #fff1f2;">
+          <div class="kpi-header">
+            <span class="kpi-card-label" style="color: #9f1239;">3. Entri Rp 15 Miliar</span>
+            <span class="kpi-card-badge" style="background: #ffe4e6; color: #e11d48;"><i data-lucide="alert-octagon" style="width: 14px; height: 14px;"></i></span>
+          </div>
+          <div class="kpi-card-value" id="reconOutlierTotal" style="color: #be123c;">- Rp 15.00 M</div>
+          <div class="kpi-card-sub" style="color: #9f1239;">Nilai yang tercatat pada baris Disdamkar 2023</div>
+        </div>
+
+        <div class="kpi-card" style="border-top-color: #059669; background: #f0fdf4;">
+          <div class="kpi-header">
+            <span class="kpi-card-label" style="color: #166534;">4. Skenario Tanpa Entri Ini</span>
+            <span class="kpi-card-badge" style="background: #dcfce7; color: #15803d;"><i data-lucide="check-circle-2" style="width: 14px; height: 14px;"></i></span>
+          </div>
+          <div class="kpi-card-value" id="reconAdjustedTotal" style="color: #15803d;">Rp 14.67 M</div>
+          <div class="kpi-card-sub" style="color: #166534;">Hasil penjumlahan setelah entri dikecualikan</div>
+        </div>
+      </div>
+
+      <!-- Tabel Matriks Komparasi per Tahun -->
+      <div class="panel">
+        <div style="font-size: 15px; font-weight: 700; color: var(--text-main); margin-bottom: 4px;">
+          Tabel Matriks Komparasi Antar-Lembar (Tahun Pelaporan)
+        </div>
+        <div style="font-size: 12.5px; color: var(--text-muted); margin-bottom: 16px;">
+          Perbandingan nilai nominal antara rekap dokumen <i>Sheet Total</i> dengan hasil penjumlahan baris per baris lembar tahunan.
+        </div>
+
+        <div style="overflow-x: auto; border: 1px solid var(--border-color); border-radius: var(--radius-sm);">
+          <table class="program-table">
+            <thead>
+              <tr>
+                <th>Tahun CSR</th>
+                <th>Nilai di Sheet Total (Buku Asli)</th>
+                <th>Nilai Ekstraksi Baris (Database)</th>
+                <th>Dampak jika entri Rp 15 miliar dikecualikan</th>
+                <th>Hasil skenario tanpa entri tersebut</th>
+                <th>Catatan Selisih dan Tindak Lanjut</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="pill pill-indigo">2022</span></td>
+                <td style="font-family: 'JetBrains Mono', monospace;">Rp 500.000.000,00</td>
+                <td id="extract-2022" style="font-family: 'JetBrains Mono', monospace; font-weight: 600;">Rp 500.000.000,00</td>
+                <td style="color: var(--text-muted);">-</td>
+                <td style="font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #047857;">Rp 500.000.000,00</td>
+                <td><span class="pill pill-emerald">Cocok Sempurna (100%)</span> <span style="font-size: 12px; color: var(--text-muted);">1 unit Mini Excavator DPUPR dari PT IPC</span></td>
+              </tr>
+              <tr>
+                <td><span class="pill pill-indigo">2023</span></td>
+                <td style="font-family: 'JetBrains Mono', monospace;">Rp 15.218.761.000,00</td>
+                <td id="extract-2023" style="font-family: 'JetBrains Mono', monospace; font-weight: 600;">Rp 17.056.693.182,00</td>
+                <td style="font-family: 'JetBrains Mono', monospace; color: #be123c; font-weight: 700;">- Rp 15.000.000.000,00</td>
+                <td id="net-2023" style="font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #047857;">Rp 2.056.693.182,00</td>
+                <td>
+                  <span class="pill pill-rose">Entri Rp 15 miliar Disdamkar</span><br>
+                  <span style="font-size: 11.5px; color: var(--text-muted);">
+                    Nilai tercatat setara 87,9% dari total penjumlahan 2023 (Rp 17,06 Miliar). Selisih dengan rekap lama ditampilkan sebagai catatan perbandingan data.
+                  </span>
+                </td>
+              </tr>
+              <tr>
+                <td><span class="pill pill-indigo">2024</span></td>
+                <td style="font-family: 'JetBrains Mono', monospace;">Rp 2.502.315.936,00</td>
+                <td id="extract-2024" style="font-family: 'JetBrains Mono', monospace; font-weight: 600;">Rp 1.936.360.500,00</td>
+                <td style="color: var(--text-muted);">-</td>
+                <td style="font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #047857;">Rp 1.936.360.500,00</td>
+                <td><span class="pill pill-cyan"><span id="sheet-count-2024">141</span> baris pada data</span> <span style="font-size: 12px; color: var(--text-muted);">Rekap sumber berbeda Rp 565.955.436; perlu rekonsiliasi item per item.</span></td>
+              </tr>
+              <tr>
+                <td><span class="pill pill-indigo">2025</span></td>
+                <td style="font-family: 'JetBrains Mono', monospace;">Rp 6.794.993.332,00</td>
+                <td id="extract-2025" style="font-family: 'JetBrains Mono', monospace; font-weight: 600;">Rp 5.916.991.032,00</td>
+                <td style="color: var(--text-muted);">-</td>
+                <td style="font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #047857;">Rp 5.916.991.032,00</td>
+                <td><span class="pill pill-cyan"><span id="sheet-count-2025">440</span> baris pada data</span> <span style="font-size: 12px; color: var(--text-muted);">Rekap sumber berbeda Rp 878.002.300; jumlah baris bukan ukuran dampak.</span></td>
+              </tr>
+              <tr>
+                <td><span class="pill pill-indigo">2026</span></td>
+                <td style="font-family: 'JetBrains Mono', monospace;">Rp 3.977.095.000,00</td>
+                <td id="extract-2026" style="font-family: 'JetBrains Mono', monospace; font-weight: 600;">Rp 3.922.795.000,00</td>
+                <td style="color: var(--text-muted);">-</td>
+                <td style="font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #047857;">Rp 3.922.795.000,00</td>
+                <td><span class="pill pill-cyan"><span id="sheet-count-2026">95</span> baris pada data</span> <span style="font-size: 12px; color: var(--text-muted);">Rekap sumber berbeda Rp 54.300.000; pastikan periode 2026 telah lengkap.</span></td>
+              </tr>
+              <tr>
+                <td><span class="pill pill-indigo">2024-2029</span></td>
+                <td style="font-family: 'JetBrains Mono', monospace;">Rp 340.200.000,00</td>
+                <td id="extract-2024-2029" style="font-family: 'JetBrains Mono', monospace; font-weight: 600;">Rp 340.200.000,00</td>
+                <td style="color: var(--text-muted);">-</td>
+                <td style="font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #047857;">Rp 340.200.000,00</td>
+                <td><span class="pill pill-emerald">Cocok Sempurna (100%)</span> <span style="font-size: 12px; color: var(--text-muted);">Komitmen multi-tahun hewan kurban & taman</span></td>
+              </tr>
+              <tr style="background: #f8fafc; font-weight: 800;">
+                <td style="color: #0f172a;">TOTAL KOTA</td>
+                <td style="font-family: 'JetBrains Mono', monospace; color: #0f172a; font-size: 13.5px;">Rp 29.333.365.268,00</td>
+                <td id="extract-grand" style="font-family: 'JetBrains Mono', monospace; color: #0369a1; font-size: 13.5px;">Rp 29.673.039.714,00</td>
+                <td style="font-family: 'JetBrains Mono', monospace; color: #be123c; font-size: 13.5px;">- Rp 15.000.000.000,00</td>
+                <td id="net-grand" style="font-family: 'JetBrains Mono', monospace; color: #15803d; font-size: 14px;">Rp 14.673.039.714,00</td>
+                <td><span class="pill pill-amber" style="font-size: 11.5px; padding: 4px 8px;">Hasil penjumlahan data; bukan penilaian kewajaran</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- 4 Titik Sumber Ketidaksesuaian Nominal -->
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+        <div class="panel" style="border-left: 4px solid #e11d48;">
+          <div style="font-size: 14.5px; font-weight: 700; color: #be123c; margin-bottom: 6px;">
+            1. Catatan Entri Perahu Karet Disdamkar (Rp 15.000.000.000,00)
+          </div>
+          <p style="font-size: 12.5px; color: var(--text-sub); line-height: 1.6; margin-bottom: 8px;">
+            <b>Lokasi:</b> Sheet <code>2023</code> Baris 7.<br>
+            <b>Catatan data:</b> Pada lembar 2023, Disdamkar mencatat bantuan <i>PERAHU KARET (RUBBER)</i> dari Bank Kaltimtara senilai <b>Rp 15 miliar</b>. Catatan perahu karet lain sebesar Rp 50 juta ditampilkan sebagai pembanding angka, bukan acuan harga. Nilai Rp 15 miliar mencakup sekitar 50,6% dari total nominal hasil penjumlahan seluruh baris.
+          </p>
+          <div style="background: #fff1f2; border: 1px solid #fecdd3; border-radius: 6px; padding: 8px 12px; font-size: 11.5px; color: #9f1239;">
+            <b>Fitur analisis:</b> Sakelar membandingkan total dengan dan tanpa entri ini sebagai skenario perhitungan.
+          </div>
+        </div>
+
+        <div class="panel" style="border-left: 4px solid #0284c7;">
+          <div style="font-size: 14.5px; font-weight: 700; color: #0369a1; margin-bottom: 6px;">
+            2. Selisih Penjabaran PPM PT IPC Kelurahan Bantuas (+Rp 339,6 Juta)
+          </div>
+          <p style="font-size: 12.5px; color: var(--text-sub); line-height: 1.6; margin-bottom: 8px;">
+            <b>Lokasi:</b> Sheet <code>2023</code> Baris 154 s.d. 166.<br>
+            <b>Fakta:</b> Pada lembar 2023 dilampirkan tabel rencana PPM PT IPC untuk tahun 2024 dan 2025 (pendidikan, beasiswa, perikanan, jembatan tani). Rekap Sheet Total hanya menjumlahkan baris berlabel tahun 2023 (Rp 15,21 M), sedangkan sistem ekstraksi database menangkap seluruh 13 baris kegiatan fisik riil tersebut (+Rp 339,6 Juta).
+          </p>
+          <div style="background: #f0f9ff; border: 1px solid #bae6fd; border-radius: 6px; padding: 8px 12px; font-size: 11.5px; color: #0369a1;">
+            <b>Catatan analisis data:</b> Baris-baris PPM tahun 2024 dan 2025 tercantum pada lembar 2023 dan memengaruhi perbedaan antara rekap dan penjumlahan baris.
+          </div>
+        </div>
+
+        <div class="panel" style="border-left: 4px solid #d97706;">
+          <div style="font-size: 14.5px; font-weight: 700; color: #b45309; margin-bottom: 6px;">
+            3. Sebanyak <span id="zeroNominalCount">28</span> Baris Tanpa Nilai Nominal
+          </div>
+          <p style="font-size: 12.5px; color: var(--text-sub); line-height: 1.6; margin-bottom: 8px;">
+            <b>Lokasi:</b> Tersebar di kelurahan dan dinas teknis.<br>
+            <b>Fakta:</b> Data hasil olahan memiliki <span id="zeroNominalCountText">28</span> baris bernilai nol/tanpa nominal. Nilai nol pada kolom nominal tidak dengan sendirinya menunjukkan bahwa bantuan tidak memiliki manfaat atau nilai barang.
+          </p>
+          <div style="background: #fffbeb; border: 1px solid #fde68a; border-radius: 6px; padding: 8px 12px; font-size: 11.5px; color: #92400e;">
+            <b>Catatan analisis data:</b> Nilai nominal tidak tersedia pada baris-baris tersebut sehingga tidak ikut menambah total penjumlahan nominal.
+          </div>
+        </div>
+
+        <div class="panel" style="border-left: 4px solid #7c3aed;">
+          <div style="font-size: 14.5px; font-weight: 700; color: #6b21a8; margin-bottom: 6px;">
+            4. Kategori Pemberi Bantuan Perlu Ditelaah
+          </div>
+          <p style="font-size: 12.5px; color: var(--text-sub); line-height: 1.6; margin-bottom: 8px;">
+            <b>Fakta:</b> Klasifikasi otomatis menandai 50 baris sebagai pemberi lokal/perorangan dan 22 baris sebagai filantropi/zakat. Penandaan ini perlu diperiksa terhadap identitas pemberi sebelum seluruh data disebut CSR perusahaan.
+          </p>
+          <div style="background: #faf5ff; border: 1px solid #e9d5ff; border-radius: 6px; padding: 8px 12px; font-size: 11.5px; color: #6b21a8;">
+            <b>Catatan analisis data:</b> Label kategori merupakan hasil klasifikasi awal dari informasi pemberi pada data sumber.
+          </div>
+        </div>
+      </div>
+
+      <!-- Format Paparan ke Walikota / Pimpinan -->
+      <div class="panel" style="background: #ffffff; border: 1px solid #cbd5e1;">
+        <div style="font-size: 15px; font-weight: 700; color: #0f172a; margin-bottom: 12px;">
+          Panduan Narasi Paparan: Jika Ditanya Mengenai Selisih Rp 29 M vs Rp 14 M
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 10px; font-size: 13px; color: var(--text-sub);">
+          <div style="background: #f8fafc; border-left: 3px solid #2563eb; padding: 12px 16px; border-radius: 4px;">
+            <b>Pertanyaan Pimpinan:</b> <i>"Mengapa rekap lama tertulis Rp 29,33 Miliar, sementara skenario hitung tanpa entri Rp 15 miliar menghasilkan Rp 14,67 Miliar?"</i>
+          </div>
+
+          <div style="background: #f0fdf4; border-left: 3px solid #059669; padding: 12px 16px; border-radius: 4px; color: #166534; line-height: 1.6;">
+            <b>Contoh narasi paparan:</b><br>
+            <i>
+              "Data sumber mencatat total nominal Rp 29,67 Miliar pada 806 baris. Di dalamnya terdapat satu entri perahu karet Rp 15 Miliar. Jika baris tersebut dikecualikan dalam skenario hitung, total menjadi Rp 14,67 Miliar pada 805 baris di 51 OPD. Ini adalah analisis deskriptif atas pencatatan dan dampaknya pada total, bukan koreksi data atau penilaian kewajaran harga."
+            </i>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- MODAL DOSSIER LENGKAP SETIAP PROGRAM CSR -->
+  <div class="modal-overlay" id="detailModal">
+    <div class="modal-box">
+      <button class="modal-close" onclick="closeModal()">
+        <i data-lucide="x" style="width: 18px; height: 18px;"></i>
+      </button>
+
+      <div class="modal-header-tag">
+        <span id="mBadgeTingkat" class="pill pill-cyan">Dinas</span>
+        <span id="mBadgeTahun" class="pill pill-indigo">2025</span>
+        <span id="mBadgeBentuk" class="pill pill-purple">Barang / Fasilitas</span>
+        <span id="mBadgeSektor" class="pill pill-emerald">Infrastruktur</span>
+        <span id="mBadgeAset" class="pill pill-amber" style="display: none;">Aset Modal KIB</span>
+      </div>
+
+      <h2 class="modal-title" id="mUraian">Uraian Kegiatan CSR</h2>
+
+      <div class="dossier-grid">
+        <div class="dossier-item">
+          <span class="dossier-label">Perangkat Daerah Penerima</span>
+          <span class="dossier-val" id="mOPD">-</span>
+        </div>
+        <div class="dossier-item">
+          <span class="dossier-label">Wilayah Kecamatan</span>
+          <span class="dossier-val" id="mWilayah">-</span>
+        </div>
+        <div class="dossier-item">
+          <span class="dossier-label">Jumlah Nilai Dana</span>
+          <span class="dossier-val" id="mDana" style="color: #047857; font-size: 16px; font-family: 'JetBrains Mono', monospace;">Rp 0</span>
+        </div>
+        <div class="dossier-item">
+          <span class="dossier-label">Nama Pemberi Bantuan</span>
+          <span class="dossier-val" id="mPemberi">-</span>
+        </div>
+        <div class="dossier-item">
+          <span class="dossier-label">Profil / Tipe Mitra</span>
+          <span class="dossier-val" id="mTipeMitra">-</span>
+        </div>
+        <div class="dossier-item">
+          <span class="dossier-label">Status Valuasi</span>
+          <span class="dossier-val" id="mStatusNilai">-</span>
+        </div>
+      </div>
+
+      <div class="dossier-section">
+        <span class="dossier-sec-label">Bentuk Koordinasi Pemanfaatan CSR</span>
+        <div class="dossier-sec-val" id="mKoordinasi">-</div>
+      </div>
+
+      <div class="dossier-section">
+        <span class="dossier-sec-label">Hasil Pemanfaatan CSR (Sasaran Penerima Manfaat)</span>
+        <div class="dossier-sec-val" id="mSasaran">-</div>
+      </div>
+
+      <div class="dossier-section">
+        <span class="dossier-sec-label" style="color: #b45309;">Catatan pada Data Sumber</span>
+        <div class="dossier-sec-val" id="mRisiko" style="color: #92400e; border-color: #fde68a; background: #fffbeb;">-</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let rawDataset = [];
+    let currentTier = 'all';
+    let excludeOutlier = true;
+    let allExpanded = false;
+    let ledgerPage = 1;
+    const ledgerPageSize = 25;
+
+    // Load Data
+    async function loadData() {
+      try {
+        const res = await fetch('/api/data');
+        rawDataset = await res.json();
+        updateTierCounts();
+        populatePemberiOptions();
+        renderAnalysisCharts();
+        updateReconciliationMetrics();
+        renderOPDList();
+        renderMasterLedger();
+        lucide.createIcons();
+      } catch (e) {
+        console.error('Failed to load data:', e);
+      }
+    }
+
+    function populatePemberiOptions() {
+      const select = document.getElementById('opdPemberiSelect');
+      if (!select) return;
+      const counts = {};
+      rawDataset.forEach(d => {
+        const p = d.Nama_Pemberi || 'Tidak Disebutkan';
+        counts[p] = (counts[p] || 0) + 1;
+      });
+      const sorted = Object.keys(counts).sort((a, b) => {
+        if (counts[b] !== counts[a]) return counts[b] - counts[a];
+        return a.localeCompare(b);
+      });
+      select.innerHTML = `<option value="all">Semua Nama Pemberi Bantuan (${sorted.length} nama)</option>`;
+      sorted.forEach(p => {
+        const opt = document.createElement('option');
+        opt.value = p;
+        opt.textContent = `${p} (${counts[p]} kegiatan)`;
+        select.appendChild(opt);
+      });
+    }
+
+    function formatIDR(val) {
+      if (val >= 1_000_000_000) {
+        return 'Rp ' + (val / 1_000_000_000).toFixed(2) + ' M';
+      } else if (val >= 1_000_000) {
+        return 'Rp ' + (val / 1_000_000).toFixed(2) + ' Jt';
+      } else {
+        return 'Rp ' + Math.round(val).toLocaleString('id-ID');
+      }
+    }
+
+    function formatFullIDR(val) {
+      return 'Rp ' + Math.round(val || 0).toLocaleString('id-ID') + ',00';
+    }
+
+    function renderAnalysisCharts() {
+      const rows = rawDataset.filter(d => !(excludeOutlier && d.Is_Outlier));
+      const yearCounts = {};
+      const sectorValues = {};
+      rows.forEach(d => {
+        const year = String(d.Tahun_Pelaporan || 'Tidak diketahui');
+        yearCounts[year] = (yearCounts[year] || 0) + 1;
+        const sector = d.Kategori_Sektor || 'Belum dikategorikan';
+        sectorValues[sector] = (sectorValues[sector] || 0) + Number(d.Jumlah_Dana || 0);
+      });
+
+      const yearOrder = ['2022', '2023', '2024', '2025', '2026', '2024-2029'];
+      const orderedYears = Object.entries(yearCounts).sort((a, b) => {
+        const aIndex = yearOrder.indexOf(a[0]);
+        const bIndex = yearOrder.indexOf(b[0]);
+        return (aIndex < 0 ? yearOrder.length : aIndex) - (bIndex < 0 ? yearOrder.length : bIndex);
+      });
+      const maxYear = Math.max(1, ...orderedYears.map(([, value]) => value));
+      document.getElementById('yearChart').innerHTML = orderedYears.map(([label, value]) => `
+        <div class="chart-row">
+          <span class="chart-label">${label}${label === '2024-2029' ? ' (multi-tahun)' : ''}</span>
+          <div class="chart-track"><div class="chart-bar" style="width:${(value / maxYear) * 100}%;"></div></div>
+          <span class="chart-value">${value.toLocaleString('id-ID')} kegiatan</span>
+        </div>`).join('');
+
+      const sortedSectors = Object.entries(sectorValues).sort((a, b) => b[1] - a[1]);
+      const maxSector = Math.max(1, ...sortedSectors.map(([, value]) => value));
+      document.getElementById('sectorChart').innerHTML = sortedSectors.map(([label, value]) => `
+        <div class="chart-row">
+          <span class="chart-label">${label}</span>
+          <div class="chart-track"><div class="chart-bar" style="width:${(value / maxSector) * 100}%;"></div></div>
+          <span class="chart-value">${formatIDR(value)}</span>
+        </div>`).join('');
+
+      const toggleNote = excludeOutlier
+        ? 'Entri Rp 15 Miliar tidak disertakan dalam skenario ini. '
+        : 'Entri Rp 15 Miliar disertakan dalam skenario ini. ';
+      document.getElementById('yearChartNote').textContent = toggleNote + 'Label multi-tahun ditampilkan terpisah; jumlah baris bukan ukuran dampak.';
+      document.getElementById('sectorChartNote').textContent = toggleNote + 'Kategori sektor adalah klasifikasi awal; status CSR tiap pemberi tidak ditetapkan dari klasifikasi ini.';
+    }
+
+    function updateReconciliationMetrics() {
+      const gross = rawDataset.reduce((sum, d) => sum + Number(d.Jumlah_Dana || 0), 0);
+      const outliers = rawDataset.filter(d => d.Is_Outlier);
+      const outlierValue = outliers.reduce((sum, d) => sum + Number(d.Jumlah_Dana || 0), 0);
+      const adjusted = gross - outlierValue;
+      const adjustedCount = rawDataset.length - outliers.length;
+      const zeroCount = rawDataset.filter(d => Number(d.Jumlah_Dana || 0) === 0).length;
+      document.getElementById('sourceRecordCount').textContent = rawDataset.length.toLocaleString('id-ID');
+      document.getElementById('reconSourceRecordCount').textContent = rawDataset.length.toLocaleString('id-ID');
+      document.getElementById('adjustedRecordCount').textContent = adjustedCount.toLocaleString('id-ID');
+      document.getElementById('zeroNominalCount').textContent = zeroCount.toLocaleString('id-ID');
+      document.getElementById('zeroNominalCountText').textContent = zeroCount.toLocaleString('id-ID');
+      document.getElementById('reconGrossTotal').textContent = formatIDR(gross);
+      document.getElementById('reconOutlierTotal').textContent = '- ' + formatIDR(outlierValue);
+      document.getElementById('reconAdjustedTotal').textContent = formatIDR(adjusted);
+
+      const sheetTotals = {};
+      rawDataset.forEach(d => {
+        const sheet = String(d.Lembar_Sheet || '');
+        sheetTotals[sheet] = (sheetTotals[sheet] || 0) + Number(d.Jumlah_Dana || 0);
+      });
+      ['2022', '2023', '2024', '2025', '2026', '2024-2029'].forEach(year => {
+        const amount = sheetTotals[year] || 0;
+        const countCell = document.getElementById(`sheet-count-${year}`);
+        if (countCell) countCell.textContent = rawDataset.filter(d => String(d.Lembar_Sheet) === year).length.toLocaleString('id-ID');
+        const extractedCell = document.getElementById(`extract-${year}`);
+        if (extractedCell) extractedCell.textContent = formatFullIDR(amount);
+        const netCell = document.getElementById(`net-${year}`);
+        if (netCell) {
+          const yearOutlier = outliers.filter(d => String(d.Lembar_Sheet) === year)
+            .reduce((sum, d) => sum + Number(d.Jumlah_Dana || 0), 0);
+          netCell.textContent = formatFullIDR(amount - yearOutlier);
+        }
+      });
+      document.getElementById('extract-grand').textContent = formatFullIDR(gross);
+      document.getElementById('net-grand').textContent = formatFullIDR(adjusted);
+    }
+
+    function handleOutlierChange() {
+      excludeOutlier = document.getElementById('outlierToggle').checked;
+      renderAnalysisCharts();
+      renderOPDList();
+      renderMasterLedger();
+    }
+
+    function switchView(viewId) {
+      document.querySelectorAll('.main-tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.view-pane').forEach(p => p.classList.remove('active'));
+
+      event.currentTarget.classList.add('active');
+      document.getElementById(viewId).classList.add('active');
+      window.dispatchEvent(new Event('resize'));
+    }
+
+    function setTierFilter(tier, el) {
+      document.querySelectorAll('.tier-chip').forEach(c => c.classList.remove('active'));
+      el.classList.add('active');
+      currentTier = tier;
+      renderOPDList();
+    }
+
+    function toggleExpandAll() {
+      allExpanded = !allExpanded;
+      document.getElementById('expandAllText').textContent = allExpanded ? 'Tutup Semua Rincian' : 'Buka Semua Rincian';
+      document.querySelectorAll('.opd-card').forEach(card => {
+        if (allExpanded) { card.classList.add('open'); }
+        else { card.classList.remove('open'); }
+      });
+    }
+
+    function toggleOpdCard(el) {
+      const card = el.closest('.opd-card');
+      card.classList.toggle('open');
+    }
+
+    function updateTierCounts() {
+      const opds = Array.from(new Set(rawDataset.map(d => d.Perangkat_Daerah)));
+      document.getElementById('cntAll').textContent = opds.length;
+      
+      const dinasOPDs = new Set(rawDataset.filter(d => d.Tipe_Perangkat_Daerah === 'Dinas').map(d => d.Perangkat_Daerah));
+      const badanOPDs = new Set(rawDataset.filter(d => d.Tipe_Perangkat_Daerah === 'Badan').map(d => d.Perangkat_Daerah));
+      const kecOPDs = new Set(rawDataset.filter(d => d.Tipe_Perangkat_Daerah === 'Kecamatan').map(d => d.Perangkat_Daerah));
+      const kelOPDs = new Set(rawDataset.filter(d => d.Tipe_Perangkat_Daerah === 'Kelurahan').map(d => d.Perangkat_Daerah));
+
+      document.getElementById('cntDinas').textContent = dinasOPDs.size;
+      document.getElementById('cntBadan').textContent = badanOPDs.size;
+      document.getElementById('cntKecamatan').textContent = kecOPDs.size;
+      document.getElementById('cntKelurahan').textContent = kelOPDs.size;
+    }
+
+    // Modal Dossier Function
+    function openModalById(programId) {
+      const item = rawDataset.find(d => d.ID === programId);
+      if (!item) return;
+
+      document.getElementById('mUraian').textContent = item.Uraian_Bantuan;
+      document.getElementById('mBadgeTahun').textContent = item.Tahun_Pelaporan;
+      document.getElementById('mBadgeTingkat').textContent = item.Tipe_Perangkat_Daerah;
+      document.getElementById('mBadgeBentuk').textContent = item.Bentuk_Bantuan === 'Uang' ? 'Bantuan Uang' : 'Bantuan Barang';
+      document.getElementById('mBadgeSektor').textContent = item.Kategori_Sektor;
+
+      const asetBadge = document.getElementById('mBadgeAset');
+      if (item.Potensi_Aset_KIB) { asetBadge.style.display = 'inline-flex'; }
+      else { asetBadge.style.display = 'none'; }
+
+      document.getElementById('mOPD').textContent = item.Perangkat_Daerah;
+      document.getElementById('mWilayah').textContent = item.Wilayah_Kecamatan;
+      document.getElementById('mDana').textContent = item.Jumlah_Dana > 0 ? 'Rp ' + item.Jumlah_Dana.toLocaleString('id-ID') : 'Non-Nominal / Bantuan Barang';
+      document.getElementById('mPemberi').textContent = item.Nama_Pemberi;
+      document.getElementById('mTipeMitra').textContent = item.Tipe_Pemberi;
+      document.getElementById('mStatusNilai').textContent = item.Status_Nilai;
+      document.getElementById('mKoordinasi').textContent = item.Bentuk_Koordinasi || '-';
+      document.getElementById('mSasaran').textContent = item.Sasaran_Hasil || '-';
+      document.getElementById('mRisiko').textContent = item.Catatan_Risiko || 'Sesuai Prosedur Standar';
+
+      document.getElementById('detailModal').classList.add('active');
+      lucide.createIcons();
+    }
+
+    function closeModal() {
+      document.getElementById('detailModal').classList.remove('active');
+    }
+
+    // 1. RENDER OPD LIST
+    const opdPageSize = 10;
+    let opdPage = 1;
+
+    function changeOpdPage(direction) {
+      opdPage += direction;
+      renderOPDList(false);
+      document.getElementById('opdContainer').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function renderOPDList(resetPage = true) {
+      if (resetPage) opdPage = 1;
+      const query = (document.getElementById('opdSearchInput').value || '').toLowerCase().trim();
+      const sortType = document.getElementById('opdSortSelect').value;
+      const yearFilter = document.getElementById('opdYearSelect').value;
+      const bentukFilter = document.getElementById('opdBentukSelect') ? document.getElementById('opdBentukSelect').value : 'all';
+      const pemberiFilter = document.getElementById('opdPemberiSelect') ? document.getElementById('opdPemberiSelect').value : 'all';
+
+      const opdMap = {};
+
+      rawDataset.forEach(d => {
+        if (excludeOutlier && d.Is_Outlier) return;
+        if (yearFilter !== 'all' && d.Tahun_Pelaporan !== yearFilter) return;
+        if (bentukFilter !== 'all' && d.Bentuk_Bantuan !== bentukFilter) return;
+        if (pemberiFilter !== 'all' && d.Nama_Pemberi !== pemberiFilter) return;
+
+        if (query) {
+          const matchOpd = d.Perangkat_Daerah.toLowerCase().includes(query) || 
+                           d.Wilayah_Kecamatan.toLowerCase().includes(query);
+          const matchProg = d.Uraian_Bantuan.toLowerCase().includes(query) ||
+                            d.Nama_Pemberi.toLowerCase().includes(query) ||
+                            d.Kategori_Sektor.toLowerCase().includes(query) ||
+                            (d.Bentuk_Bantuan && d.Bentuk_Bantuan.toLowerCase().includes(query));
+          if (!matchOpd && !matchProg) return;
+        }
+
+        const opd = d.Perangkat_Daerah;
+        if (!opdMap[opd]) {
+          opdMap[opd] = {
+            name: opd,
+            tipe: d.Tipe_Perangkat_Daerah,
+            wilayah: d.Wilayah_Kecamatan,
+            totalDana: 0,
+            programs: []
+          };
+        }
+        opdMap[opd].totalDana += d.Jumlah_Dana;
+        opdMap[opd].programs.push(d);
+      });
+
+      let opdList = Object.values(opdMap);
+      if (currentTier !== 'all') {
+        opdList = opdList.filter(o => o.tipe === currentTier);
+      }
+
+      opdList.sort((a, b) => {
+        if (sortType === 'dana_desc') return b.totalDana - a.totalDana;
+        if (sortType === 'dana_asc') return a.totalDana - b.totalDana;
+        if (sortType === 'count_desc') return b.programs.length - a.programs.length;
+        if (sortType === 'name_asc') return a.name.localeCompare(b.name);
+        return 0;
+      });
+
+      // Update Top KPIs
+      let dinasDana = 0, dinasCount = 0;
+      let badanDana = 0, badanCount = 0;
+      let kecDana = 0, kecCount = 0;
+      let kelDana = 0, kelCount = 0;
+
+      Object.values(opdMap).forEach(o => {
+        if (o.tipe === 'Dinas') { dinasDana += o.totalDana; dinasCount += o.programs.length; }
+        else if (o.tipe === 'Badan') { badanDana += o.totalDana; badanCount += o.programs.length; }
+        else if (o.tipe === 'Kecamatan') { kecDana += o.totalDana; kecCount += o.programs.length; }
+        else if (o.tipe === 'Kelurahan') { kelDana += o.totalDana; kelCount += o.programs.length; }
+      });
+
+      const grandTotalDana = dinasDana + badanDana + kecDana + kelDana;
+      const grandTotalCount = dinasCount + badanCount + kecCount + kelCount;
+      const totalOpdCount = Object.keys(opdMap).length;
+      const dinasOpdCount = Object.values(opdMap).filter(o => o.tipe === 'Dinas').length;
+      const badanOpdCount = Object.values(opdMap).filter(o => o.tipe === 'Badan').length;
+      const kecOpdCount = Object.values(opdMap).filter(o => o.tipe === 'Kecamatan').length;
+      const kelOpdCount = Object.values(opdMap).filter(o => o.tipe === 'Kelurahan').length;
+
+      const kpiTotalDanaEl = document.getElementById('kpiTotalDana');
+      if (kpiTotalDanaEl) kpiTotalDanaEl.textContent = formatIDR(grandTotalDana);
+      const kpiTotalSubEl = document.getElementById('kpiTotalSub');
+      if (kpiTotalSubEl) kpiTotalSubEl.textContent = `${grandTotalCount} baris pada hasil · ${totalOpdCount} OPD${excludeOutlier ? ' · skenario tanpa entri Rp 15 miliar' : ''}`;
+
+      document.getElementById('kpiDinasDana').textContent = formatIDR(dinasDana);
+      document.getElementById('kpiDinasSub').textContent = `${dinasCount} baris · ${dinasOpdCount} OPD`;
+      document.getElementById('kpiBadanDana').textContent = formatIDR(badanDana);
+      document.getElementById('kpiBadanSub').textContent = `${badanCount} baris · ${badanOpdCount} OPD`;
+      document.getElementById('kpiKecamatanDana').textContent = formatIDR(kecDana);
+      document.getElementById('kpiKecamatanSub').textContent = `${kecCount} baris · ${kecOpdCount} OPD`;
+      document.getElementById('kpiKelurahanDana').textContent = formatIDR(kelDana);
+      document.getElementById('kpiKelurahanSub').textContent = `${kelCount} baris · ${kelOpdCount} OPD`;
+
+      const totalProgCount = opdList.reduce((acc, o) => acc + o.programs.length, 0);
+      document.getElementById('displayedOpdCount').textContent = opdList.length;
+      document.getElementById('displayedProgramCount').textContent = totalProgCount;
+
+      const container = document.getElementById('opdContainer');
+      container.innerHTML = '';
+
+      const totalPages = Math.max(1, Math.ceil(opdList.length / opdPageSize));
+      opdPage = Math.min(Math.max(1, opdPage), totalPages);
+      const pageStart = (opdPage - 1) * opdPageSize;
+      const pageEnd = Math.min(pageStart + opdPageSize, opdList.length);
+      const pageInfo = document.getElementById('opdPageInfo');
+      const prevPage = document.getElementById('opdPrevPage');
+      const nextPage = document.getElementById('opdNextPage');
+      pageInfo.textContent = opdList.length
+        ? `Menampilkan ${pageStart + 1}–${pageEnd} dari ${opdList.length} OPD · halaman ${opdPage}/${totalPages}`
+        : 'Tidak ada OPD';
+      prevPage.disabled = opdPage <= 1;
+      nextPage.disabled = opdPage >= totalPages;
+
+      if (opdList.length === 0) {
+        container.innerHTML = `
+          <div style="background: #ffffff; border: 1px dashed var(--border-dark); border-radius: var(--radius-md); padding: 40px; text-align: center; color: var(--text-muted);">
+            Tidak ditemukan Perangkat Daerah yang cocok dengan kriteria filter yang dipilih.
+          </div>
+        `;
+        return;
+      }
+
+      opdList.slice(pageStart, pageEnd).forEach((opd, idx) => {
+        const card = document.createElement('div');
+        card.className = `opd-card ${allExpanded || query || idx === 0 ? 'open' : ''}`;
+
+        let badgeClass = 'badge-dinas';
+        if (opd.tipe === 'Badan') badgeClass = 'badge-badan';
+        else if (opd.tipe === 'Kecamatan') badgeClass = 'badge-kecamatan';
+        else if (opd.tipe === 'Kelurahan') badgeClass = 'badge-kelurahan';
+
+        let tableRowsHtml = '';
+        opd.programs.forEach((p, pIdx) => {
+          let danaDisplay = p.Jumlah_Dana > 0 ? 'Rp ' + p.Jumlah_Dana.toLocaleString('id-ID') : '<span style="color: var(--text-light);">- (Non-Nominal)</span>';
+          let assetBadge = p.Potensi_Aset_KIB ? '<span class="pill pill-cyan">Aset KIB</span>' : '';
+          let outlierBadge = p.Is_Outlier ? '<span class="pill pill-rose">Outlier 15M</span>' : '';
+
+          let bentukBadge = p.Bentuk_Bantuan === 'Uang'
+            ? '<span class="pill pill-emerald" style="font-size: 10px;">Bantuan Uang</span>'
+            : '<span class="pill pill-amber" style="font-size: 10px;">Bantuan Barang</span>';
+
+          tableRowsHtml += `
+            <tr>
+              <td style="font-family: 'JetBrains Mono', monospace; font-size: 11.5px; color: var(--text-light);">${pIdx + 1}</td>
+              <td><span class="pill pill-indigo">${p.Tahun_Pelaporan}</span></td>
+              <td style="font-weight: 600; color: var(--text-main); max-width: 280px;">
+                ${p.Uraian_Bantuan}
+                <div style="margin-top: 4px; display: flex; gap: 4px; flex-wrap: wrap;">
+                  ${bentukBadge} ${assetBadge} ${outlierBadge}
+                </div>
+              </td>
+              <td style="font-family: 'JetBrains Mono', monospace; font-weight: 700; color: ${p.Jumlah_Dana > 0 ? '#047857' : 'var(--text-light)'}; white-space: nowrap;">
+                ${danaDisplay}
+              </td>
+              <td style="color: var(--text-sub); max-width: 180px;">${p.Nama_Pemberi}</td>
+              <td style="font-size: 12px; color: var(--text-muted); max-width: 200px;">
+                ${p.Bentuk_Koordinasi || '-'}
+              </td>
+              <td style="font-size: 12px; color: var(--text-muted); max-width: 220px;">
+                ${p.Sasaran_Hasil || '-'}
+              </td>
+              <td style="text-align: right; white-space: nowrap;">
+                <button class="btn-detail" onclick="openModalById(${p.ID})">
+                  <i data-lucide="eye" style="width: 13px; height: 13px;"></i> Detail
+                </button>
+              </td>
+            </tr>
+          `;
+        });
+
+        card.innerHTML = `
+          <div class="opd-card-header" onclick="toggleOpdCard(this)">
+            <div class="opd-card-left">
+              <span class="opd-badge ${badgeClass}">${opd.tipe}</span>
+              <div>
+                <span class="opd-name">${opd.name}</span>
+                <span class="opd-wilayah">· ${opd.wilayah}</span>
+              </div>
+            </div>
+            <div class="opd-card-right">
+              <div class="opd-metric-box">
+                <span class="opd-metric-label">Total Dana CSR</span>
+                <span class="opd-metric-val" style="color: ${opd.totalDana > 0 ? '#047857' : 'var(--text-light)'};">
+                  ${opd.totalDana > 0 ? 'Rp ' + opd.totalDana.toLocaleString('id-ID') : 'Rp 0'}
+                </span>
+              </div>
+              <div class="opd-metric-box">
+                <span class="opd-metric-label">Jumlah Kegiatan</span>
+                <span class="opd-metric-val" style="color: var(--text-main);">
+                  ${opd.programs.length} <span style="font-size: 12px; font-weight: 500; color: var(--text-muted);">Program</span>
+                </span>
+              </div>
+              <i data-lucide="chevron-down" class="opd-toggle-icon"></i>
+            </div>
+          </div>
+          <div class="opd-program-body">
+            <table class="program-table">
+              <thead>
+                <tr>
+                  <th style="width: 35px;">No</th>
+                  <th style="width: 80px;">Tahun</th>
+                  <th>Uraian Program (Apa Programnya?)</th>
+                  <th style="width: 160px;">Jumlah Dana (Berapa Nilainya?)</th>
+                  <th>Nama Pemberi (Dari Siapa?)</th>
+                  <th>Bentuk Koordinasi</th>
+                  <th>Sasaran & Manfaat</th>
+                  <th style="width: 80px; text-align: right;">Aksi</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${tableRowsHtml}
+              </tbody>
+            </table>
+          </div>
+        `;
+
+        container.appendChild(card);
+      });
+
+      lucide.createIcons();
+    }
+
+    // 2. RENDER MASTER LEDGER
+    function renderMasterLedger() {
+      const query = (document.getElementById('ledgerSearchInput').value || '').toLowerCase().trim();
+
+      let dataset = rawDataset.filter(d => !(excludeOutlier && d.Is_Outlier));
+      if (query) {
+        dataset = dataset.filter(d => {
+          return `${d.Perangkat_Daerah} ${d.Uraian_Bantuan} ${d.Nama_Pemberi} ${d.Kategori_Sektor} ${d.Bentuk_Bantuan} ${d.Bentuk_Koordinasi} ${d.Sasaran_Hasil}`.toLowerCase().includes(query);
+        });
+      }
+
+      const total = dataset.length;
+      const start = (ledgerPage - 1) * ledgerPageSize;
+      const end = start + ledgerPageSize;
+      const pageData = dataset.slice(start, end);
+
+      const tbody = document.getElementById('ledgerTableBody');
+      tbody.innerHTML = '';
+
+      pageData.forEach(p => {
+        const tr = document.createElement('tr');
+        tr.style.cursor = 'pointer';
+        tr.onclick = (e) => {
+          if (!e.target.closest('button')) {
+            openModalById(p.ID);
+          }
+        };
+
+        let tierPill = '<span class="pill pill-cyan">Dinas</span>';
+        if (p.Tipe_Perangkat_Daerah === 'Badan') tierPill = '<span class="pill pill-purple">Badan</span>';
+        else if (p.Tipe_Perangkat_Daerah === 'Kecamatan') tierPill = '<span class="pill pill-amber">Kecamatan</span>';
+        else if (p.Tipe_Perangkat_Daerah === 'Kelurahan') tierPill = '<span class="pill pill-emerald">Kelurahan</span>';
+
+        let bentukPill = p.Bentuk_Bantuan === 'Uang'
+          ? '<span class="pill pill-emerald" style="font-size: 10px;">Uang</span>'
+          : '<span class="pill pill-amber" style="font-size: 10px;">Barang</span>';
+
+        let danaDisplay = p.Jumlah_Dana > 0 ? 'Rp ' + p.Jumlah_Dana.toLocaleString('id-ID') : '<span style="color: var(--text-light);">-</span>';
+
+        tr.innerHTML = `
+          <td style="font-family: 'JetBrains Mono', monospace; font-size: 11.5px; color: var(--text-light);">${p.ID}</td>
+          <td><span class="pill pill-indigo">${p.Tahun_Pelaporan}</span></td>
+          <td>${tierPill}</td>
+          <td style="font-weight: 600; color: var(--text-main);">${p.Perangkat_Daerah}</td>
+          <td style="max-width: 280px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--text-main);">${p.Uraian_Bantuan}</td>
+          <td>${bentukPill}</td>
+          <td><span class="pill pill-cyan">${p.Kategori_Sektor}</span></td>
+          <td style="font-family: 'JetBrains Mono', monospace; font-weight: 700; color: ${p.Jumlah_Dana > 0 ? '#047857' : 'var(--text-light)'}; white-space: nowrap;">
+            ${danaDisplay}
+          </td>
+          <td style="color: var(--text-sub);">${p.Nama_Pemberi}</td>
+          <td style="text-align: right;">
+            <button class="btn-detail" onclick="openModalById(${p.ID})">
+              <i data-lucide="eye" style="width: 13px; height: 13px;"></i> Detail
+            </button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      document.getElementById('ledgerPageInfo').textContent = `Menampilkan ${start + 1}–${Math.min(end, total)} dari ${total.toLocaleString('id-ID')} rekaman kegiatan`;
+      document.getElementById('btnLedgerPrev').disabled = (ledgerPage === 1);
+      document.getElementById('btnLedgerNext').disabled = (end >= total);
+
+      lucide.createIcons();
+    }
+
+    function changeLedgerPage(delta) {
+      ledgerPage += delta;
+      renderMasterLedger();
+    }
+
+    // Export CSV
+    function exportCSV() {
+      const headers = ['ID', 'Tahun', 'Tingkat_OPD', 'Perangkat_Daerah', 'Wilayah', 'Uraian_Program', 'Sektor', 'Jumlah_Dana', 'Nama_Pemberi', 'Tipe_Pemberi', 'Bentuk_Koordinasi', 'Sasaran_Hasil', 'Risiko'];
+      const rows = rawDataset.filter(d => !(excludeOutlier && d.Is_Outlier)).map((d) => [
+        d.ID,
+        `"${d.Tahun_Pelaporan}"`,
+        `"${d.Tipe_Perangkat_Daerah}"`,
+        `"${d.Perangkat_Daerah}"`,
+        `"${d.Wilayah_Kecamatan}"`,
+        `"${d.Uraian_Bantuan.replace(/"/g, '""')}"`,
+        `"${d.Kategori_Sektor}"`,
+        d.Jumlah_Dana,
+        `"${d.Nama_Pemberi.replace(/"/g, '""')}"`,
+        `"${d.Tipe_Pemberi}"`,
+        `"${(d.Bentuk_Koordinasi || '').replace(/"/g, '""')}"`,
+        `"${(d.Sasaran_Hasil || '').replace(/"/g, '""')}"`,
+        `"${(d.Catatan_Risiko || '').replace(/"/g, '""')}"`
+      ]);
+
+      const csvContent = [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `DETAIL_LENGKAP_PROGRAM_CSR_SAMARINDA_${new Date().toISOString().slice(0,10)}.csv`;
+      a.click();
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      loadData();
+    });
+  </script>
+</body>
+</html>

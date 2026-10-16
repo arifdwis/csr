@@ -1,0 +1,151 @@
+@startuml
+hide methods
+hide stereotypes
+skinparam linetype ortho
+skinparam shadowing false
+skinparam entity {
+  BackgroundColor #F8FAFC
+  BorderColor #2563EB
+}
+
+entity roles {
+  * role_id : UUID <<PK>>
+  --
+  role_code : VARCHAR
+  role_name : VARCHAR
+}
+entity users {
+  * user_id : UUID <<PK>>
+  --
+  role_id : UUID <<FK>>
+  opd_id : UUID <<FK, nullable>>
+  email : VARCHAR <<UNIQUE>>
+}
+entity opd {
+  * opd_id : UUID <<PK>>
+  --
+  wilayah_id : UUID <<FK>>
+  opd_code : VARCHAR <<UNIQUE>>
+  name : VARCHAR
+}
+entity wilayah {
+  * wilayah_id : UUID <<PK>>
+  --
+  parent_id : UUID <<FK>>
+  name : VARCHAR
+  type : VARCHAR
+}
+entity providers {
+  * provider_id : UUID <<PK>>
+  --
+  name : VARCHAR
+  classification_label : VARCHAR
+}
+entity categories {
+  * category_id : UUID <<PK>>
+  --
+  category_code : VARCHAR <<UNIQUE>>
+  name : VARCHAR
+}
+entity activities {
+  * activity_id : UUID <<PK>>
+  --
+  opd_id : UUID <<FK>>
+  provider_id : UUID <<FK>>
+  wilayah_id : UUID <<FK>>
+  category_id : UUID <<FK>>
+  report_year : SMALLINT
+  source_amount : DECIMAL NULL
+  value_status : VARCHAR
+  workflow_status : VARCHAR
+}
+entity documents {
+  * document_id : UUID <<PK>>
+  --
+  activity_id : UUID <<FK>>
+  document_type : VARCHAR
+  storage_key : VARCHAR
+  visibility : VARCHAR
+}
+entity administrative_references {
+  * admin_ref_id : UUID <<PK>>
+  --
+  activity_id : UUID <<FK>>
+  reference_type : VARCHAR
+  reference_number : VARCHAR
+}
+entity planning_references {
+  * reference_id : UUID <<PK>>
+  --
+  reference_type : VARCHAR
+  fiscal_year : SMALLINT
+  reference_code : VARCHAR
+}
+entity potential_matches {
+  * match_id : UUID <<PK>>
+  --
+  activity_id : UUID <<FK>>
+  reference_id : UUID <<FK>>
+  match_score : DECIMAL NULL
+  review_status : VARCHAR
+}
+entity scenarios {
+  * scenario_id : UUID <<PK>>
+  --
+  created_by : UUID <<FK>>
+  filters_json : JSON
+}
+entity scenario_items {
+  * scenario_id : UUID <<PK, FK>>
+  * activity_id : UUID <<PK, FK>>
+  --
+  include_in_total : BOOLEAN
+}
+entity publications {
+  * publication_id : UUID <<PK>>
+  --
+  prepared_by : UUID <<FK>>
+  approved_by : UUID <<FK>>
+  status : VARCHAR
+}
+entity publication_items {
+  * publication_id : UUID <<PK, FK>>
+  * activity_id : UUID <<PK, FK>>
+  --
+  public_snapshot : JSON
+}
+entity activity_log {
+  * log_id : UUID <<PK>>
+  --
+  user_id : UUID <<FK>>
+  entity_type : VARCHAR
+  entity_id : UUID
+  changed_at : TIMESTAMP
+}
+
+roles ||--o{ users
+opd ||--o{ users
+opd ||--o{ activities
+wilayah ||--o{ opd
+wilayah ||--o{ activities
+wilayah ||--o{ wilayah : parent
+providers ||--o{ activities
+categories ||--o{ activities
+activities ||--o{ documents
+activities ||--o{ administrative_references
+activities ||--o{ potential_matches
+planning_references ||--o{ potential_matches
+users ||--o{ scenarios
+scenarios ||--o{ scenario_items
+activities ||--o{ scenario_items
+users ||--o{ publications : prepares
+users ||--o{ publications : approves
+publications ||--o{ publication_items
+activities ||--o{ publication_items
+users ||--o{ activity_log
+
+note bottom of activities
+source_amount nullable for missing value;
+zero is stored distinctly.
+end note
+@enduml

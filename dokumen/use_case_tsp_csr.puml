@@ -1,0 +1,51 @@
+@startuml
+left to right direction
+skinparam shadowing false
+skinparam packageStyle rectangle
+skinparam actorStyle awesome
+skinparam usecase {
+  BackgroundColor #F8FAFC
+  BorderColor #2563EB
+  ArrowColor #475569
+}
+skinparam rectangle {
+  BorderColor #64748B
+  BackgroundColor #FFFFFF
+}
+
+actor "Operator OPD" as OPD
+actor "Analis Data\nKominfo" as KOMINFO
+actor "Petugas BPKAD\n(opsional)" as BPKAD
+actor "Pimpinan / Pengguna\nInternal" as PIMPINAN
+actor "Publik" as PUBLIK
+
+rectangle "Sistem Informasi Pendataan dan Visualisasi TSP/CSR" {
+  usecase "Mengelola catatan\nkegiatan" as UC1
+  usecase "Mengirim data\nkegiatan" as UC2
+  usecase "Mengimpor dan\nmenata data" as UC3
+  usecase "Meninjau kelengkapan\ndata" as UC4
+  usecase "Melihat dashboard,\nfilter, dan skenario hitung" as UC5
+  usecase "Mengekspor\nlaporan" as UC6
+  usecase "Memperbarui referensi\nRKUD / BAST / KIB" as UC7
+  usecase "Menyiapkan dan\nmenerbitkan ringkasan publik" as UC8
+  usecase "Melihat ringkasan\npublik yang tersedia" as UC9
+}
+
+OPD -- UC1
+OPD -- UC2
+KOMINFO -- UC3
+KOMINFO -- UC4
+KOMINFO -- UC5
+KOMINFO -- UC6
+BPKAD -- UC7
+PIMPINAN -- UC5
+PIMPINAN -- UC6
+KOMINFO -- UC8
+PUBLIK -- UC9
+
+note bottom of UC5
+Skenario hitung tidak mengubah data sumber
+dan bukan pemeriksaan atau penilaian harga.
+end note
+
+@enduml

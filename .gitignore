@@ -1,0 +1,18 @@
+# Python
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Operating System
+.DS_Store
+*/.DS_Store
+Thumbs.db
+
+# Office temporary lock files
+~$*
+
+# Temporary cache / media
+.tempmediaStorage/
+*.log

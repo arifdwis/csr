@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="1230" viewBox="0 0 1500 1230" role="img" aria-labelledby="title desc">
+  <title id="title">ERD Rancangan Basis Data TSP/CSR</title>
+  <desc id="desc">Diagram entitas inti untuk akun, master data, kegiatan, dokumen, referensi perencanaan, skenario analisis, publikasi, dan riwayat aktivitas.</desc>
+  <defs><style>
+    .bg{fill:#fff}.box{fill:#f8fafc;stroke:#2563eb;stroke-width:2}.head{fill:#eaf1f8}.line{stroke:#64748b;stroke-width:2;fill:none}
+    .title{font:700 16px Arial,sans-serif;fill:#12335b}.fields{font:13px Menlo,Consolas,monospace;fill:#334155}.rel{font:12px Arial,sans-serif;fill:#475569}
+    .main{fill:#eff6ff;stroke:#1d4ed8;stroke-width:3}.note{font:13px Arial,sans-serif;fill:#1e3a8a}
+  </style></defs>
+  <rect class="bg" width="1500" height="1230"/>
+
+  <!-- Relationships, drawn below the entities -->
+  <g class="line">
+    <path d="M350 125 H430"/><path d="M690 145 H780"/>
+    <path d="M915 220 C915 275 770 285 770 350"/>
+    <path d="M1130 170 C1080 265 925 280 860 350"/>
+    <path d="M350 425 H560"/><path d="M1130 425 H940"/>
+    <path d="M590 600 C490 650 300 660 250 700"/>
+    <path d="M670 600 V690"/><path d="M920 530 C985 570 1000 635 1000 690"/>
+    <path d="M1080 770 H1130"/>
+    <path d="M560 560 C500 620 360 620 360 670 L360 940 C360 980 380 1035 400 1035"/>
+    <path d="M350 1035 H400"/>
+    <path d="M930 580 H1110 V1035 H1130"/>
+    <path d="M1080 1035 H1130"/>
+  </g>
+
+  <!-- Top-level access and master data -->
+  <g>
+    <rect class="box" x="80" y="55" width="270" height="140" rx="8"/><rect class="head" x="80" y="55" width="270" height="34" rx="8"/>
+    <text class="title" x="96" y="78">roles</text><text class="fields" x="96" y="112"><tspan x="96">PK role_id</tspan><tspan x="96" dy="21">role_code UNIQUE</tspan><tspan x="96" dy="21">role_name</tspan></text>
+
+    <rect class="box" x="430" y="55" width="260" height="170" rx="8"/><rect class="head" x="430" y="55" width="260" height="34" rx="8"/>
+    <text class="title" x="446" y="78">users</text><text class="fields" x="446" y="112"><tspan x="446">PK user_id</tspan><tspan x="446" dy="21">FK role_id, opd_id?</tspan><tspan x="446" dy="21">email UNIQUE</tspan><tspan x="446" dy="21">is_active</tspan></text>
+
+    <rect class="box" x="780" y="55" width="270" height="165" rx="8"/><rect class="head" x="780" y="55" width="270" height="34" rx="8"/>
+    <text class="title" x="796" y="78">opd</text><text class="fields" x="796" y="112"><tspan x="796">PK opd_id</tspan><tspan x="796" dy="21">FK wilayah_id?</tspan><tspan x="796" dy="21">opd_code UNIQUE</tspan><tspan x="796" dy="21">name, level</tspan></text>
+
+    <rect class="box" x="1130" y="55" width="290" height="145" rx="8"/><rect class="head" x="1130" y="55" width="290" height="34" rx="8"/>
+    <text class="title" x="1146" y="78">wilayah</text><text class="fields" x="1146" y="112"><tspan x="1146">PK wilayah_id</tspan><tspan x="1146" dy="21">FK parent_id?</tspan><tspan x="1146" dy="21">name, type</tspan></text>
+  </g>
+
+  <!-- Core record and its master references -->
+  <g>
+    <rect class="box" x="80" y="350" width="270" height="150" rx="8"/><rect class="head" x="80" y="350" width="270" height="34" rx="8"/>
+    <text class="title" x="96" y="373">providers</text><text class="fields" x="96" y="407"><tspan x="96">PK provider_id</tspan><tspan x="96" dy="21">name</tspan><tspan x="96" dy="21">classification_label?</tspan></text>
+
+    <rect class="box main" x="560" y="340" width="380" height="260" rx="10"/><rect class="head" x="560" y="340" width="380" height="38" rx="10"/>
+    <text class="title" x="578" y="366">activities · catatan utama</text><text class="fields" x="578" y="405"><tspan x="578">PK activity_id</tspan><tspan x="578" dy="22">FK opd_id, provider_id?, wilayah_id?,</tspan><tspan x="578" dy="22">   category_id?, created_by</tspan><tspan x="578" dy="22">report_year, description, aid_form</tspan><tspan x="578" dy="22">source_amount DECIMAL NULL</tspan><tspan x="578" dy="22">value_status, workflow_status</tspan></text>
+
+    <rect class="box" x="1130" y="350" width="270" height="150" rx="8"/><rect class="head" x="1130" y="350" width="270" height="34" rx="8"/>
+    <text class="title" x="1146" y="373">categories</text><text class="fields" x="1146" y="407"><tspan x="1146">PK category_id</tspan><tspan x="1146" dy="21">category_code UNIQUE</tspan><tspan x="1146" dy="21">name, is_active</tspan></text>
+  </g>
+
+  <!-- Activity dependents and planning comparison -->
+  <g>
+    <rect class="box" x="80" y="700" width="270" height="150" rx="8"/><rect class="head" x="80" y="700" width="270" height="34" rx="8"/>
+    <text class="title" x="96" y="723">documents</text><text class="fields" x="96" y="757"><tspan x="96">PK document_id</tspan><tspan x="96" dy="21">FK activity_id, uploaded_by</tspan><tspan x="96" dy="21">type, storage_key</tspan><tspan x="96" dy="21">visibility</tspan></text>
+
+    <rect class="box" x="400" y="690" width="300" height="165" rx="8"/><rect class="head" x="400" y="690" width="300" height="34" rx="8"/>
+    <text class="title" x="416" y="713">administrative_references</text><text class="fields" x="416" y="747"><tspan x="416">PK admin_ref_id</tspan><tspan x="416" dy="21">FK activity_id, updated_by</tspan><tspan x="416" dy="21">type: RKUD / BAST / KIB</tspan><tspan x="416" dy="21">reference_number, status_note</tspan></text>
+
+    <rect class="box" x="800" y="690" width="280" height="165" rx="8"/><rect class="head" x="800" y="690" width="280" height="34" rx="8"/>
+    <text class="title" x="816" y="713">potential_matches</text><text class="fields" x="816" y="747"><tspan x="816">PK match_id</tspan><tspan x="816" dy="21">FK activity_id, reference_id</tspan><tspan x="816" dy="21">match_score?</tspan><tspan x="816" dy="21">review_status, review_note?</tspan></text>
+
+    <rect class="box" x="1130" y="690" width="290" height="165" rx="8"/><rect class="head" x="1130" y="690" width="290" height="34" rx="8"/>
+    <text class="title" x="1146" y="713">planning_references</text><text class="fields" x="1146" y="747"><tspan x="1146">PK reference_id</tspan><tspan x="1146" dy="21">type: RKPD / DPA</tspan><tspan x="1146" dy="21">fiscal_year, opd_id?</tspan><tspan x="1146" dy="21">reference_code, description</tspan></text>
+  </g>
+
+  <!-- Analysis and publication snapshots -->
+  <g>
+    <rect class="box" x="80" y="960" width="270" height="145" rx="8"/><rect class="head" x="80" y="960" width="270" height="34" rx="8"/>
+    <text class="title" x="96" y="983">scenarios</text><text class="fields" x="96" y="1017"><tspan x="96">PK scenario_id</tspan><tspan x="96" dy="21">FK created_by</tspan><tspan x="96" dy="21">name, filters_json</tspan></text>
+
+    <rect class="box" x="400" y="960" width="300" height="150" rx="8"/><rect class="head" x="400" y="960" width="300" height="34" rx="8"/>
+    <text class="title" x="416" y="983">scenario_items</text><text class="fields" x="416" y="1017"><tspan x="416">PK/FK scenario_id</tspan><tspan x="416" dy="21">PK/FK activity_id</tspan><tspan x="416" dy="21">include_in_total</tspan></text>
+
+    <rect class="box" x="800" y="960" width="280" height="145" rx="8"/><rect class="head" x="800" y="960" width="280" height="34" rx="8"/>
+    <text class="title" x="816" y="983">publications</text><text class="fields" x="816" y="1017"><tspan x="816">PK publication_id</tspan><tspan x="816" dy="21">FK prepared_by, approved_by?</tspan><tspan x="816" dy="21">version_name, status</tspan></text>
+
+    <rect class="box" x="1130" y="960" width="290" height="150" rx="8"/><rect class="head" x="1130" y="960" width="290" height="34" rx="8"/>
+    <text class="title" x="1146" y="983">publication_items</text><text class="fields" x="1146" y="1017"><tspan x="1146">PK/FK publication_id</tspan><tspan x="1146" dy="21">PK/FK activity_id</tspan><tspan x="1146" dy="21">public_snapshot JSON</tspan></text>
+  </g>
+
+  <text class="note" x="80" y="1170">Relasi kegiatan ke dokumen, referensi, dan skenario adalah 1 ke banyak; potential_matches menghubungkan kegiatan dengan RKPD/DPA.</text>
+  <text class="note" x="80" y="1195">activity_log (FK user_id) tidak ditampilkan. Nominal NULL berbeda dari nol. PK = primary key, FK = foreign key.</text>
+</svg>

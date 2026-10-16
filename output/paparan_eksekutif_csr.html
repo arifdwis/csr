@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Bahan Paparan Eksekutif & Telaah Analis Data CSR Samarinda</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    @page {
+      size: 297mm 210mm; /* A4 Landscape */
+      margin: 0;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #f1f5f9;
+      color: #0f172a;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    .slide {
+      width: 297mm;
+      height: 210mm;
+      page-break-after: always;
+      position: relative;
+      background: #ffffff;
+      padding: 16mm 20mm;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      overflow: hidden;
+      border-bottom: 1px solid #cbd5e1;
+    }
+
+    @media print {
+      body { background: #ffffff; }
+      .slide { border-bottom: none; }
+    }
+
+    /* Header */
+    .slide-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      border-bottom: 2px solid #e2e8f0;
+      padding-bottom: 10px;
+      margin-bottom: 14px;
+    }
+
+    .slide-title-box { display: flex; flex-direction: column; gap: 3px; }
+    .slide-tag {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #2563eb;
+    }
+    .slide-title {
+      font-size: 20px;
+      font-weight: 800;
+      color: #0f172a;
+    }
+    .slide-subtitle {
+      font-size: 11.5px;
+      color: #64748b;
+    }
+
+    .badge-slide-num {
+      background: #f8fafc;
+      border: 1px solid #cbd5e1;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 700;
+      color: #475569;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    /* Content Area */
+    .slide-body {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    /* Footer */
+    .slide-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid #e2e8f0;
+      padding-top: 8px;
+      font-size: 9.5px;
+      color: #94a3b8;
+    }
+
+    /* Cover Styling */
+    .cover-slide {
+      background: radial-gradient(circle at 90% 10%, #eff6ff 0%, #ffffff 50%, #f8fafc 100%);
+      justify-content: center;
+      padding: 24mm 24mm;
+      position: relative;
+    }
+
+    .cover-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 700;
+      color: #1d4ed8;
+      width: fit-content;
+      margin-bottom: 16px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .cover-title {
+      font-size: 32px;
+      font-weight: 800;
+      color: #0f172a;
+      line-height: 1.25;
+      margin-bottom: 12px;
+      max-width: 900px;
+    }
+
+    .cover-desc {
+      font-size: 14.5px;
+      color: #475569;
+      line-height: 1.6;
+      max-width: 850px;
+      margin-bottom: 24px;
+    }
+
+    .cover-meta-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 10px;
+      padding: 16px 20px;
+      max-width: 850px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+    }
+
+    .meta-item { display: flex; flex-direction: column; gap: 3px; }
+    .meta-label { font-size: 10px; text-transform: uppercase; font-weight: 700; color: #64748b; letter-spacing: 0.05em; }
+    .meta-val { font-size: 12.5px; font-weight: 700; color: #0f172a; }
+
+    /* Cards & Grids */
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+
+    .card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 12px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .kpi-box {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 10px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+    .kpi-label { font-size: 10px; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.04em; }
+    .kpi-value { font-size: 20px; font-weight: 800; color: #0f172a; font-family: 'JetBrains Mono', monospace; }
+    .kpi-sub { font-size: 10.5px; color: #64748b; }
+
+    /* Tables */
+    table.data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 11px;
+      text-align: left;
+    }
+    table.data-table th {
+      background: #f1f5f9;
+      color: #334155;
+      font-weight: 700;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      padding: 7px 10px;
+      border: 1px solid #cbd5e1;
+    }
+    table.data-table td {
+      padding: 7px 10px;
+      border: 1px solid #e2e8f0;
+      color: #334155;
+      vertical-align: top;
+    }
+    table.data-table tr:nth-child(even) { background: #f8fafc; }
+
+    /* Callouts & Alert Boxes */
+    .callout {
+      border-radius: 8px;
+      padding: 10px 14px;
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      font-size: 11.5px;
+      line-height: 1.5;
+    }
+    .callout-amber { background: #fffbeb; border: 1px solid #fde68a; color: #92400e; }
+    .callout-rose { background: #fff1f2; border: 1px solid #fecdd3; color: #9f1239; }
+    .callout-blue { background: #eff6ff; border: 1px solid #bfdbfe; color: #1e40af; }
+    .callout-emerald { background: #f0fdf4; border: 1px solid #bbf7d0; color: #166534; }
+
+    /* Pills */
+    .pill {
+      display: inline-flex; align-items: center; padding: 2px 6px;
+      border-radius: 4px; font-size: 9.5px; font-weight: 700; text-transform: uppercase;
+    }
+    .pill-blue { background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; }
+    .pill-purple { background: #faf5ff; color: #7e22ce; border: 1px solid #e9d5ff; }
+    .pill-amber { background: #fffbeb; color: #b45309; border: 1px solid #fde68a; }
+    .pill-emerald { background: #f0fdf4; color: #15803d; border: 1px solid #bbf7d0; }
+    .pill-rose { background: #fff1f2; color: #be123c; border: 1px solid #fecdd3; }
+
+    /* Talking points / speech script */
+    .speech-box {
+      background: #f8fafc;
+      border-left: 4px solid #2563eb;
+      padding: 10px 14px;
+      border-radius: 0 8px 8px 0;
+      font-size: 11.5px;
+      color: #1e293b;
+      line-height: 1.55;
+    }
+    .speech-box b { color: #0f172a; }
+  </style>
+</head>
+<body>
+
+  <!-- =====================================================================
+       SLIDE 1: COVER
+       ===================================================================== -->
+  <div class="slide cover-slide">
+    <div>
+      <div class="cover-badge">Materi Paparan Eksekutif & Telaah Analis Data</div>
+      <h1 class="cover-title">EVALUASI TATA KELOLA TANGGUNG JAWAB SOSIAL & LINGKUNGAN PERUSAHAAN (TJSL / CSR / TSP)<br>PEMERINTAH KOTA SAMARINDA</h1>
+      <p class="cover-desc">
+        Paparan Analitis Berdasarkan Konsolidasi 806 Kegiatan (2022–2026), Koreksi Anomali Valuasi 15 Miliar, Pemetaan 4 Tingkat Perangkat Daerah, Serta Tindak Lanjut 6 Langkah Perbaikan Inspektorat Kota Samarinda.
+      </p>
+
+      <div class="cover-meta-grid">
+        <div class="meta-item">
+          <span class="meta-label">Disusun Oleh</span>
+          <span class="meta-val">Tim Analis Data Pemerintah Kota Samarinda</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Forum Paparan</span>
+          <span class="meta-val">Rapat Koordinasi Evaluasi Tata Kelola TSP Daerah</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Acuan Regulasi</span>
+          <span class="meta-val">Perda 3/2013, Perwali 2/2018, PP 12/2019, PP 28/2020</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="slide-footer" style="border: none;">
+      <span>Pemerintah Kota Samarinda · Dokumen Telaah Eksekutif</span>
+      <span>Oktober 2026</span>
+    </div>
+  </div>
+
+  <!-- =====================================================================
+       SLIDE 2: RINGKASAN EKSEKUTIF (FAKTA DATA)
+       ===================================================================== -->
+  <div class="slide">
+    <div class="slide-header">
+      <div class="slide-title-box">
+        <span class="slide-tag">Bagian 1: Fakta Data Mentah vs Fakta Riil</span>
+        <h2 class="slide-title">1. Ringkasan Eksekutif: Data Bruto vs Realitas Riil CSR Samarinda</h2>
+        <span class="slide-subtitle">Perbandingan total pencatatan administrasi dengan nilai yang telah melewati proses verifikasi data analyst</span>
+      </div>
+      <div class="badge-slide-num">SLIDE 02 / 08</div>
+    </div>
+
+    <div class="slide-body">
+      <div class="grid-4">
+        <div class="kpi-box" style="border-left: 3px solid #2563eb;">
+          <span class="kpi-label">Total Entri Kegiatan</span>
+          <span class="kpi-value">806</span>
+          <span class="kpi-sub">Tersebar di 52 Perangkat Daerah</span>
+        </div>
+        <div class="kpi-box" style="border-left: 3px solid #e11d48;">
+          <span class="kpi-label">Nilai Tercatat Bruto</span>
+          <span class="kpi-value" style="color: #be123c;">Rp 29,67 M</span>
+          <span class="kpi-sub">Sebelum koreksi human error</span>
+        </div>
+        <div class="kpi-box" style="border-left: 3px solid #059669;">
+          <span class="kpi-label">Nilai Bersih Riil (Net)</span>
+          <span class="kpi-value" style="color: #047857;">Rp 14,67 M</span>
+          <span class="kpi-sub">Setelah koreksi perahu karet 15M</span>
+        </div>
+        <div class="kpi-box" style="border-left: 3px solid #d97706;">
+          <span class="kpi-label">Kegiatan Non-Nominal</span>
+          <span class="kpi-value" style="color: #b45309;">318</span>
+          <span class="kpi-sub">Bantuan barang tanpa rupiah BAST</span>
+        </div>
+      </div>
+
+      <div class="grid-2" style="margin-top: 4px;">
+        <div class="card">
+          <div style="font-size: 12.5px; font-weight: 700; color: #0f172a; margin-bottom: 6px;">Poin Pokok yang Harus Dipaparkan ke Pimpinan:</div>
+          <ul style="font-size: 11.5px; color: #334155; line-height: 1.6; padding-left: 18px;">
+            <li><b>Total Volume Kegiatan Masif:</b> Terdapat 806 program bantuan CSR dari tahun 2022 hingga rencana 2026. Ini membuktikan antusiasme kemitraan dunia usaha di Samarinda sangat tinggi.</li>
+            <li><b>Lonjakan Pencatatan di 2025:</b> Sebanyak 440 kegiatan (54% dari total kegiatan) terakumulasi di tahun pelaporan 2025 dengan nilai riil Rp 5,91 Miliar.</li>
+            <li><b>Ketimpangan Valuasi (39% Non-Nominal):</b> Sebanyak 318 kegiatan tercatat Rp 0 (hanya berupa uraian barang bantuan), yang memperlihatkan kelemahan OPD dalam menetapkan nilai wajar BAST.</li>
+          </ul>
+        </div>
+
+        <div class="card" style="background: #f8fafc;">
+          <div style="font-size: 12.5px; font-weight: 700; color: #2563eb; margin-bottom: 6px;">Catatan Narasi untuk Pembicara (Talking Points):</div>
+          <div class="speech-box">
+            <i>"Bapak/Ibu Pimpinan, jika kita membuka file kompilasi awal, total CSR Samarinda tampak fantastis sebesar <b>Rp 29,67 Miliar</b>. Namun, setelah tim data melakukan audit uji petik, angka tersebut <b>terdistorsi lebih dari 50% oleh satu baris anomali senilai 15 Miliar</b>. Nilai riil yang dapat dipertanggungjawabkan saat ini adalah <b>Rp 14,67 Miliar</b>. Ini adalah sinyal bahwa sistem verifikasi data kita wajib diperbaiki segera."</i>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="slide-footer">
+      <span>Sumber Data: Olahan Terstandarisasi DATA CSR PEMKOT SAMARINDA.xlsx</span>
+      <span>Dokumen Telaah Analis Data · Hal 2</span>
+    </div>
+  </div>
+
+  <!-- =====================================================================
+       SLIDE 3: TEMUAN KRITIS ANOMALI 15 MILIAR
+       ===================================================================== -->
+  <div class="slide">
+    <div class="slide-header">
+      <div class="slide-title-box">
+        <span class="slide-tag">Bagian 2: Analisis Anomali & Rekonsiliasi Valuasi</span>
+        <h2 class="slide-title">2. Anomali Nilai Ekstrem: Perahu Karet Disdamkar Rp 15 Miliar</h2>
+        <span class="slide-subtitle">Bukti adanya kelemahan input human error yang mendistorsi kebijakan fiskal dan publikasi daerah</span>
+      </div>
+      <div class="badge-slide-num">SLIDE 03 / 08</div>
+    </div>
+
+    <div class="slide-body">
+      <div class="callout callout-rose">
+        <div>
+          <b>Uraian Kasus:</b> Pada lembar pelaporan tahun 2023 baris 7, Perangkat Daerah <b>Dinas Pemadam Kebakaran dan Penyelamatan (Disdamkar)</b> mencatat penerimaan bantuan CSR dari <b>Bank Kaltimtara</b> berupa <i>"PERAHU KARET (RUBBER)"</i> dengan nominal tercatat <b>Rp 15.000.000.000,00 (Lima Belas Miliar Rupiah)</b>.
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <div style="font-size: 12.5px; font-weight: 700; color: #0f172a; margin-bottom: 6px;">Uji Silang Kelayakan Harga Wajar (Price Reasonableness):</div>
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Objek Bantuan</th>
+                <th>Nilai di Excel Pemkot</th>
+                <th>Estimasi Harga Pasar Wajar</th>
+                <th>Deviasi / Selisih</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><b>1 Unit Perahu Karet Rescue</b> (Standard BPBD/Damkar)</td>
+                <td style="color: #be123c; font-weight: 700;">Rp 15.000.000.000</td>
+                <td>Rp 25.000.000 – Rp 65.000.000</td>
+                <td style="color: #be123c; font-weight: 700;">Overstated ~30.000%</td>
+              </tr>
+              <tr>
+                <td><b>1 Unit Rubber Boat + Mesin Tempel 40 HP</b></td>
+                <td style="color: #be123c; font-weight: 700;">Rp 15.000.000.000</td>
+                <td>Rp 80.000.000 – Rp 150.000.000</td>
+                <td style="color: #be123c; font-weight: 700;">Overstated ~10.000%</td>
+              </tr>
+            </tbody>
+          </table>
+          <p style="font-size: 10.5px; color: #64748b; margin-top: 6px;">
+            *Sebagai pembanding, kapal patroli aluminium atau speedboat militer cepat sekelas sea-rider hanya berkisar Rp 1,5–3 Miliar.
+          </p>
+        </div>
+
+        <div class="card">
+          <div style="font-size: 12.5px; font-weight: 700; color: #0f172a; margin-bottom: 6px;">Dampak & Pendapat Analis Data:</div>
+          <ul style="font-size: 11px; color: #334155; line-height: 1.5; padding-left: 16px;">
+            <li><b>Distorsi Anggaran:</b> Jika angka 15 Miliar ini dipublikasikan dalam LKPJ Wali Kota, Pemkot akan menjadi sorotan publik dan auditor eksternal karena ketidakwajaran angka.</li>
+            <li><b>Asal Kesalahan (Root Cause):</b> Diduga kuat operator mengetik kelebihan nol (misal: maksud awal Rp 15.000.000 atau Rp 150.000.000).</li>
+            <li><b>Rekomendasi Tindak Lanjut:</b> Inspektorat dan Bagian Kerja Sama segera menerbitkan nota dinas verifikasi ke Disdamkar untuk membuka Berita Acara Serah Terima (BAST) fisik dari Bank Kaltimtara.</li>
+          </ul>
+          <div class="speech-box" style="margin-top: 6px; font-size: 11px;">
+            <i><b>Kata Kunci Paparan:</b> "Jangan jadikan angka Rp 29 Miliar sebagai capaian resmi sebelum BAST Disdamkar ini diklarifikasi tertulis, demi menjaga kredibilitas akuntabilitas Pemkot."</i>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="slide-footer">
+      <span>Verifikasi Teknis Nilai Wajar Barang Bantuan CSR</span>
+      <span>Dokumen Telaah Analis Data · Hal 3</span>
+    </div>
+  </div>
+
+  <!-- =====================================================================
+       SLIDE 4: PEMETAAN 4 TINGKATAN OPD
+       ===================================================================== -->
+  <div class="slide">
+    <div class="slide-header">
+      <div class="slide-title-box">
+        <span class="slide-tag">Bagian 3: Sebaran & Konsentrasi Penerima Manfaat</span>
+        <h2 class="slide-title">3. Peta Penyaluran: Perbandingan 4 Tingkat Perangkat Daerah</h2>
+        <span class="slide-subtitle">Kelurahan menyerap dana hampir setara seluruh Dinas, memperlihatkan desentralisasi bantuan di akar rumput</span>
+      </div>
+      <div class="badge-slide-num">SLIDE 04 / 08</div>
+    </div>
+
+    <div class="slide-body">
+      <div class="grid-4">
+        <div class="card" style="border-top: 3px solid #1d4ed8;">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span class="pill pill-blue">1. DINAS</span>
+            <span style="font-size: 11px; font-weight: 700; color: #64748b;">10 Dinas</span>
+          </div>
+          <div style="font-size: 20px; font-weight: 800; color: #1e40af; font-family: 'JetBrains Mono', monospace; margin: 4px 0;">Rp 6,32 M</div>
+          <div style="font-size: 11px; color: #475569;"><b>124 Kegiatan</b> (43,1% pangsa riil)</div>
+          <div style="font-size: 10px; color: #64748b;">Top: Kominfo, Distapangtani, DPPKB</div>
+        </div>
+
+        <div class="card" style="border-top: 3px solid #15803d;">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span class="pill pill-emerald">2. KELURAHAN</span>
+            <span style="font-size: 11px; font-weight: 700; color: #64748b;">38 Kelurahan</span>
+          </div>
+          <div style="font-size: 20px; font-weight: 800; color: #166534; font-family: 'JetBrains Mono', monospace; margin: 4px 0;">Rp 6,09 M</div>
+          <div style="font-size: 11px; color: #475569;"><b>361 Kegiatan</b> (41,5% pangsa riil)</div>
+          <div style="font-size: 10px; color: #64748b;">Top: Sungai Siring, Karang Mumus, Tanah Merah</div>
+        </div>
+
+        <div class="card" style="border-top: 3px solid #b45309;">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span class="pill pill-amber">3. KECAMATAN</span>
+            <span style="font-size: 11px; font-weight: 700; color: #64748b;">3 Kantor Kec.</span>
+          </div>
+          <div style="font-size: 20px; font-weight: 800; color: #92400e; font-family: 'JetBrains Mono', monospace; margin: 4px 0;">Rp 2,08 M</div>
+          <div style="font-size: 11px; color: #475569;"><b>125 Kegiatan</b> (14,2% pangsa riil)</div>
+          <div style="font-size: 10px; color: #64748b;">Kec. Palaran, Samarinda Ulu, Sungai Kunjang</div>
+        </div>
+
+        <div class="card" style="border-top: 3px solid #7e22ce;">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span class="pill pill-purple">4. BADAN </span>
+            <span style="font-size: 11px; font-weight: 700; color: #64748b;">1 Badan (BPBD)</span>
+          </div>
+          <div style="font-size: 20px; font-weight: 800; color: #7e22ce; font-family: 'JetBrains Mono', monospace; margin: 4px 0;">Rp 183 Jt</div>
+          <div style="font-size: 11px; color: #475569;"><b>196 Kegiatan</b> (1,2% pangsa riil)</div>
+          <div style="font-size: 10px; color: #64748b;">Mayoritas bantuan sembako darurat</div>
+        </div>
+      </div>
+
+      <div class="grid-2" style="margin-top: 4px;">
+        <div class="card">
+          <div style="font-size: 12px; font-weight: 700; color: #0f172a; margin-bottom: 4px;">Analisis Strategis Penyaluran:</div>
+          <ul style="font-size: 11px; color: #334155; line-height: 1.5; padding-left: 16px;">
+            <li><b>Kelurahan adalah Aktor Kunci (Frontline):</b> Kelurahan mengelola 361 program (45% dari seluruh program CSR) dengan nilai Rp 6,09 Miliar. Ini membuktikan perusahaan lokal lebih mudah didekati secara langsung di tingkat warga.</li>
+            <li><b>Kecamatan Tertinggal:</b> Dari 10 Kecamatan di Samarinda, hanya 3 Kantor Kecamatan yang memiliki registri CSR mandiri. 7 kecamatan lainnya tidak tercatat.</li>
+            <li><b>Tingkat Dinas Sangat Terfokus:</b> Diskominfo menerima Rp 1,75 M (digitalisasi sekolah oleh PLN Icon+), Distapangtani Rp 1,40 M (alsintan oleh Bank Indonesia), dan DPPKB Rp 852 Jt (penanganan stunting).</li>
+          </ul>
+        </div>
+
+        <div class="speech-box">
+          <b>Naskah Paparan Pembicara:</b><br>
+          <i>"Bapak Wali Kota dan para Kepala OPD, data ini membuka mata kita bahwa <b>kelurahan adalah ujung tombak nyata CSR Samarinda</b>, dengan nilai serapan Rp 6,09 Miliar. Namun di sisi lain, pengawasan di tingkat kelurahan adalah yang paling rentan administrasi karena ketiadaan format pelaporan baku. Jika kelurahan kita bekali format SIPD/TSP standar, penyerapan CSR Samarinda akan jauh lebih tertib dan berdampak."</i>
+        </div>
+      </div>
+    </div>
+
+    <div class="slide-footer">
+      <span>Konsolidasi Data Menurut Perangkat Daerah Penerima</span>
+      <span>Dokumen Telaah Analis Data · Hal 4</span>
+    </div>
+  </div>
+
+  <!-- =====================================================================
+       SLIDE 5: DISTRIBUSI SEKTORAL & LANSKAP MITRA
+       ===================================================================== -->
+  <div class="slide">
+    <div class="slide-header">
+      <div class="slide-title-box">
+        <span class="slide-tag">Bagian 4: Keselarasan Program & Kemitraan</span>
+        <h2 class="slide-title">4. Distribusi Sektoral & Lanskap Mitra Pemberi CSR</h2>
+        <span class="slide-subtitle">Keselarasan penyaluran CSR terhadap program prioritas pembangunan Pemerintah Kota Samarinda</span>
+      </div>
+      <div class="badge-slide-num">SLIDE 05 / 08</div>
+    </div>
+
+    <div class="slide-body">
+      <div class="grid-2">
+        <div class="card">
+          <div style="font-size: 12.5px; font-weight: 700; color: #0f172a; margin-bottom: 6px;">Top Sektor Penyaluran CSR (Nilai Riil):</div>
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Sektor Program</th>
+                <th>Nilai Riil (Net)</th>
+                <th>Porsi</th>
+                <th>Fokus Kegiatan Utama</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><b>Infrastruktur & Lingkungan</b></td>
+                <td style="font-weight: 700; font-family: 'JetBrains Mono', monospace;">Rp 3,34 M</td>
+                <td>22,8%</td>
+                <td>Excavator DPUPR, sumur bor Lempake, kanopi, semenisasi</td>
+              </tr>
+              <tr>
+                <td><b>Sosial & Bantuan Pangan</b></td>
+                <td style="font-weight: 700; font-family: 'JetBrains Mono', monospace;">Rp 1,88 M</td>
+                <td>12,8%</td>
+                <td>Paket sembako duafa, bantuan warga prasejahtera</td>
+              </tr>
+              <tr>
+                <td><b>Kesehatan & Penanganan Stunting</b></td>
+                <td style="font-weight: 700; font-family: 'JetBrains Mono', monospace;">Rp 1,57 M</td>
+                <td>10,7%</td>
+                <td>Program OTA GENTING DPPKB, PMT Balita, donor darah</td>
+              </tr>
+              <tr>
+                <td><b>Pendidikan & SDM</b></td>
+                <td style="font-weight: 700; font-family: 'JetBrains Mono', monospace;">Rp 1,56 M</td>
+                <td>10,7%</td>
+                <td>Lab komputer SMP/SD (PLN Icon+), beasiswa, pelatihan</td>
+              </tr>
+              <tr>
+                <td><b>Keagamaan & Sarana Ibadah</b></td>
+                <td style="font-weight: 700; font-family: 'JetBrains Mono', monospace;">Rp 1,41 M</td>
+                <td>9,6%</td>
+                <td>Hewan kurban (Sapi), renovasi musholla/masjid, MTQ</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="card">
+          <div style="font-size: 12.5px; font-weight: 700; color: #0f172a; margin-bottom: 6px;">Top Mitra Penyumbang Utama (Riil):</div>
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Nama Perusahaan / Mitra</th>
+                <th>Nilai Donasi</th>
+                <th>Bentuk Bantuan Dominan</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><b>PLN ICON PLUS</b></td>
+                <td style="font-weight: 700; font-family: 'JetBrains Mono', monospace;">Rp 1.751.000.000</td>
+                <td>Konektivitas & Perangkat Lab SMP/SD Kota</td>
+              </tr>
+              <tr>
+                <td><b>Bank Indonesia (Perwakilan Kaltim)</b></td>
+                <td style="font-weight: 700; font-family: 'JetBrains Mono', monospace;">Rp 1.503.725.000</td>
+                <td>Alsintan Pertanian, Ketahanan Pangan, & Stunting</td>
+              </tr>
+              <tr>
+                <td><b>Kelenteng Thien Le Kong</b></td>
+                <td style="font-weight: 700; font-family: 'JetBrains Mono', monospace;">Rp 765.000.000</td>
+                <td>Paket Pangan Warga Karang Mumus & Sembako</td>
+              </tr>
+              <tr>
+                <td><b>Mitra Genting (Gerakan Stunting)</b></td>
+                <td style="font-weight: 700; font-family: 'JetBrains Mono', monospace;">Rp 742.400.000</td>
+                <td>Program Orang Tua Asuh Stunting 90 Hari (DPPKB)</td>
+              </tr>
+              <tr>
+                <td><b>PT. Puspa Juita</b></td>
+                <td style="font-weight: 700; font-family: 'JetBrains Mono', monospace;">Rp 650.000.000</td>
+                <td>Infrastruktur Pembangunan di Kel. Sungai Siring</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="speech-box" style="margin-top: 8px; font-size: 11px;">
+            <i><b>Insight Analis:</b> Penyaluran CSR sudah sangat sejalan dengan 10 Program Unggulan Wali Kota (terutama penanganan stunting dan digitalisasi sekolah). Namun perlu diarahkan lebih banyak ke penanganan banjir dan sanitasi lingkungan.</i>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="slide-footer">
+      <span>Korelasi Sektor CSR terhadap Rencana Kerja Pemerintah Daerah (RKPD)</span>
+      <span>Dokumen Telaah Analis Data · Hal 5</span>
+    </div>
+  </div>
+
+  <!-- =====================================================================
+       SLIDE 6: PENDAPAT ANALIS DATA (4 TEMUAN KRITIS)
+       ===================================================================== -->
+  <div class="slide">
+    <div class="slide-header">
+      <div class="slide-title-box">
+        <span class="slide-tag">Bagian 5: Telaah Kritis Analis Data</span>
+        <h2 class="slide-title">5. Pendapat Analis Data: 4 Temuan Kritis Tata Kelola & Mutu Data</h2>
+        <span class="slide-subtitle">Identifikasi risiko kepatuhan terhadap peraturan perundangan dan transparansi aset daerah</span>
+      </div>
+      <div class="badge-slide-num">SLIDE 06 / 08</div>
+    </div>
+
+    <div class="slide-body">
+      <div class="grid-2">
+        <div class="card" style="border-left: 4px solid #e11d48;">
+          <div style="font-size: 12px; font-weight: 700; color: #be123c;">1. Risiko Aset Modal KIB (44 Kegiatan Fisik Bernilai Tinggi)</div>
+          <p style="font-size: 11px; color: #334155; line-height: 1.5; margin-top: 4px;">
+            <b>Kondisi:</b> Terdapat 44 bantuan fisik bernilai miliaran rupiah (Excavator DPUPR, Sumur Bor Lempake, Kanopi Kantor Tanah Merah, Pagar SDN, Hand Tractor Distapangtani) yang tidak tercatat di Kartu Inventaris Barang (KIB) BPKAD.<br>
+            <b>Risiko Hukum:</b> Melanggar PP 27/2014 jo. PP 28/2020. Aset rawan hilang/dikuasai pihak lain, tidak sah dibiayai pemeliharaannya dari APBD, dan menjadi temuan pemeriksaan BPK RI atas Neraca LKPD 2026.
+          </p>
+        </div>
+
+        <div class="card" style="border-left: 4px solid #7c3aed;">
+          <div style="font-size: 12px; font-weight: 700; color: #7e22ce;">2. Pencampuran Buku Registri TSP vs Sumbangan Bencana Warga</div>
+          <p style="font-size: 11px; color: #334155; line-height: 1.5; margin-top: 4px;">
+            <b>Kondisi:</b> Sebanyak 196 entri di BPBD mencatat sumbangan warga perorangan (beras 5 kg, mie instan) dan zakat Baznas sebagai "CSR".<br>
+            <b>Risiko Hukum:</b> Melanggar definisi hukum UU 40/2007 (UUPT) dan Perda 3/2013. CSR/TSP adalah kewajiban perseroan berbadan hukum, bukan sumbangan sosial masyarakat. Pencampuran ini membuat evaluasi kontribusi dunia usaha menjadi tidak akurat.
+          </p>
+        </div>
+
+        <div class="card" style="border-left: 4px solid #d97706;">
+          <div style="font-size: 12px; font-weight: 700; color: #b45309;">3. Kerawanan Gratifikasi: Permohonan Sponsor HUT ke Pelaku Usaha</div>
+          <p style="font-size: 11px; color: #334155; line-height: 1.5; margin-top: 4px;">
+            <b>Kondisi:</b> Ditemukan permintaan sponsor hadiah jalan santai / HUT Samarinda bernilai Rp 300.000 – Rp 1.000.000 oleh kelurahan/kecamatan kepada kafe/warung/toko lokal.<br>
+            <b>Risiko Hukum:</b> Bersinggungan dengan larangan gratifikasi (UU Tipikor) dan Surat Edaran KPK. Permohonan dana oleh aparatur pemerintah kepada pelaku usaha di wilayah kerjanya berpotensi memicu konflik kepentingan dalam perizinan/pengawasan.
+          </p>
+        </div>
+
+        <div class="card" style="border-left: 4px solid #2563eb;">
+          <div style="font-size: 12px; font-weight: 700; color: #1e40af;">4. Ketiadaan Standarisasi Valuasi & BAST Satu Pintu</div>
+          <p style="font-size: 11px; color: #334155; line-height: 1.5; margin-top: 4px;">
+            <b>Kondisi:</b> 318 kegiatan tercatat Rp 0 karena OPD tidak meminta faktur/standar harga saat penyerahan bantuan natura.<br>
+            <b>Risiko Teknis:</b> Laporan akuntabilitas menjadi tidak lengkap (under-reported). Tanpa BAST resmi, tidak ada kepastian hukum mengenai waktu beralihnya tanggung jawab pemeliharaan barang dari perusahaan ke Pemkot Samarinda.
+          </p>
+        </div>
+      </div>
+
+      <div class="speech-box" style="margin-top: 4px;">
+        <b>Inti Pendapat Analis:</b> <i>"Bapak/Ibu sekalian, kelemahan mendasar kita saat ini bukanlah kurangnya mitra yang ingin menyumbang, melainkan <b>tata kelola administrasi pasca-penerimaan</b>. Tanpa KIB, barang modal CSR adalah bom waktu temuan BPK. Dan tanpa pemisahan buku, sumbangan warga tertukar dengan kewajiban korporasi."</i>
+      </div>
+    </div>
+
+    <div class="slide-footer">
+      <span>Telaah Kepatuhan Hukum Sesuai Temuan Paparan Inspektorat Kota Samarinda</span>
+      <span>Dokumen Telaah Analis Data · Hal 6</span>
+    </div>
+  </div>
+
+  <!-- =====================================================================
+       SLIDE 7: REKOMENDASI 6 LANGKAH STRATEGIS
+       ===================================================================== -->
+  <div class="slide">
+    <div class="slide-header">
+      <div class="slide-title-box">
+        <span class="slide-tag">Bagian 6: Rencana Aksi & Kebijakan</span>
+        <h2 class="slide-title">6. Rekomendasi Strategis: Tindak Lanjut 6 Langkah Inspektorat</h2>
+        <span class="slide-subtitle">Solusi konkret untuk mentransformasi tata kelola CSR Samarinda menjadi tertib, transparan, dan akuntabel</span>
+      </div>
+      <div class="badge-slide-num">SLIDE 07 / 08</div>
+    </div>
+
+    <div class="slide-body">
+      <div class="grid-3">
+        <div class="card">
+          <div style="font-size: 12px; font-weight: 700; color: #2563eb;">Langkah 1: Revisi Perwali 2/2018</div>
+          <p style="font-size: 10.5px; color: #334155; line-height: 1.5; margin-top: 4px;">
+            Harmonisasikan Peraturan Wali Kota dengan PP 12/2019 (Pengelolaan Keuangan Daerah) dan UU HKPD. Masukkan klausul tegas tata cara penerimaan hibah barang, format baku BAST, dan tata cara penilaian wajar.
+          </p>
+        </div>
+
+        <div class="card">
+          <div style="font-size: 12px; font-weight: 700; color: #2563eb;">Langkah 2: Satu Pintu Sekretariat TSP</div>
+          <p style="font-size: 10.5px; color: #334155; line-height: 1.5; margin-top: 4px;">
+            Kuatkan peran Bapperida / Bagian Kerja Sama sebagai gerbang tunggal (*Single Gate*) registri CSR. Tidak boleh lagi ada OPD atau Kelurahan menerima bantuan tanpa melaporkan ke sistem registri kota.
+          </p>
+        </div>
+
+        <div class="card">
+          <div style="font-size: 12px; font-weight: 700; color: #2563eb;">Langkah 3: Integrasi Aset ke KIB BPKAD</div>
+          <p style="font-size: 10.5px; color: #334155; line-height: 1.5; margin-top: 4px;">
+            Lakukan sensus dan kliring atas 44 kegiatan bantuan barang modal fisik (excavator, sumur bor, kanopi, rehab musholla). Terbitkan SK Penetapan Status Penggunaan dan catat ke Neraca Aset Tetap LKPD 2026.
+          </p>
+        </div>
+
+        <div class="card">
+          <div style="font-size: 12px; font-weight: 700; color: #059669;">Langkah 4: Pemisahan Buku Registri</div>
+          <p style="font-size: 10.5px; color: #334155; line-height: 1.5; margin-top: 4px;">
+            Bentuk 2 buku terpisah di BPBD dan Dinas Sosial: <b>Buku A</b> untuk CSR Murni Korporasi Berbadan Hukum, dan <b>Buku B</b> untuk Bantuan Logistik/Zakat Perorangan Masyarakat Kebencanaan.
+          </p>
+        </div>
+
+        <div class="card">
+          <div style="font-size: 12px; font-weight: 700; color: #059669;">Langkah 5: Edaran Integritas Gratifikasi</div>
+          <p style="font-size: 10.5px; color: #334155; line-height: 1.5; margin-top: 4px;">
+            Wali Kota menerbitkan Surat Edaran Larangan bagi seluruh Camat, Lurah, dan Kepala OPD untuk meminta sponsor/hadiah perayaan HUT atau kegiatan dinas kepada pelaku usaha lokal yang berada di bawah pengawasannya.
+          </p>
+        </div>
+
+        <div class="card">
+          <div style="font-size: 12px; font-weight: 700; color: #059669;">Langkah 6: Dashboard Pemantauan Digital</div>
+          <p style="font-size: 10.5px; color: #334155; line-height: 1.5; margin-top: 4px;">
+            Permanenkan Dashboard Eksekutif CSR yang telah kita bangun sebagai sarana pimpinan memantau program secara <i>real-time</i>, transparan, dan bebas distorsi data anomali.
+          </p>
+        </div>
+      </div>
+
+      <div class="callout callout-emerald" style="margin-top: 4px;">
+        <div>
+          <b>Target Capaian 2026:</b> Terwujudnya 100% kepatuhan pencatatan aset KIB hasil CSR, tereliminasinya risiko temuan gratifikasi perizinan, dan tersedianya database CSR terpadu untuk mendukung tercapainya Opini Wajar Tanpa Pengecualian (WTP) BPK RI.
+        </div>
+      </div>
+    </div>
+
+    <div class="slide-footer">
+      <span>Matriks Solusi Penataan Tata Kelola Tanggung Jawab Sosial dan Lingkungan</span>
+      <span>Dokumen Telaah Analis Data · Hal 7</span>
+    </div>
+  </div>
+
+  <!-- =====================================================================
+       SLIDE 8: NASKAH BICARA LENGKAP UNTUK PEMBICARA
+       ===================================================================== -->
+  <div class="slide">
+    <div class="slide-header">
+      <div class="slide-title-box">
+        <span class="slide-tag">Panduan Penyaji: Speaker's Briefing Script</span>
+        <h2 class="slide-title">7. Panduan Naskah Paparan Lisan untuk Pembicara (Talking Points)</h2>
+        <span class="slide-subtitle">Struktur narasi siap saji yang dapat langsung dibacakan dalam rapat koordinasi atau paparan pimpinan</span>
+      </div>
+      <div class="badge-slide-num">SLIDE 08 / 08</div>
+    </div>
+
+    <div class="slide-body">
+      <div class="grid-2">
+        <div class="card" style="font-size: 11px; line-height: 1.55;">
+          <div style="font-weight: 700; color: #1e40af; border-bottom: 1px solid #e2e8f0; padding-bottom: 4px; margin-bottom: 6px;">
+            1. Narasi Pembuka & Pengenalan Data:
+          </div>
+          <p style="color: #334155;">
+            "Selamat pagi/siang Bapak Wali Kota, Bapak Sekda, dan Bapak/Ibu Kepala OPD. Hari ini saya memaparkan hasil evaluasi mendalam atas <b>806 program CSR</b> di lingkungan Pemerintah Kota Samarinda dari 52 Perangkat Daerah."
+          </p>
+          <div style="font-weight: 700; color: #1e40af; border-bottom: 1px solid #e2e8f0; padding-bottom: 4px; margin: 8px 0 6px 0;">
+            2. Klarifikasi Angka Riil vs Anomali:
+          </div>
+          <p style="color: #334155;">
+            "Poin pertama yang krusial: Jika di dokumen mentah tertulis <b>Rp 29,67 Miliar</b>, kami sebagai analis menemukan bahwa <b>angka riilnya adalah Rp 14,67 Miliar</b>. Terdapat satu baris bantuan perahu karet di Disdamkar yang tercatat Rp 15 Miliar karena kesalahan ketik. Kami merekomendasikan angka resmi yang dipakai daerah adalah <b>Rp 14,67 Miliar</b>."
+          </p>
+          <div style="font-weight: 700; color: #1e40af; border-bottom: 1px solid #e2e8f0; padding-bottom: 4px; margin: 8px 0 6px 0;">
+            3. Fakta Menarik Penyerapan di Kelurahan:
+          </div>
+          <p style="color: #334155;">
+            "Poin kedua, penyerapan CSR di tingkat kelurahan mencapai <b>Rp 6,09 Miliar</b> dengan 361 kegiatan. Angka ini hampir setara dengan serapan 10 Dinas (Rp 6,32 Miliar). Ini membuktikan kepedulian swasta terhadap RT dan warga sangat tinggi."
+          </p>
+        </div>
+
+        <div class="card" style="font-size: 11px; line-height: 1.55;">
+          <div style="font-weight: 700; color: #be123c; border-bottom: 1px solid #e2e8f0; padding-bottom: 4px; margin-bottom: 6px;">
+            4. Peringatan Risiko Kepatuhan Hukum (Critical Warnings):
+          </div>
+          <p style="color: #334155;">
+            "Poin ketiga adalah catatan kepatuhan hukum: Ada <b>44 bantuan fisik bernilai modal</b> (excavator, sumur bor, kanopi, rehab sekolah) yang <b>wajib segera dicatat ke KIB BPKAD</b>. Jika tidak dicatat, ini berisiko menjadi temuan BPK dalam pemeriksaan neraca LKPD. Selain itu, kami menyarankan penghentian permohonan sponsor HUT ke tempat usaha lokal demi mencegah gratifikasi."
+          </p>
+          <div style="font-weight: 700; color: #047857; border-bottom: 1px solid #e2e8f0; padding-bottom: 4px; margin: 8px 0 6px 0;">
+            5. Usulan Solusi & Rekomendasi Penutup:
+          </div>
+          <p style="color: #334155;">
+            "Sebagai penutup, kami mengusulkan 3 aksi prioritas: Pertama, revisi Perwali 2/2018 dengan format BAST baku; Kedua, bentuk sistem registri satu pintu di Bapperida melalui dashboard digital yang sudah kita siapkan; Ketiga, lakukan rekonsiliasi bersama BPKAD untuk mengesahkan 44 aset modal CSR tersebut. Demikian paparan saya, terima kasih."
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="slide-footer">
+      <span>Panduan Penyampaian Materi Presentasi Analis Data</span>
+      <span>Dokumen Telaah Analis Data · Hal 8</span>
+    </div>
+  </div>
+
+</body>
+</html>
