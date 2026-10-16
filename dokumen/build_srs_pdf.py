@@ -15,6 +15,7 @@ HERE = Path(__file__).resolve().parent
 SOURCE = HERE / "SRS_Sistem_Pendataan_TSP_CSR_Samarinda.md"
 SVG = HERE / "use_case_tsp_csr.svg"
 HTML_OUTPUT = HERE / "SRS_Sistem_Pendataan_TSP_CSR_Samarinda_render.html"
+PDF_OUTPUT = HERE / "SRS_Sistem_Pendataan_TSP_CSR_Samarinda.pdf"
 
 
 def inline(text: str) -> str:
@@ -22,21 +23,13 @@ def inline(text: str) -> str:
     images: dict[str, str] = {}
 
     def embed_image(match: re.Match[str]) -> str:
+        # SVG disematkan langsung sebagai vektor agar tetap tajam saat PDF diperbesar.
         image_path = (HERE / match.group(2)).resolve()
-        converter = shutil.which("rsvg-convert")
-        if not converter:
-            raise SystemExit("rsvg-convert diperlukan untuk menyematkan diagram.")
-        raster = subprocess.run(
-            [converter, "-f", "png", "-w", "680", str(image_path)],
-            check=True,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-        ).stdout
-        image_data = base64.b64encode(raster).decode("ascii")
+        image_data = base64.b64encode(image_path.read_bytes()).decode("ascii")
         token = f"IMAGE_PLACEHOLDER_{len(images)}"
         images[token] = (
             f'<img class="diagram" alt="{html.escape(match.group(1))}" '
-            f'src="data:image/png;base64,{image_data}">'
+            f'src="data:image/svg+xml;base64,{image_data}">'
         )
         return token
 
@@ -56,7 +49,7 @@ def render_markdown(source: str) -> str:
     lines = source.splitlines()
     out: list[str] = []
     paragraph: list[str] = []
-    list_open = False
+    list_open = ""  # "", "ul", atau "ol"
     i = 0
 
     def flush_paragraph() -> None:
@@ -66,7 +59,8 @@ def render_markdown(source: str) -> str:
             if text.startswith("> "):
                 out.append(f'<blockquote>{inline(text[2:])}</blockquote>')
             elif text.startswith("!["):
-                out.append(f'<figure class="diagram-block">{inline(text)}</figure>')
+                wide = " wide" if "database_erd" in text else ""
+                out.append(f'<figure class="diagram-block{wide}">{inline(text)}</figure>')
             else:
                 out.append(f"<p>{inline(text)}</p>")
             paragraph = []
@@ -74,8 +68,8 @@ def render_markdown(source: str) -> str:
     def close_list() -> None:
         nonlocal list_open
         if list_open:
-            out.append("</ul>")
-            list_open = False
+            out.append(f"</{list_open}>")
+            list_open = ""
 
     while i < len(lines):
         line = lines[i]
@@ -114,17 +108,26 @@ def render_markdown(source: str) -> str:
             close_list()
             level = len(heading.group(1))
             title = heading.group(2)
-            css_class = ' class="diagram-heading"' if title.startswith(("7.4 ", "8.2 ")) else ""
+            css_class = ""
+            if title.startswith("7.5 "):
+                css_class = ' class="diagram-heading"'
+            elif title.startswith("8.2 "):
+                css_class = ' class="diagram-heading wide"'
+            elif title.startswith("8.3 "):
+                css_class = ' class="after-wide"'
             out.append(f"<h{level}{css_class}>{inline(title)}</h{level}>")
             i += 1
             continue
 
-        if stripped.startswith("- "):
+        ordered = re.match(r"^\d+\.\s+(.*)$", stripped)
+        if stripped.startswith("- ") or ordered:
             flush_paragraph()
-            if not list_open:
-                out.append("<ul>")
-                list_open = True
-            out.append(f"<li>{inline(stripped[2:])}</li>")
+            tag = "ol" if ordered else "ul"
+            if list_open != tag:
+                close_list()
+                out.append(f"<{tag}>")
+                list_open = tag
+            out.append(f"<li>{inline(ordered.group(1) if ordered else stripped[2:])}</li>")
             i += 1
             continue
 
@@ -158,7 +161,7 @@ h2 {{ color: #12335b; font-size: 15pt; border-bottom: 1px solid #dbe4ee; padding
 h3 {{ color: #1d4f7a; font-size: 11.5pt; margin: 14pt 0 5pt; page-break-after: avoid; }}
 h4 {{ color: #334155; font-size: 10pt; margin: 10pt 0 4pt; page-break-after: avoid; }}
 p {{ margin: 4pt 0 8pt; orphans: 3; widows: 3; }}
-ul {{ margin: 4pt 0 10pt; padding-left: 20pt; }}
+ul, ol {{ margin: 4pt 0 10pt; padding-left: 20pt; }}
 li {{ margin: 0 0 3pt; }}
 blockquote {{ margin: 10pt 0; padding: 9pt 12pt; background: #f1f6fb; border-left: 3pt solid #2563eb; color: #334155; }}
 table {{ width: 100%; border-collapse: collapse; table-layout: auto; margin: 7pt 0 12pt; font-size: 8pt; }}
@@ -171,10 +174,34 @@ a {{ color: #1d4ed8; text-decoration: none; }}
 .diagram-heading {{ page-break-before: always; }}
 .diagram-block {{ margin: 8pt auto; text-align: center; page-break-inside: avoid; }}
 .diagram {{ width: 100%; max-height: 230mm; object-fit: contain; }}
+@page wide {{ size: A4 landscape; margin: 10mm 12mm; }}
+.wide {{ page: wide; }}
+.diagram-block.wide .diagram {{ max-height: 168mm; }}
+.after-wide {{ page-break-before: always; }}
+td:first-child code {{ white-space: nowrap; overflow-wrap: normal; }}
 </style></head><body>{body}</body></html>"""
 
     HTML_OUTPUT.write_text(page, encoding="utf-8")
-    print(f"HTML siap untuk diekspor ke PDF: {HTML_OUTPUT}")
+    print(f"HTML disimpan: {HTML_OUTPUT}")
+    export_pdf()
+
+
+def export_pdf() -> None:
+    """Cetak HTML ke PDF dengan Chrome/Chromium headless bila tersedia."""
+    import tempfile
+
+    candidates = ["/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
+                  shutil.which("google-chrome"), shutil.which("chromium")]
+    for chrome in [c for c in candidates if c and Path(c).exists()]:
+        with tempfile.TemporaryDirectory() as profile:
+            result = subprocess.run(
+                [chrome, "--headless=new", "--disable-gpu", "--no-first-run", "--no-pdf-header-footer",
+                 f"--user-data-dir={profile}", f"--print-to-pdf={PDF_OUTPUT}", HTML_OUTPUT.as_uri()],
+                stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        if result.returncode == 0 and PDF_OUTPUT.exists():
+            print(f"PDF disimpan: {PDF_OUTPUT}")
+            return
+    print("Chrome/Chromium tidak dapat dijalankan; cetak HTML ke PDF secara manual.")
 
 
 if __name__ == "__main__":

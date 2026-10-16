@@ -1,8 +1,10 @@
 @startuml
+!pragma layout smetana
 left to right direction
 skinparam shadowing false
 skinparam packageStyle rectangle
 skinparam actorStyle awesome
+skinparam defaultFontName Helvetica
 skinparam usecase {
   BackgroundColor #F8FAFC
   BorderColor #2563EB
@@ -14,38 +16,40 @@ skinparam rectangle {
 }
 
 actor "Operator OPD" as OPD
-actor "Analis Data\nKominfo" as KOMINFO
+actor "Pengelola Data Register\n(usulan: Bapperida)" as PENGELOLA
 actor "Petugas BPKAD\n(opsional)" as BPKAD
-actor "Pimpinan / Pengguna\nInternal" as PIMPINAN
+actor "Pimpinan /\nPengguna Internal" as PIMPINAN
+actor "Penyetuju Publikasi" as PENYETUJU
+actor "Admin Sistem\n(Diskominfo)" as ADMIN
 actor "Publik" as PUBLIK
 
 rectangle "Sistem Informasi Pendataan dan Visualisasi TSP/CSR" {
-  usecase "Mengelola catatan\nkegiatan" as UC1
-  usecase "Mengirim data\nkegiatan" as UC2
-  usecase "Mengimpor dan\nmenata data" as UC3
-  usecase "Meninjau kelengkapan\ndata" as UC4
-  usecase "Melihat dashboard,\nfilter, dan skenario hitung" as UC5
-  usecase "Mengekspor\nlaporan" as UC6
-  usecase "Memperbarui referensi\nRKUD / BAST / KIB" as UC7
-  usecase "Menyiapkan dan\nmenerbitkan ringkasan publik" as UC8
-  usecase "Melihat ringkasan\npublik yang tersedia" as UC9
+  usecase "UC-01 Mengelola catatan\nkegiatan" as UC1
+  usecase "UC-02 Mengirim data\nkegiatan" as UC2
+  usecase "UC-03 Mengimpor data dan\nmerekonsiliasi dengan sumber" as UC3
+  usecase "UC-04 Meninjau kelengkapan\ndata" as UC4
+  usecase "UC-05 Mengelola master pemberi,\nalias, dan kategori" as UC5
+  usecase "UC-06 Melihat dashboard, filter,\nskenario, dan ekspor" as UC6
+  usecase "UC-07 Memperbarui referensi\nRKUD / BAST / KIB" as UC7
+  usecase "UC-08 Menyiapkan ringkasan\npublik" as UC8
+  usecase "UC-09 Menyetujui dan\nmenerbitkan ringkasan publik" as UC9
+  usecase "UC-10 Mengelola akun\ndan peran" as UC10
+  usecase "UC-11 Melihat ringkasan\npublik" as UC11
 }
 
 OPD -- UC1
 OPD -- UC2
-KOMINFO -- UC3
-KOMINFO -- UC4
-KOMINFO -- UC5
-KOMINFO -- UC6
+PENGELOLA -- UC3
+PENGELOLA -- UC4
+PENGELOLA -- UC5
+PENGELOLA -- UC6
+PENGELOLA -- UC8
+UC8 -[hidden]- UC9
 BPKAD -- UC7
-PIMPINAN -- UC5
 PIMPINAN -- UC6
-KOMINFO -- UC8
-PUBLIK -- UC9
-
-note bottom of UC5
-Skenario hitung tidak mengubah data sumber
-dan bukan pemeriksaan atau penilaian harga.
-end note
+PENYETUJU -- UC9
+ADMIN -- UC10
+PUBLIK -- UC11
+UC9 ..> UC8 : <<include>>
 
 @enduml
